@@ -10,7 +10,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"user" = "User", "employe" = "Employe","rh"="Rh","directeurgeneral"="DirecteurGeneral","comptable"="Comptable"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -30,12 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
+
 
     public function getId(): ?int
     {
@@ -122,4 +125,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getEmail();
     }
+    /**
+     * @ORM\OneToOne(targetEntity=Employe::class, mappedBy="type", cascade={"persist", "remove"})
+     */
+
 }
