@@ -15,62 +15,62 @@ class Employe extends User
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $nom;
+    protected $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $prenom;
+    protected $prenom;
 
     /**
      * @ORM\Column(type="date_immutable")
      */
-    private $dateNaissance;
+    protected $dateNaissance;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lieuNaissance;
+    protected $lieuNaissance;
 
     /**
      * @ORM\Column(type="string", length=1)
      */
-    private $sexe;
+    protected $sexe;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adresse;
+    protected $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $numeroTelephone;
+    protected $numeroTelephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $ccp;
+    protected $ccp;
 
     /**
      * @ORM\Column(type="string", length=1)
      */
-    private $SituationFamiliale;
+   protected $SituationFamiliale;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      */
-    private $nombreEnfant;
+    protected $nombreEnfant;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $Salaire_de_base;
+    protected $Salaire_de_base;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="type", cascade={"persist", "remove"})
      */
-    private $type;
+    protected $type;
     /**
      * @ORM\OneToOne(targetEntity=Rh::class, mappedBy="type", cascade={"persist", "remove"})
      */
@@ -81,26 +81,29 @@ class Employe extends User
      * @ORM\OneToOne(targetEntity=DirecteurGeneral::class, mappedBy="type", cascade={"persist", "remove"})
      */
     /**
+     * @ORM\OneToOne(targetEntity=Directeur::class, mappedBy="type", cascade={"persist", "remove"})
+     */
+    /**
      * @ORM\ManyToOne(targetEntity=Filiale::class, inversedBy="employes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $filiale;
+    protected $filiale;
 
     /**
      * @ORM\OneToMany(targetEntity=Bulletin::class, mappedBy="employe")
      */
-    private $bulletin;
+   protected $bulletin;
 
     /**
      * @ORM\OneToMany(targetEntity=Presence::class, mappedBy="employe", orphanRemoval=true)
      */
-    private $presence;
+   protected $presence;
 
     /**
      * @ORM\ManyToOne(targetEntity=Poste::class, inversedBy="employes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $poste;
+   protected $poste;
 
     public function __construct()
     {
@@ -325,6 +328,13 @@ class Employe extends User
     public function setPoste(?Poste $poste): self
     {
         $this->poste = $poste;
+
+        return $this;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 use App\Entity\Bulletin;
 use App\Entity\Comptable;
+use App\Entity\Directeur;
 use App\Entity\DirecteurGeneral;
 use App\Entity\Employe;
 use App\Entity\Filiale;
@@ -43,6 +44,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Poste', 'fas fa-list', Poste::class);
         yield MenuItem::linkToCrud('Presence', 'fas fa-list', Presence::class);
         yield MenuItem::linkToCrud('Rh', 'fas fa-list', Rh::class);
+        yield MenuItem::linkToCrud('Directeur', 'fas fa-list', Directeur::class);
         
 
     }

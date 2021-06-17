@@ -114,8 +114,9 @@ class Filiale
 
         return $this;
     }
+
     public function __toString()
     {
-        return "";
+        return $this->getNomFiliale().'';
     }
 }

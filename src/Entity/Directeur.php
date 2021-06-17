@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DirecteurGeneralRepository;
+use App\Repository\DirecteurRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=DirecteurGeneralRepository::class)
+ * @ORM\Entity(repositoryClass=DirecteurRepository::class)
  */
-class DirecteurGeneral extends Employe
+class Directeur extends Employe
 {
     /**
      * @ORM\OneToOne(targetEntity=Employe::class, inversedBy="type", cascade={"persist", "remove"})
