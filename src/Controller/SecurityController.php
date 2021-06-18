@@ -16,7 +16,38 @@ class SecurityController extends AbstractController
     {
         if ($this->getUser()) {
             $arrayRoles=$this->getUser()->getRoles();
-            
+            $employe=false;
+            $rh=false;
+            $comptable=false;
+            $directeur=false;
+            $directeurGenral=false;
+            foreach ($arrayRoles as $role ) {
+                if ($role == 'ROLE_EMPLOYE')
+                {$employe=true;}
+                if ($role == 'ROLE_COMPTABLE')
+                {$comptable=true;}
+                if ($role == 'ROLE_DIRECTEUR')
+                {$directeur=true;}
+                if ($role == 'ROLE_DIRECTEUR_GENERAL')
+                {$directeurGenral=true;}
+                if ($role == 'ROLE_RH')
+                {$rh=true;}
+            }
+            if($comptable) {
+                return $this->redirectToRoute('comptable');
+            }
+            if($directeur) {
+                return $this->redirectToRoute('directeur');
+            }
+            if($directeur and $directeurGenral) {
+                return $this->redirectToRoute('directeur_general');
+            }
+            if($rh) {
+                return $this->redirectToRoute('rh');
+            }
+            if($employe) {
+                return $this->redirectToRoute('employe');
+            }
            return $this->redirectToRoute('target_path');
          }
 

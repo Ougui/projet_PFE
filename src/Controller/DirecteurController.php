@@ -11,6 +11,7 @@ class DirecteurController extends AbstractController
     #[Route('/directeur', name: 'directeur')]
     public function index(): Response
     {
+        dd('je suis directeur');
         return $this->render('directeur/directeur.html.twig', [
             'controller_name' => 'DirecteurController',
         ]);

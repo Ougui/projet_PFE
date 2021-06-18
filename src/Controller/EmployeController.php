@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Repository\ClientRepository;
 use App\Repository\EmployeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,9 @@ class EmployeController extends AbstractController
 
      #[Route('/afficherEmploye/{id}',name:'anis')]
 
-    public function display(EmployeRepository $rochdi, int $id, UserPasswordEncoderInterface $encoder ): Response
+    public function display(UserRepository $userRepository, int $id, UserPasswordEncoderInterface $encoder ): Response
     {
-      $UnEmploye = $rochdi->find($id);
+      $UnEmploye = $userRepository->find($id);
       if (strlen ($UnEmploye->getPassword()) < 20)
       {
           $MotdePasseCrypte= $encoder->encodePassword($UnEmploye, $UnEmploye->getPassword());
@@ -34,7 +35,7 @@ class EmployeController extends AbstractController
           $this->getDoctrine()->getManager()->persist($UnEmploye);
           $this->getDoctrine()->getManager()->flush();
       }
-        return $this->redirectToRoute('admin') ;
+        return $this->redirectToRoute('login') ;
     }
 
 }

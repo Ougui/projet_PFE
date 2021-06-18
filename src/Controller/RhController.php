@@ -11,6 +11,7 @@ class RhController extends AbstractController
     #[Route('/rh', name: 'rh')]
     public function index(): Response
     {
+        dd('rh');
         return $this->render('rh/rh.html.twig', [
             'controller_name' => 'RhController',
         ]);
