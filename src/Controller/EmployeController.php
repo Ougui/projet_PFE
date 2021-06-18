@@ -15,12 +15,13 @@ class EmployeController extends AbstractController
     #[Route('/employe', name: 'employe')]
     public function index(): Response
     {
+        dd('je sui un employe');
         return $this->render('employe/employe.html.twig', [
             'controller_name' => 'EmployeController',
         ]);
     }
 
-     #[Route('/afficherEmploye/{id}',name:'app_afficherEmploye')]
+     #[Route('/afficherEmploye/{id}',name:'anis')]
 
     public function display(EmployeRepository $rochdi, int $id, UserPasswordEncoderInterface $encoder ): Response
     {
@@ -29,10 +30,11 @@ class EmployeController extends AbstractController
       {
           $MotdePasseCrypte= $encoder->encodePassword($UnEmploye, $UnEmploye->getPassword());
           $UnEmploye->setPassword($MotdePasseCrypte);
+
           $this->getDoctrine()->getManager()->persist($UnEmploye);
           $this->getDoctrine()->getManager()->flush();
       }
-        return new Response('') ;
+        return $this->redirectToRoute('admin') ;
     }
 
 }

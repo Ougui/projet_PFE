@@ -9,9 +9,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 class EmployeCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -25,7 +26,7 @@ class EmployeCrudController extends AbstractCrudController
         return [
             Field::new('nom'),
             Field::new('prenom'),
-            Field::new('email'),
+            EmailField::new('email'),
             Field::new('password'),
             Field::new('dateNaissance'),
             Field::new('lieuNaissance'),
@@ -37,23 +38,19 @@ class EmployeCrudController extends AbstractCrudController
             Field::new('nombreEnfant'),
             Field::new('Salaire_de_base'),
             AssociationField::new('filiale'),
-            AssociationField::new('poste')
+            AssociationField::new('poste'),
+            ArrayField::new('roles')
         ];
     }
-   /*
+
    public function configureActions(Actions $actions): Actions
-    { protected UserPasswordEncoderInterface $encoder;
+    {
         $sendInvoice = Action::new('sendInvoice', 'Mise a jour password', 'fa fa-envelope')
             ->linkToUrl(function (Employe $employe) {
-
-                $MotdePasseCrypte= $this->encoder->encodePassword($employe, $employe->getPassword());
-                $employe->setPassword($MotdePasseCrypte);
-                $this->getDoctrine()->getManager()->persist($employe);
-                $this->getDoctrine()->getManager()->flush();
-               return '';
+               return '/afficherEmploye/'.$employe->getId();
             });
         return $actions
             ->add(Crud::PAGE_INDEX, $sendInvoice->addCssClass('btn btn-outline-info mb-2'));
     }
-    */
+
 }
