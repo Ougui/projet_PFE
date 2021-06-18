@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+<h1> Employes list </h1>
+{% for Employe in Employe %}
+    <p> Email : {{ Employe.email}}</p>
+    <p> password : {{ Employe.password}}</p>
+    <br>
+{% endfor %}
+
+</body>
+</html>

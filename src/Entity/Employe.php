@@ -7,8 +7,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
+ * Class Employe
+ * @package App\Entity
+ * @ORM\MappedSuperclass
  * @ORM\Entity(repositoryClass=EmployeRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"employe" = "Employe","rh"="Rh","directeurgeneral"="DirecteurGeneral","comptable"="Comptable","directeur"="Directeur"})
  */
 class Employe extends User
 {
@@ -67,22 +74,6 @@ class Employe extends User
      */
     protected $Salaire_de_base;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="type", cascade={"persist", "remove"})
-     */
-    protected $type;
-    /**
-     * @ORM\OneToOne(targetEntity=Rh::class, mappedBy="type", cascade={"persist", "remove"})
-     */
-    /**
-     * @ORM\OneToOne(targetEntity=Comptable::class, mappedBy="type", cascade={"persist", "remove"})
-     */
-    /**
-     * @ORM\OneToOne(targetEntity=DirecteurGeneral::class, mappedBy="type", cascade={"persist", "remove"})
-     */
-    /**
-     * @ORM\OneToOne(targetEntity=Directeur::class, mappedBy="type", cascade={"persist", "remove"})
-     */
     /**
      * @ORM\ManyToOne(targetEntity=Filiale::class, inversedBy="employes")
      * @ORM\JoinColumn(nullable=false)
@@ -243,10 +234,7 @@ class Employe extends User
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
+
 
     public function getFiliale(): ?Filiale
     {
@@ -332,10 +320,4 @@ class Employe extends User
         return $this;
     }
 
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 }

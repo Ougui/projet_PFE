@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
 use App\Entity\Rh;
@@ -40,8 +41,8 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Rh();
-        $user->setEmail('anis@gmail.com');
+        $user= new Employe();
+        $user->setEmail('a@a.c');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

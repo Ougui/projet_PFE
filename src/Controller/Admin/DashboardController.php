@@ -10,6 +10,7 @@ use App\Entity\Filiale;
 use App\Entity\Poste;
 use App\Entity\Presence;
 use App\Entity\Rh;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -45,6 +46,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Presence', 'fas fa-list', Presence::class);
         yield MenuItem::linkToCrud('Rh', 'fas fa-list', Rh::class);
         yield MenuItem::linkToCrud('Directeur', 'fas fa-list', Directeur::class);
+        yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
         
 
     }
