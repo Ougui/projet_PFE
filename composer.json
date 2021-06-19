@@ -87,6 +87,11 @@
         "post-install-cmd": [
             "@auto-scripts"
         ],
+        "prepare-dev": [
+            "php bin/console d:d:d --force ",
+            "php bin/console d:d:c ",
+            "php bin/console d:s:u -f "
+        ],
         "post-update-cmd": [
             "@auto-scripts"
         ]

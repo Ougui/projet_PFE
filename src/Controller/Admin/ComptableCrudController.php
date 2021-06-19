@@ -44,7 +44,7 @@ class ComptableCrudController extends AbstractCrudController
     }
     public function configureActions(Actions $actions): Actions
     {
-        $sendInvoice = Action::new('sendInvoice', 'Mise a jour password', 'fa fa-envelope')
+        $sendInvoice = Action::new('sendInvoice', 'Confirmer', 'fa fa-envelope')
             ->linkToUrl(function (Comptable $comptable) {
                 return '/afficherEmploye/'.$comptable->getId();
             });

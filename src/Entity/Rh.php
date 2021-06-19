@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\RHRepository;
+use App\Repository\RhRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Rh
  * @package App\Entity
  * @ORM\MappedSuperclass
- * @ORM\Entity(repositoryClass=RHRepository::class)
+ * @ORM\Entity(repositoryClass=RhRepository::class)
  */
 class Rh extends Employe
 {

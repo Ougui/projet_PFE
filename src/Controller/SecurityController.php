@@ -21,6 +21,7 @@ class SecurityController extends AbstractController
             $comptable=false;
             $directeur=false;
             $directeurGenral=false;
+            $admin=false;
             foreach ($arrayRoles as $role ) {
                 if ($role == 'ROLE_EMPLOYE')
                 {$employe=true;}
@@ -32,6 +33,9 @@ class SecurityController extends AbstractController
                 {$directeurGenral=true;}
                 if ($role == 'ROLE_RH')
                 {$rh=true;}
+                if ($role == 'ROLE_ADMIN'){
+                  $admin=true;
+                }
             }
             if($comptable) {
                 return $this->redirectToRoute('comptable');
@@ -47,6 +51,9 @@ class SecurityController extends AbstractController
             }
             if($employe) {
                 return $this->redirectToRoute('employe');
+            }
+            if($admin) {
+                return $this->redirectToRoute('admin');
             }
            return $this->redirectToRoute('target_path');
          }
