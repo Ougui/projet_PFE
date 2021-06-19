@@ -110,7 +110,7 @@ class RhController extends AbstractController
         $employe=$employeRepository->find($id);
         $this->getDoctrine()->getManager()->remove($employe);
         $this->getDoctrine()->getManager()->flush();
-        return $this->render('employe avec id='.$id.' est supprimer');
+        return new Response('employe avec id='.$id.' est supprimé');
     }
     #[Route('/rh/listerEmploye', name: 'rh_lister_employe')]
     public function listerEmploye(): Response

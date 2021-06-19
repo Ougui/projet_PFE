@@ -43,7 +43,7 @@ class HomeController extends AbstractController
 
         $user= new Rh();
         $user->setRoles(['ROLE_RH']);
-        $user->setEmail('anis@mohamed.com');
+        $user->setEmail('anis@m.com');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);
