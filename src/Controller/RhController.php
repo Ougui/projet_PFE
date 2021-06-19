@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
+use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,9 +102,12 @@ class RhController extends AbstractController
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
-    public function deleteEmploye(): Response
+    public function deleteEmploye(EmployeRepository $employeRepository,int $id): Response
     {
-        return $this->render('employe/formAdd.html.twig');
+        $employe=$employeRepository->find($id);
+        $this->getDoctrine()->getManager()->remove($employe);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->render('employe avec id='.$id.' est supprimer');
     }
     #[Route('/rh/listerEmploye', name: 'rh_lister_employe')]
     public function listerEmploye(): Response
