@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Employe;
-use App\Repository\ClientRepository;
 use App\Repository\EmployeRepository;
+use App\Repository\RhRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +24,11 @@ class EmployeController extends AbstractController
 
      #[Route('/afficherEmploye/{id}',name:'anis')]
 
-    public function display(UserRepository $userRepository, int $id, UserPasswordEncoderInterface $encoder ): Response
+    public function display(RhRepository $userRepository, int $id, UserPasswordEncoderInterface $encoder ): Response
     {
       $UnEmploye = $userRepository->find($id);
+     if($UnEmploye != null)
+     {
       if (strlen ($UnEmploye->getPassword()) < 20)
       {
           $MotdePasseCrypte= $encoder->encodePassword($UnEmploye, $UnEmploye->getPassword());
@@ -36,6 +38,9 @@ class EmployeController extends AbstractController
           $this->getDoctrine()->getManager()->flush();
       }
         return $this->redirectToRoute('app_login') ;
+     }
+     return new Response('employé existe pas');
+
 
     }
 

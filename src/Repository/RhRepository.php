@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\RH;
+use App\Entity\Rh;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method RH[]    findAll()
  * @method RH[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RHRepository extends ServiceEntityRepository
+class RhRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
