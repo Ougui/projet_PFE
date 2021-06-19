@@ -75,17 +75,17 @@ class RhController extends AbstractController
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
     public function deleteEmploye(): Response
     {
-        return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
+        return $this->render('employe/formAdd.html.twig');
     }
     #[Route('/rh/listerEmploye', name: 'rh_lister_employe')]
     public function listerEmploye(): Response
     {
-        return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
+        return $this->render('employe/formAdd.html.twig');
     }
     #[Route('/rh/viewEmploye', name: 'rh_profile_employe')]
     public function viewEmploye(): Response
     {
-        return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
+        return $this->render('employe/formAdd.html.twig');
     }
 
     #[Route('/rh/addPost', name: 'rh_ajouter_post')]

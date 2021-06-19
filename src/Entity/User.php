@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"user" = "User", "employe" = "Employe"})
+ * @ORM\DiscriminatorMap({"user" = "User", "employe" = "Employe","rh"="Rh","directeurgeneral"="DirecteurGeneral","comptable"="Comptable","directeur"="Directeur"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
