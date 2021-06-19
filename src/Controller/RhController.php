@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
 use Doctrine\ORM\EntityRepository;
@@ -11,10 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RhController extends AbstractController
 {
@@ -26,7 +30,7 @@ class RhController extends AbstractController
         ]);
     }
     #[Route('/rh/addEmploye', name: 'rh_ajouter_employe')]
-    public function addEmploye(): Response
+    public function addEmploye(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
         $form=$this->createFormBuilder()
             ->add('nom')
@@ -60,8 +64,32 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ])
+            ->add('submit',SubmitType::class)
             ->getForm()
         ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid())
+        {
+            $data=$form->getData();
+            $employe=new Employe();
+            $employe->setNom($data['nom']);
+            $employe->setPrenom($data['prenom']);
+            $employe->setEmail($data['email']);
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']->format('Y-m-d')));
+            $employe->setLieuNaissance($data['lieu_de_naissance']);
+            $employe->setNombreEnfant($data['nombre_des_enfants']);
+            $employe->setNumeroTelephone($data['numero']);
+            $employe->setFiliale($data['filiale']);
+            $employe->setPoste($data['poste']);
+            $employe->setSalaireDeBase($data['salaire_de_base']);
+            $employe->setCcp($data['ccp']);
+            $employe->setSexe($data['sexe']);
+            $employe->setRoles([$data['roles']]);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
     #[Route('/rh/updateEmploye', name: 'rh_modifier_employe')]
