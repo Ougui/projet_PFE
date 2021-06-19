@@ -7,6 +7,7 @@ use App\Entity\Poste;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -34,14 +35,17 @@ class RhController extends AbstractController
             ->add('password',PasswordType::class)
             ->add('date_de_naissance',DateType::class)
             ->add('lieu_de_naissance')
-            ->add('sexe')
+            ->add('sexe', ChoiceType::class, [
+                'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
             ->add('address')
             ->add('numero',NumberType::class)
             ->add('ccp')
-            ->add('situation_familiale')
+            ->add('situation_familiale', ChoiceType::class, [
+                'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
+
             ->add('nombre_des_enfants',IntegerType::class)
             ->add('salaire_de_base',IntegerType::class)
-            ->add('roles')
+            ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
