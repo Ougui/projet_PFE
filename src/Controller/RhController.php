@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
+//use Doctrine\DBAL\Types\FloatType;
 use Doctrine\ORM\EntityRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,6 +99,7 @@ class RhController extends AbstractController
     public function updateEmploye(): Response
     {
         $form=$this->createFormBuilder()
+
             ->getForm()
         ;
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
@@ -116,12 +120,32 @@ class RhController extends AbstractController
         return $this->render('employe/formAdd.html.twig');
     }
 
-    #[Route('/rh/addPost', name: 'rh_ajouter_post')]
-    public function addPost(): Response
+    #[Route('/rh/addPost', name: 'rh_ajouter_poste')]
+    public function addPost(Request $request): Response
     {
         $form=$this->createFormBuilder()
-            ->getForm()
-        ;
-        return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
+            ->add('nom')
+            ->add('Montant_par_Heure_Supp', IntegerType::class)
+            ->add('Salaire_par_Heure',IntegerType::class)
+            ->add('Nombre_Jour_par_Semaine',IntegerType::class)
+            ->add('Nombre_Heure_par_jour',IntegerType::class)
+            ->add('submit',SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid())
+        {
+            $data = $form->getData();
+            $poste=new Poste();
+            $poste->setNom($data['nom']);
+            $poste->setMontantHeureSupp($data['Montant_par_Heure_Supp']);
+            $poste->setSalaireParHeure($data['Salaire_par_Heure']);
+            $poste->setNbJourSemaine($data['Nombre_Jour_par_Semaine']);
+            $poste->setNbHeureJour($data['Nombre_Heure_par_jour']);
+            $this->getDoctrine()->getManager()->persist($poste);
+            $this->getDoctrine()->getManager()->flush();
+
+        }
+
+        return $this->render('rh/formAddposte.html.twig',['formPost'=>$form->createView()]);
     }
 }
