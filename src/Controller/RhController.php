@@ -22,6 +22,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Date;
 
 class RhController extends AbstractController
 {
@@ -95,13 +99,86 @@ class RhController extends AbstractController
         }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
-    #[Route('/rh/updateEmploye', name: 'rh_modifier_employe')]
-    public function updateEmploye(): Response
+    #[Route('/rh/updateEmploye/{id}', name: 'rh_modifier_employe')]
+    public function updateEmploye(Request $request,UserPasswordEncoderInterface $encoder,int $id,
+                                  EmployeRepository $employeRepository): Response
     {
+        $employe=$employeRepository->find($id);
         $form=$this->createFormBuilder()
+
+            ->add('nom', TextType::class, [ 'disabled' => true,
+                'data' => $employe->getNom()
+            ])
+            ->add('prenom', TextType::class, [  'disabled' => true,
+                'data' => $employe->getPrenom()
+            ])
+            ->add('email',EmailType::class, [
+                'data' => $employe->getEmail()
+            ])
+            ->add('password',PasswordType::class, [
+                'data' => $employe->getPassword()
+            ])
+            ->add('date_de_naissance',TextType::class, [  'disabled' => true,
+                'data' => $employe->getDateNaissance()->format('Y-m-d')
+            ])
+            ->add('lieu_de_naissance', TextType::class,[  'disabled' => true,
+                'data' => $employe->getLieuNaissance()
+            ])
+            ->add('sexe', ChoiceType::class,[  'disabled' => true, 'data'=> $employe->getSexe(),
+                'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
+            ->add('address',TextType::class,  [
+                'data' => $employe->getAdresse()
+            ])
+            ->add('numero',NumberType::class, [
+                'data' => $employe->getNumeroTelephone()
+            ])
+            ->add('ccp', TextType::class, [
+                'data' => $employe->getCcp()
+            ])
+            ->add('situation_familiale', ChoiceType::class,[ 'data'=> $employe->getSituationFamiliale(),
+                'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
+
+            ->add('nombre_des_enfants',IntegerType::class, [
+                'data' => $employe->getNombreEnfant()
+            ])
+            ->add('salaire_de_base',IntegerType::class, [
+                'data' => $employe->getSalaireDeBase()
+            ])
+            ->add('roles',ChoiceType::class,[ 'disabled' => true, 'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
+            ->add('filiale',EntityType::class,[
+                'class'=>Filiale::class,
+                'query_builder'=>function(EntityRepository $entityRepository){
+                    return $entityRepository->createQueryBuilder('f')
+                        ->select('f');
+                }
+            ])
+            ->add('poste',EntityType::class,[
+                'class'=>Poste::class,
+                'query_builder'=>function(EntityRepository $entityRepository){
+                    return $entityRepository->createQueryBuilder('f')
+                        ->select('f');
+                }
+            ])
+            ->add('submit',SubmitType::class)
 
             ->getForm()
         ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $employe->setEmail($data['email']);
+            $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $employe->setNombreEnfant($data['nombre_des_enfants']);
+            $employe->setNumeroTelephone($data['numero']);
+            $employe->setFiliale($data['filiale']);
+            $employe->setAdresse($data['address']);
+            $employe->setPoste($data['poste']);
+            $employe->setSalaireDeBase($data['salaire_de_base']);
+            $employe->setCcp($data['ccp']);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
