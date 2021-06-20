@@ -195,7 +195,7 @@ class RhController extends AbstractController
     public function listerEmploye(EmployeRepository $repository): Response
     {   $filiale= $this->getUser()->getFiliale();
 
-        return $this->render('rh/listEmploye.html.twig',['Employe'=>$repository->findBy(['filiale'=> $filiale])]);
+        return $this->render('rh/listEmploye.html.twig',['Employes'=>$repository->findBy(['filiale'=> $filiale])]);
     }
 
     #[Route('/rh/viewEmploye', name: 'rh_profile_employe')]

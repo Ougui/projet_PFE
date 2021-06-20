@@ -1,4 +1,11 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
 {% block title %}{% endblock %}
 {% block body %}
 <h1> Liste des employés : </h1>
@@ -21,12 +28,16 @@
             <th>Filiale            </th>
             <th>Poste              </th>
         </tr>
-        {% for Employe in Employe %}
+        {% for Employe in Employes %}
         <tr>
         <td>{{ Employe.id}}</td>
         <td>{{ Employe.nom}}</td>
         <td>{{ Employe.prenom}}</td>
-        <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+            {% if Employe.dateNaissance!=null  %}
+                <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+                {% else %}
+                    <td>null</td>
+            {% endif%}
         <td>{{ Employe.lieuNaissance}}</td>
         <td>{{ Employe.sexe}}</td>
         <td>{{ Employe.adresse}}</td>
@@ -37,9 +48,9 @@
         <td>{{ Employe.SalaireDeBase}}</td>
         <td>{{ Employe.filiale}}</td>
         <td>{{ Employe.poste}}</td>
-        <td><input type="submit" value="Modifier"></td>
-        <td><input type="submit" value="Supprimer"></td>
-         <td><input type="submit" value="Visualiser"></td>
+        <td><a href="{{ path('rh_modifier_employe',{id:Employe.id}) }}" class="btn btn-primary">Modifier</a></td>
+        <td><a href="{{ path('rh_supprimer_employe',{id:Employe.id}) }}" class="btn btn-primary">Supprimer</a></td>
+            <td><a href="" class="">Visualiser</a></td>
         </tr>
         {% endfor %}
 
