@@ -39,7 +39,7 @@ security:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/comptable, roles: [ROLE_EMPLOYE,ROLE_COMPTABLE] }
          - { path: ^/directeur, roles: [ROLE_EMPLOYE,ROLE_DIRECTEUR] }
-         - { path: ^/directeur/general, roles: [ROLE_EMPLOYE,ROLE_DIRECTEUR,ROLE_DIRECTEUR_GENERAL] }
+         - { path: ^/dg, roles: [ROLE_EMPLOYE,ROLE_DIRECTEUR_GENERAL] }
          - { path: ^/rh, roles: [ ROLE_EMPLOYE,ROLE_RH ] }
 
 

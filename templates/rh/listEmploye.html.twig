@@ -10,7 +10,7 @@
 {% block body %}
 <h1> Liste des employés : </h1>
     <table border="1">
-        <caption> tableau des employés</caption>
+        <caption><h2>Liste des employés de la filiale :</h2></caption>
 
         <tr>
             <th>Identifiant        </th>
@@ -50,7 +50,7 @@
         <td>{{ Employe.poste}}</td>
         <td><a href="{{ path('rh_modifier_employe',{id:Employe.id}) }}" class="btn btn-primary">Modifier</a></td>
         <td><a href="{{ path('rh_supprimer_employe',{id:Employe.id}) }}" class="btn btn-primary">Supprimer</a></td>
-            <td><a href="" class="">Visualiser</a></td>
+            <td><a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="">Visualiser</a></td>
         </tr>
         {% endfor %}
 

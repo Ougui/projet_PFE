@@ -1,20 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DirecteurController!{% endblock %}
+{% block title %}Espace Personnel Directeur{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+    <table border="1">
+        <caption>Vos informations personnelles</caption>
+        <tr>
+            <th>ID         </th>
+            <td>{{ Employe.id}}</td>
+        <tr>
+            <th>Nom</th>
+            <td>{{ Employe.nom}}</td>
+        </tr>
+        <tr>
+            <th>Prénom</th>
+            <td>{{ Employe.prenom}}</td>
+        </tr>
+        <tr>
+            <th> Email</th>
+            <th>    {{ Employe.email }}   </th>
+        </tr>
+        <tr>
+            <th>Date de naissance</th>
+            <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+        </tr>
+        <th>Lieu de naissance</th>
+        <td>{{ Employe.lieuNaissance}}</td>
+        <tr>
+            <th>Sexe</th>
+            <td>{{ Employe.sexe}}</td>
+        </tr>
+        <th>Adresse</th>
+        <td>{{ Employe.adresse}}</td>
+        <tr>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+        </tr>
+        <th>Numero de telephone</th>
+        <td>{{ Employe.numeroTelephone}}</td>
+        <tr>
+            <th>Code CCP</th>
+            <td>{{ Employe.ccp}}</td>
+        </tr>
+        <th>Situation Familiale</th>
+        <td>{{ Employe.SituationFamiliale}}</td>
+        <tr>
+            <th>Nombre d'enfants</th>
+            <td>{{ Employe.nombreEnfant}}</td>
+        </tr>
+        <th>Salaire de base</th>
+        <td>{{ Employe.SalaireDeBase}}</td>
+        <tr>
+            <th>Filiale</th>
+            <td>{{ Employe.filiale}}</td>
+        </tr>
+        <tr>
+            <th>Poste</th>
+            <td>{{ Employe.poste}}</td>
+        </tr>
+    </table>
+    <a href=""class="btn btn-primary"> Visualiser mon Bulletin de paie </a>
+    <br>
+    <a href=""class="btn btn-primary"> Visualiser mon historique de presence </a>
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/projet_PFE/src/Controller/DirecteurController.php'|file_link(0) }}">src/Controller/DirecteurController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/projet_PFE/templates/directeur/index.html.twig'|file_link(0) }}">templates/directeur/index.html.twig</a></code></li>
+        <li>
+            <a href="{{ path('directeur_lister_employe') }}">Afficher la liste des employés </a>
+        </li>
     </ul>
-</div>
+
 {% endblock %}
