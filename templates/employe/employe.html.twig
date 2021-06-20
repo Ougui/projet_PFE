@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace Personnel Directeur{% endblock %}
+{% block title %}Espace Personnel{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+<h1>Bienvenue dans votre espace personnel, {{ Employe.nom}} !</h1>
     <table border="1">
         <caption>Vos informations personnelles</caption>
         <tr>
@@ -59,13 +59,7 @@
             <td>{{ Employe.poste}}</td>
         </tr>
     </table>
-    <a href=""class="btn btn-primary"> Visualiser mon Bulletin de paie </a>
+    <a href=""class="btn btn-primary"> Visualiser Bulletin de paie </a>
     <br>
-    <a href=""class="btn btn-primary"> Visualiser mon historique de presence </a>
-    <ul>
-        <li>
-            <a href="{{ path('dg_lister_employe') }}">Afficher la liste des employés </a>
-        </li>
-    </ul>
-
+    <a href="{{ path('rh_lister_employe')}}"class="btn btn-primary"> Visualiser historique de presence </a>
 {% endblock %}

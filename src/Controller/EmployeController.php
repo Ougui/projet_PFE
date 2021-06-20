@@ -17,12 +17,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class EmployeController extends AbstractController
 {
     #[Route('/employe', name: 'employe')]
-    public function index(): Response
+    public function espacePerso(EmployeRepository $repository): Response
     {
-        dd('je sui un employe');
+        $id= $this->getUser()->getId();
         return $this->render('employe/employe.html.twig', [
-            'controller_name' => 'EmployeController',
-        ]);
+            'Employe' => $repository->find($id) ]);
     }
 
      #[Route('/afficherEmploye/{id}',name:'anis')]

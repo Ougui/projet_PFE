@@ -30,10 +30,11 @@ use Symfony\Component\Validator\Constraints\Date;
 class RhController extends AbstractController
 {
     #[Route('/rh', name: 'rh')]
-    public function index(): Response
+    public function espacePersoRh(EmployeRepository $repository): Response
     {
+        $id= $this->getUser()->getId();
         return $this->render('rh/index.html.twig', [
-            'controller_name' => 'RhController',
+            'Employe' => $repository->find($id),
         ]);
     }
     #[Route('/rh/addEmploye', name: 'rh_ajouter_employe')]
@@ -198,10 +199,12 @@ class RhController extends AbstractController
         return $this->render('rh/listEmploye.html.twig',['Employes'=>$repository->findBy(['filiale'=> $filiale])]);
     }
 
-    #[Route('/rh/viewEmploye', name: 'rh_profile_employe')]
-    public function viewEmploye(): Response
+    #[Route('/rh/viewEmploye/{id}', name: 'rh_profile_employe')]
+    public function viewEmploye(EmployeRepository $employeRepository,int $id): Response
     {
-        return $this->render('employe/formAdd.html.twig');
+        $employe=$employeRepository->find($id);
+
+        return $this->render('rh/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
     }
 
     #[Route('/rh/addPost', name: 'rh_ajouter_poste')]

@@ -41,9 +41,9 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Employe();
-        $user->setRoles(['ROLE_EMPLOYE']);
-        $user->setEmail('em1@a.a');
+        $user= new Rh();
+        $user->setRoles(['ROLE_RH']);
+        $user->setEmail('a@a.a');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

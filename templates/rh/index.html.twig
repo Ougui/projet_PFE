@@ -1,34 +1,114 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RhController!{% endblock %}
+{% block title %}Espace Personnel RH{% endblock %}
+
 
 {% block rochdi %}
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;height: 100vh">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-            <span class="fs-4">RH</span>
-        </a>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="{{ path('rh_ajouter_employe') }}" class="nav-link active" aria-current="page">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-                    Ajouter un employé
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('rh_ajouter_poste') }}" class="nav-link text-white">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                   Ajouter un Poste
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('rh_lister_employe') }}" class="nav-link text-white">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-                    Afficher la liste des employés
-                </a>
-            </li>
-        </ul>
-        <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;height: 100vh">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                        <span class="fs-4">RH</span>
+                    </a>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="{{ path('rh_ajouter_employe') }}" class="nav-link active" aria-current="page">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+                                Ajouter un employé
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('rh_ajouter_poste') }}" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                                Ajouter un Poste
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('rh_lister_employe') }}" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+                                Afficher la liste des employés
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+                                Visualiser Bulletin de paie
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+                                Visualiser historique de presence
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                </div>
+            </div>
+            <div class="col">
+                <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+                <table border="1" class="container position-relative ">
+                    <caption>Vos informations personnelles</caption>
+                    <tr>
+                        <th>ID         </th>
+                        <td>{{ Employe.id}}</td>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ Employe.nom}}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ Employe.prenom}}</td>
+                    </tr>
+                    <tr>
+                        <th> Email</th>
+                        <th>    {{ Employe.email }}   </th>
+                    </tr>
+                    <tr>
+                        <th>Date de naissance</th>
+                        <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+                    </tr>
+                    <th>Lieu de naissance</th>
+                    <td>{{ Employe.lieuNaissance}}</td>
+                    <tr>
+                        <th>Sexe</th>
+                        <td>{{ Employe.sexe}}</td>
+                    </tr>
+                    <th>Adresse</th>
+                    <td>{{ Employe.adresse}}</td>
+                    <tr>
+
+                    </tr>
+                    <th>Numero de telephone</th>
+                    <td>{{ Employe.numeroTelephone}}</td>
+                    <tr>
+                        <th>Code CCP</th>
+                        <td>{{ Employe.ccp}}</td>
+                    </tr>
+                    <th>Situation Familiale</th>
+                    <td>{{ Employe.SituationFamiliale}}</td>
+                    <tr>
+                        <th>Nombre d'enfants</th>
+                        <td>{{ Employe.nombreEnfant}}</td>
+                    </tr>
+                    <th>Salaire de base</th>
+                    <td>{{ Employe.SalaireDeBase}}</td>
+                    <tr>
+                        <th>Filiale</th>
+                        <td>{{ Employe.filiale}}</td>
+                    </tr>
+                    <tr>
+                        <th>Poste</th>
+                        <td>{{ Employe.poste}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
+
+
+
 {% endblock %}

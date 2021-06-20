@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
 
-{% block title %}Espace Personnel Directeur{% endblock %}
-
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+{% block title %}{% endblock %}
 {% block body %}
-    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+    <h1> L'employé: </h1>
     <table border="1">
-        <caption>Vos informations personnelles</caption>
         <tr>
             <th>ID         </th>
             <td>{{ Employe.id}}</td>
@@ -59,13 +63,7 @@
             <td>{{ Employe.poste}}</td>
         </tr>
     </table>
-    <a href=""class="btn btn-primary"> Visualiser mon Bulletin de paie </a>
+    <a href=""class="btn btn-primary"> Visualiser Bulletin de paie </a>
     <br>
-    <a href=""class="btn btn-primary"> Visualiser mon historique de presence </a>
-    <ul>
-        <li>
-            <a href="{{ path('dg_lister_employe') }}">Afficher la liste des employés </a>
-        </li>
-    </ul>
-
+    <a href="{{ path('directeur_lister_employe')}}"class="btn btn-primary"> Retour </a>
 {% endblock %}
