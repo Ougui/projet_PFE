@@ -26,24 +26,24 @@ class HomeController extends AbstractController
     public function CreateUser(UserPasswordEncoderInterface $encoder): Response
     {
         $post= new Poste();
-        $post->setMontantHeureSupp(1500);
-        $post->setNbHeureJour(8);
-        $post->setNbJourSemaine(5);
-        $post->setSalaireParHeure(1000);
-        $post->setNom('Rh');
+        $post->setMontantHeureSupp(0);
+        $post->setNbHeureJour(0);
+        $post->setNbJourSemaine(0);
+        $post->setSalaireParHeure(0);
+        $post->setNom('Em');
         $this->getDoctrine()->getManager()->persist($post);
         $this->getDoctrine()->getManager()->flush();
 
         $filiale= new Filiale();
-        $filiale->setAdresse('RueDidoucheMourad');
-        $filiale->setNomFiliale('siegePrincipal');
-        $filiale->setType('D');
+        $filiale->setAdresse('');
+        $filiale->setNomFiliale('Catring');
+        $filiale->setType('S');
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Rh();
-        $user->setRoles(['ROLE_RH']);
-        $user->setEmail('anis@m.com');
+        $user= new Employe();
+        $user->setRoles(['ROLE_EMPLOYE']);
+        $user->setEmail('em1@a.a');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

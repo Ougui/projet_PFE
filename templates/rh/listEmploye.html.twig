@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% endblock %}
+{% block body %}
+<h1> Liste des employés : </h1>
+    <table border="1">
+        <caption> tableau des employés</caption>
+
+        <tr>
+            <th>Identifiant        </th>
+            <th>Nom                </th>
+            <th>Prénom             </th>
+            <th>Date de naissance  </th>
+            <th>Lieu de naissance  </th>
+            <th>Sexe               </th>
+            <th>Adresse            </th>
+            <th>Numéro de téléphone</th>
+            <th>CCP                </th>
+            <th>Situation familiale</th>
+            <th>Nombre d'enfant    </th>
+            <th>Salaire de base    </th>
+            <th>Filiale            </th>
+            <th>Poste              </th>
+        </tr>
+        {% for Employe in Employe %}
+        <tr>
+        <td>{{ Employe.id}}</td>
+        <td>{{ Employe.nom}}</td>
+        <td>{{ Employe.prenom}}</td>
+        <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+        <td>{{ Employe.lieuNaissance}}</td>
+        <td>{{ Employe.sexe}}</td>
+        <td>{{ Employe.adresse}}</td>
+        <td>{{ Employe.numeroTelephone}}</td>
+        <td>{{ Employe.ccp}}</td>
+        <td>{{ Employe.SituationFamiliale}}</td>
+        <td>{{ Employe.nombreEnfant}}</td>
+        <td>{{ Employe.SalaireDeBase}}</td>
+        <td>{{ Employe.filiale}}</td>
+        <td>{{ Employe.poste}}</td>
+        <td><input type="submit" value="Modifier"></td>
+        <td><input type="submit" value="Supprimer"></td>
+         <td><input type="submit" value="Visualiser"></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+<a href="{{ path('rh')}}"> retour a la page  d'acceuil </a>
+{% endblock %}

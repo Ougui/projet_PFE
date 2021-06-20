@@ -189,11 +189,15 @@ class RhController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
         return new Response('employe avec id='.$id.' est supprimé');
     }
+
     #[Route('/rh/listerEmploye', name: 'rh_lister_employe')]
-    public function listerEmploye(): Response
-    {
-        return $this->render('employe/formAdd.html.twig');
+
+    public function listerEmploye(EmployeRepository $repository): Response
+    {   $filiale= $this->getUser()->getFiliale();
+
+        return $this->render('rh/listEmploye.html.twig',['Employe'=>$repository->findBy(['filiale'=> $filiale])]);
     }
+
     #[Route('/rh/viewEmploye', name: 'rh_profile_employe')]
     public function viewEmploye(): Response
     {
