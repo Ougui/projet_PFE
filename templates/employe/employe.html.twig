@@ -59,7 +59,9 @@
             <td>{{ Employe.poste}}</td>
         </tr>
     </table>
-    <a href=""class="btn btn-primary"> Visualiser Bulletin de paie </a>
+    <a href="{{ path('employe_view_bulletin',{id:Employe.id}) }}"class="btn btn-primary"> Mon Bulletin de paie </a>
     <br>
-    <a href="{{ path('rh_lister_employe')}}"class="btn btn-primary"> Visualiser historique de presence </a>
+    <a href="{{ path('employe_historique_presence',{id:Employe.id}) }}"class="btn btn-primary"> Mon historique de presence </a>
+    <br>
+    <a href="{{ path('app_logout') }}"class="btn btn-primary"> Deconnexion </a>
 {% endblock %}

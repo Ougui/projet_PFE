@@ -11,15 +11,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'home')]
-    public function index(): Response
+    public function home(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        return $this->redirectToRoute('app_login');
+    }
+    #[Route('/', name: 'site')]
+    public function index(AuthenticationUtils $authenticationUtils): Response
+    {
+        return $this->redirectToRoute('app_login');
     }
 
     #[Route('/createUser', name: 'createUser')]

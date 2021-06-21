@@ -63,7 +63,7 @@
             <td>{{ Employe.poste}}</td>
         </tr>
     </table>
-    <a href=""class="btn btn-primary"> Visualiser Bulletin de paie </a>
+    <a href="{{ path('directeur_bulletin_employe',{id:Employe.id}) }}"class="btn btn-primary"> Visualiser Bulletin de paie </a>
     <br>
     <a href="{{ path('directeur_lister_employe')}}"class="btn btn-primary"> Retour </a>
 {% endblock %}

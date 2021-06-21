@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1> Historique de presence </h1>
+    <table border="1">
+
+        <tr>
+            <th>Date                 </th>
+            <th>Heure d'arrivee      </th>
+            <th>Heure de sortie      </th>
+        </tr>
+        {% for Presence in Presence %}
+            <tr>
+                <td>{{ Presence.date.format('Y-m-d')}}</td>
+                <td>{{ Presence.HeureIn.format('h:m')}}</td>
+                <td>{{ Presence.HeureOut.format('h:m')}}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="{{ path('rh')}}"> retour a la page  d'acceuil </a>
+{% endblock %}

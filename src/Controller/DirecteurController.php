@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-
+use App\Repository\PresenceRepository;
+use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,5 +30,26 @@ class DirecteurController extends AbstractController
     {
         $employe=$employeRepository->find($id);
         return $this->render('directeur/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
+    }
+    #[Route('/directeur/viewBulletin/{id}', name: 'directeur_view_bulletin')]
+    public function viewBulletin(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
+    {
+        $id = $this->getUser()->getId();
+        return $this->render('directeur/viewBulletin.html.twig',
+            ['Bulletin' => $repository->findBy(['employe' => $id])]);
+    }
+    #[Route('/directeur/bulletinEmploye/{id}', name: 'directeur_bulletin_employe')]
+    public function bulletinEmploye(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
+    {
+        $id=$employeRepository->find($id);
+        return $this->render('directeur/bulletinEmploye.html.twig',
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/directeur/historiquePresence/{id}', name: 'directeur_historique_presence')]
+    public function historiquePresence(PresenceRepository $repository, int $id): Response
+    {
+        $id= $this->getUser()->getId();
+        return $this->render('directeur/historiquePresence.html.twig',
+            ['Presence'=>$repository->findBy(['employe'=> $id ])]);
     }
 }

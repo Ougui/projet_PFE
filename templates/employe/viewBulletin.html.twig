@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <h1> Bulletins de paie </h1>
+    <table border="1">
+
+        <tr>
+            <th>Date                              </th>
+            <th>Total heures supplementaires      </th>
+            <th>Total heures d'absence            </th>
+            <th>IEP  </th>
+            <th>Allocation familiale  </th>
+        </tr>
+        {% for Bulletin in Bulletin %}
+            <tr>
+                <td>{{ Bulletin.date.format('Y-m-d')}}</td>
+                <td>{{ Bulletin.TotalHeureSupp}}</td>
+                <td>{{ Bulletin.TotalHeureAbs}}</td>
+                <td>{{ Bulletin.IEP}}</td>
+                <td>{{ Bulletin.allocationFamiliale}}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="{{ path('employe')}}"> retour a la page  d'acceuil </a>
+{% endblock %}

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
+use App\Repository\PresenceRepository;
+use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\Types\Integer;
@@ -234,5 +236,26 @@ class RhController extends AbstractController
         }
 
         return $this->render('rh/formAddposte.html.twig',['formPost'=>$form->createView()]);
+    }
+    #[Route('/rh/viewBulletin/{id}', name: 'rh_view_bulletin')]
+    public function viewBulletin(BulletinRepository $repository, int $id): Response
+    {
+        $id= $this->getUser()->getId();
+        return $this->render('rh/viewBulletin.html.twig',
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/rh/bulletinEmploye/{id}', name: 'rh_bulletin_employe')]
+    public function bulletinEmploye(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
+    {
+        $id=$employeRepository->find($id);
+        return $this->render('rh/bulletinEmploye.html.twig',
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/rh/historiquePresence/{id}', name: 'rh_historique_presence')]
+    public function historiquePresence(PresenceRepository $repository, int $id): Response
+    {
+        $id= $this->getUser()->getId();
+        return $this->render('rh/historiquePresence.html.twig',
+            ['Presence'=>$repository->findBy(['employe'=> $id ])]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PresenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass=PresenceRepository::class)
@@ -43,24 +44,24 @@ class Presence
         return $this->id;
     }
 
-    public function getHeureIn(): ?DateTimeInterface
+    public function getHeureIn(): ?\DateTime
     {
         return $this->HeureIn;
     }
 
-    public function setHeureIn(DateTimeInterface $HeureIn): self
+    public function setHeureIn(\DateTime $HeureIn): self
     {
         $this->HeureIn = $HeureIn;
 
         return $this;
     }
 
-    public function getHeureOut(): ?\DateTimeInterface
+    public function getHeureOut(): ?\DateTime
     {
         return $this->HeureOut;
     }
 
-    public function setHeureOut(\DateTimeInterface $HeureOut): self
+    public function setHeureOut(\DateTime $HeureOut): self
     {
         $this->HeureOut = $HeureOut;
 
