@@ -14,39 +14,39 @@
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="{{ path('rh_ajouter_employe') }}" class="nav-link active" aria-current="page">
+                            <a href="{{ path('rh') }}" class="nav-link active" aria-current="page">
                                 <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-                                Ajouter un employé
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('rh_ajouter_poste') }}" class="nav-link text-white">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                                Ajouter un Poste
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('rh_lister_employe') }}" class="nav-link text-white">
-                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-                                Afficher la liste des employés
+                                MON PROFIL
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="nav-link text-white">
                                 <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-                                Mon Bulletin de paie
+                                MON BULLETIN
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="nav-link text-white">
                                 <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-                                Mon historique de presence
+                                MON HISTORIQUE DE PRESENCE
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('rh_lister_employe') }}" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+                                GESTION EMPLOYES
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('rh_lister_poste') }}" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                                GESTION POSTES
                             </a>
                         </li>
                         <li>
                             <a href="{{ path('app_logout') }}" class="nav-link text-white">
                                 <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-                                Deconnexion
+                                DECONNEXION
                             </a>
                         </li>
                     </ul>

@@ -3,9 +3,11 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<h1> Liste des employés : </h1>
-    <table border="1">
-        <caption><h2>Liste des employés de la filiale :</h2></caption>
+
+<h1> Liste des employés de la filiale </h1>
+
+        <caption><a href="{{ path('rh_ajouter_employe')}}" class="btn btn-primary">Ajouter</a>
+            <table border="1"></caption>
 
         <tr>
             <th>Identifiant        </th>
@@ -45,11 +47,11 @@
         <td>{{ Employe.poste}}</td>
         <td><a href="{{ path('rh_modifier_employe',{id:Employe.id}) }}" class="btn btn-primary">Modifier</a></td>
         <td><a href="{{ path('rh_supprimer_employe',{id:Employe.id}) }}" class="btn btn-primary">Supprimer</a></td>
-            <td><a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="">Visualiser</a></td>
+            <td><a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="btn btn-primary">Afficher</a></td>
         </tr>
         {% endfor %}
 
     </table>
 
-<a href="{{ path('rh')}}"> retour a la page  d'acceuil </a>
+<a href="{{ path('rh')}}"> Retour </a>
 {% endblock %}

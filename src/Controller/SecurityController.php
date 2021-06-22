@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
             $rh=false;
             $comptable=false;
             $directeur=false;
-            $directeurGenral=false;
+            $directeurGeneral=false;
             $admin=false;
             foreach ($arrayRoles as $role ) {
                 if ($role == 'ROLE_EMPLOYE')
@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
                 if ($role == 'ROLE_DIRECTEUR')
                 {$directeur=true;}
                 if ($role == 'ROLE_DIRECTEUR_GENERAL')
-                {$directeurGenral=true;}
+                {$directeurGeneral=true;}
                 if ($role == 'ROLE_RH')
                 {$rh=true;}
                 if ($role == 'ROLE_ADMIN'){
@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
             if($directeur) {
                 return $this->redirectToRoute('directeur');
             }
-            if($directeur and $directeurGenral) {
+            if($directeurGeneral) {
                 return $this->redirectToRoute('directeur_general');
             }
             if($rh) {

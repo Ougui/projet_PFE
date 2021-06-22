@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
+use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
@@ -59,7 +60,8 @@ class RhController extends AbstractController
 
             ->add('nombre_des_enfants',IntegerType::class)
             ->add('salaire_de_base',IntegerType::class)
-            ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE']])
+            ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
+                'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
@@ -74,7 +76,7 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ])
-            ->add('submit',SubmitType::class)
+            ->add('Ajouter',SubmitType::class)
             ->getForm()
         ;
         $form->handleRequest($request);
@@ -108,11 +110,12 @@ class RhController extends AbstractController
     {
         $employe=$employeRepository->find($id);
         $form=$this->createFormBuilder()
+          //  'disabled' => true,
 
-            ->add('nom', TextType::class, [ 'disabled' => true,
+            ->add('nom', TextType::class, [
                 'data' => $employe->getNom()
             ])
-            ->add('prenom', TextType::class, [  'disabled' => true,
+            ->add('prenom', TextType::class, [
                 'data' => $employe->getPrenom()
             ])
             ->add('email',EmailType::class, [
@@ -121,13 +124,13 @@ class RhController extends AbstractController
             ->add('password',PasswordType::class, [
                 'data' => $employe->getPassword()
             ])
-            ->add('date_de_naissance',TextType::class, [  'disabled' => true,
+            ->add('date_de_naissance',TextType::class, [
                 'data' => $employe->getDateNaissance()->format('Y-m-d')
             ])
-            ->add('lieu_de_naissance', TextType::class,[  'disabled' => true,
+            ->add('lieu_de_naissance', TextType::class,[
                 'data' => $employe->getLieuNaissance()
             ])
-            ->add('sexe', ChoiceType::class,[  'disabled' => true, 'data'=> $employe->getSexe(),
+            ->add('sexe', ChoiceType::class,[   'data'=> $employe->getSexe(),
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
             ->add('address',TextType::class,  [
                 'data' => $employe->getAdresse()
@@ -147,7 +150,7 @@ class RhController extends AbstractController
             ->add('salaire_de_base',IntegerType::class, [
                 'data' => $employe->getSalaireDeBase()
             ])
-            ->add('roles',ChoiceType::class,[ 'disabled' => true, 'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
+            ->add('roles',ChoiceType::class,[  'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
@@ -162,16 +165,20 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ])
-            ->add('submit',SubmitType::class)
+            ->add('Confirmer',SubmitType::class)
 
             ->getForm()
         ;
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
+            $employe->setNom($data['nom']);
+            $employe->setPrenom($data['prenom']);
             $employe->setEmail($data['email']);
             $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
             $employe->setPassword($MotdePasseCrypte);
+            $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
+            $employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
             $employe->setFiliale($data['filiale']);
@@ -179,10 +186,11 @@ class RhController extends AbstractController
             $employe->setPoste($data['poste']);
             $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
+            $employe->setRoles([$data['roles']]);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
         }
-        return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
+        return $this->render('employe/formUpdate.html.twig',['formila'=>$form->createView()]);
     }
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
     public function deleteEmploye(EmployeRepository $employeRepository,int $id): Response
@@ -257,5 +265,62 @@ class RhController extends AbstractController
         $id= $this->getUser()->getId();
         return $this->render('rh/historiquePresence.html.twig',
             ['Presence'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/rh/listerPoste', name: 'rh_lister_poste')]
+
+    public function listerPoste(PosteRepository $repository): Response
+    {
+        return $this->render('rh/listPoste.html.twig',['Postes'=>$repository->findAll()]);
+    }
+
+
+
+
+    #[Route('/rh/updatePoste/{id}', name: 'rh_modifier_poste')]
+    public function updatePoste(Request $request,int $id, PosteRepository $PosteRepository): Response
+    {
+        $poste=$PosteRepository->find($id);
+        $form=$this->createFormBuilder()
+            //  'disabled' => true,
+
+            ->add('nom', TextType::class, [
+                'data' => $poste->getNom()
+            ])
+            ->add('SalaireParHeureDeTravail', TextType::class, [
+                'data' => $poste->getSalaireParHeure()
+            ])
+            ->add('SalaireParHeureSupp',TextType::class, [
+                'data' => $poste->getMontantHeureSupp()
+            ])
+            ->add('NombreDeJoursDeTravailParSemaine',TextType::class, [
+                'data' => $poste->getNbJourSemaine()
+            ])
+            ->add('NombreHeuresDeTravailParJour',TextType::class, [
+                'data' => $poste->getNbHeureJour()
+            ])
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $poste->setNom($data['nom']);
+            $poste->setSalaireParHeure($data['SalaireParHeureDeTravail']);
+            $poste->setMontantHeureSupp($data['SalaireParHeureSupp']);
+            $poste->setNbJourSemaine($data['NombreDeJoursDeTravailParSemaine']);
+            $poste->setNbHeureJour($data ['NombreHeuresDeTravailParJour']);
+            $this->getDoctrine()->getManager()->persist($poste);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('rh/updatePoste.html.twig',['formila'=>$form->createView()]);
+    }
+    #[Route('/rh/deletePoste/{id}', name: 'rh_supprimer_poste')]
+    public function deletePoste(PosteRepository $posteRepository,int $id): Response
+    {
+        $poste=$posteRepository->find($id);
+        $this->getDoctrine()->getManager()->remove($poste);
+        $this->getDoctrine()->getManager()->flush();
+        return new Response('poste supprimé');
     }
 }

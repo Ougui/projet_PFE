@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+{% block title %}{% endblock %}
+{% block body %}
+    <h1> Liste des postes de travail</h1>
+    <caption><h2><a href="{{ path('rh_ajouter_poste') }}" class="btn btn-primary">
+                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                AJOUTER
+            </a></h2></caption>
+    <table border="1">
+
+        <tr>
+            <th>Nom                                   </th>
+            <th>Salaire par heure de travail          </th>
+            <th>Salaire par heure supp                </th>
+            <th>Nombre de jours de travail par semaine</th>
+            <th>Nombre d'heures de travail par jour   </th>
+        </tr>
+        {% for Poste in Postes %}
+            <tr>
+                <td>{{ Poste.nom}}</td>
+                <td>{{ Poste.SalaireParHeure}}</td>
+                <td>{{ Poste.MontantHeureSupp}}</td>
+                <td>{{ Poste.NbJourSemaine}}</td>
+                <td>{{ Poste.NbHeureJour}}</td>
+              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-primary">MODIFIER</a></td>
+                <td><a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-primary">SUPPRIMER</a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="{{ path('rh')}}">Retour</a>
+{% endblock %}

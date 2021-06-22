@@ -62,13 +62,9 @@
     <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-primary"> Mon Bulletin de paie </a>
     <br>
     <a href="{{ path('dg_historique_presence',{id:Employe.id}) }}"class="btn btn-primary"> Mon historique de presence </a>
-    <ul>
-        <li>
-            <a href="{{ path('dg_lister_employe') }}">Afficher la liste des employés </a>
-        </li>
-        <li>
-            <a href="{{ path('app_logout') }}"class="btn btn-primary"> Deconnexion </a>
-        </li>
-    </ul>
+    <br>
+    <a href="{{ path('dg_lister_employe') }}">Afficher la liste des employés </a>
+    <br>
+    <a href="{{ path('app_logout') }}"class="btn btn-primary"> Deconnexion </a>
 
 {% endblock %}

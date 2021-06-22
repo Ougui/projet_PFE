@@ -43,6 +43,11 @@ class Bulletin
     private $allocationFamiliale;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private $Total;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Employe::class, inversedBy="bulletin")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -109,6 +114,18 @@ class Bulletin
     public function setAllocationFamiliale(float $allocationFamiliale): self
     {
         $this->allocationFamiliale = $allocationFamiliale;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->Total;
+    }
+
+    public function setTotal(float $Total): self
+    {
+        $this->Total = $Total;
 
         return $this;
     }
