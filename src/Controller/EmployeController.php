@@ -26,6 +26,7 @@ class EmployeController extends AbstractController
             'Employe' => $repository->find($id) ]);
     }
 
+
      #[Route('/afficherEmploye/{id}',name:'anis')]
 
     public function display(RhRepository $rhRepository,
@@ -70,6 +71,8 @@ class EmployeController extends AbstractController
      }
      return new Response('employé existe pas');
     }
+
+
     #[Route('/employe/viewBulletin/{id}', name: 'employe_view_bulletin')]
     public function viewBulletin(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -77,6 +80,8 @@ class EmployeController extends AbstractController
         return $this->render('employe/viewBulletin.html.twig',
             ['Bulletin' => $repository->findBy(['employe' => $id])]);
     }
+
+
     #[Route('/employe/historiquePresence/{id}', name: 'employe_historique_presence')]
     public function historiquePresence(PresenceRepository $repository, int $id): Response
     {

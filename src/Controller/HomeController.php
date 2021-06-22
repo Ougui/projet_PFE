@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Comptable;
+use App\Entity\Directeur;
+use App\Entity\DirecteurGeneral;
 use App\Entity\Employe;
 use App\Entity\Filiale;
 use App\Entity\Poste;
 use App\Entity\Rh;
 use App\Entity\User;
+use phpDocumentor\Reflection\DocBlock\Tags\Uses;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,9 +49,9 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Rh();
-        $user->setRoles(['ROLE_RH']);
-        $user->setEmail('a@a.a');
+        $user= new Comptable();
+        $user->setRoles(['ROLE_COMPTABLE']);
+        $user->setEmail('c@c.c');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

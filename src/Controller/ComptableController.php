@@ -18,6 +18,8 @@ class ComptableController extends AbstractController
             'Employe' => $repository->find($id),
         ]);
     }
+
+
     #[Route('/comptable/listerEmploye', name: 'comptable_lister_employe')]
 
     public function listerEmploye(EmployeRepository $repository): Response
@@ -25,12 +27,16 @@ class ComptableController extends AbstractController
 
         return $this->render('comptable/listEmploye.html.twig',['Employes'=>$repository->findAll()]);
     }
+
+
     #[Route('/comptable/viewEmploye/{id}', name: 'comptable_profile_employe')]
     public function viewEmploye(EmployeRepository $employeRepository,int $id): Response
     {
         $employe=$employeRepository->find($id);
         return $this->render('comptable/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
     }
+
+
     #[Route('/comptable/viewBulletin/{id}', name: 'comptable_view_bulletin')]
     public function viewBulletin(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -38,6 +44,8 @@ class ComptableController extends AbstractController
         return $this->render('comptable/viewBulletin.html.twig',
             ['Bulletin' => $repository->findBy(['employe' => $id])]);
     }
+
+
     #[Route('/comptable/bulletinEmploye/{id}', name: 'comptable_bulletin_employe')]
     public function bulletinEmploye(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -45,6 +53,8 @@ class ComptableController extends AbstractController
         return $this->render('comptable/bulletinEmploye.html.twig',
             ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
     }
+
+
     #[Route('/comptable/historiquePresence/{id}', name: 'comptable_historique_presence')]
     public function historiquePresence(PresenceRepository $repository, int $id): Response
     {

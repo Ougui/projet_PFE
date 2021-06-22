@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
             if($directeur) {
                 return $this->redirectToRoute('directeur');
             }
-            if($directeur and $directeurGenral) {
+            if($directeurGenral) {
                 return $this->redirectToRoute('directeur_general');
             }
             if($rh) {
