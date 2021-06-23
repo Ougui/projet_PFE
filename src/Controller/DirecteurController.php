@@ -18,6 +18,8 @@ class DirecteurController extends AbstractController
             'Employe' => $repository->find($id),
         ]);
     }
+
+
     #[Route('/directeur/listerEmploye', name: 'directeur_lister_employe')]
 
     public function listerEmploye(EmployeRepository $repository): Response
@@ -25,12 +27,16 @@ class DirecteurController extends AbstractController
 
         return $this->render('directeur/listEmploye.html.twig',['Employes'=>$repository->findBy(['filiale'=> $filiale])]);
     }
+
+
     #[Route('/directeur/viewEmploye/{id}', name: 'directeur_profile_employe')]
     public function viewEmploye(EmployeRepository $employeRepository,int $id): Response
     {
         $employe=$employeRepository->find($id);
         return $this->render('directeur/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
     }
+
+
     #[Route('/directeur/viewBulletin/{id}', name: 'directeur_view_bulletin')]
     public function viewBulletin(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -38,6 +44,8 @@ class DirecteurController extends AbstractController
         return $this->render('directeur/viewBulletin.html.twig',
             ['Bulletin' => $repository->findBy(['employe' => $id])]);
     }
+
+
     #[Route('/directeur/bulletinEmploye/{id}', name: 'directeur_bulletin_employe')]
     public function bulletinEmploye(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -45,11 +53,20 @@ class DirecteurController extends AbstractController
         return $this->render('directeur/bulletinEmploye.html.twig',
             ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
     }
+
+
     #[Route('/directeur/historiquePresence/{id}', name: 'directeur_historique_presence')]
     public function historiquePresence(PresenceRepository $repository, int $id): Response
     {
         $id= $this->getUser()->getId();
         return $this->render('directeur/historiquePresence.html.twig',
             ['Presence'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/directeur/presenceEmploye/{id}', name: 'directeur_presence_employe')]
+    public function presenceEmploye(PresenceRepository $repository,EmployeRepository $employeRepository, int $id): Response
+    {
+        $id = $employeRepository->find($id);
+        return $this->render('directeur/presenceEmploye.html.twig',
+            ['Presence' => $repository->findBy(['employe' => $id])]);
     }
 }

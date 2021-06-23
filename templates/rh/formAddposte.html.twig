@@ -2,6 +2,10 @@
 
 {% block title %}Ajouter Poste!{% endblock %}
 {% block body %}
-    <h1>Add Poste</h1>
+    <h1>Ajouter un poste</h1>
+    <hr>
     {{ form(formPost) }}
+    <br>
+    <br>
+    <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
 {% endblock %}

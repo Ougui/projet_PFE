@@ -40,6 +40,8 @@ class RhController extends AbstractController
             'Employe' => $repository->find($id),
         ]);
     }
+
+
     #[Route('/rh/addEmploye', name: 'rh_ajouter_employe')]
     public function addEmploye(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
@@ -104,6 +106,8 @@ class RhController extends AbstractController
         }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
+
+
     #[Route('/rh/updateEmploye/{id}', name: 'rh_modifier_employe')]
     public function updateEmploye(Request $request,UserPasswordEncoderInterface $encoder,int $id,
                                   EmployeRepository $employeRepository): Response
@@ -192,14 +196,17 @@ class RhController extends AbstractController
         }
         return $this->render('employe/formUpdate.html.twig',['formila'=>$form->createView()]);
     }
+
+
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
     public function deleteEmploye(EmployeRepository $employeRepository,int $id): Response
     {
         $employe=$employeRepository->find($id);
         $this->getDoctrine()->getManager()->remove($employe);
         $this->getDoctrine()->getManager()->flush();
-        return new Response('employe avec id='.$id.' est supprimé');
+        return $this->redirectToRoute('rh_lister_employe');
     }
+
 
     #[Route('/rh/listerEmploye', name: 'rh_lister_employe')]
 
@@ -209,6 +216,7 @@ class RhController extends AbstractController
         return $this->render('rh/listEmploye.html.twig',['Employes'=>$repository->findBy(['filiale'=> $filiale])]);
     }
 
+
     #[Route('/rh/viewEmploye/{id}', name: 'rh_profile_employe')]
     public function viewEmploye(EmployeRepository $employeRepository,int $id): Response
     {
@@ -216,6 +224,7 @@ class RhController extends AbstractController
 
         return $this->render('rh/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
     }
+
 
     #[Route('/rh/addPost', name: 'rh_ajouter_poste')]
     public function addPost(Request $request): Response
@@ -245,6 +254,8 @@ class RhController extends AbstractController
 
         return $this->render('rh/formAddposte.html.twig',['formPost'=>$form->createView()]);
     }
+
+
     #[Route('/rh/viewBulletin/{id}', name: 'rh_view_bulletin')]
     public function viewBulletin(BulletinRepository $repository, int $id): Response
     {
@@ -252,6 +263,8 @@ class RhController extends AbstractController
         return $this->render('rh/viewBulletin.html.twig',
             ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
     }
+
+
     #[Route('/rh/bulletinEmploye/{id}', name: 'rh_bulletin_employe')]
     public function bulletinEmploye(BulletinRepository $repository,EmployeRepository $employeRepository, int $id): Response
     {
@@ -259,6 +272,8 @@ class RhController extends AbstractController
         return $this->render('rh/bulletinEmploye.html.twig',
             ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
     }
+
+
     #[Route('/rh/historiquePresence/{id}', name: 'rh_historique_presence')]
     public function historiquePresence(PresenceRepository $repository, int $id): Response
     {
@@ -321,6 +336,6 @@ class RhController extends AbstractController
         $poste=$posteRepository->find($id);
         $this->getDoctrine()->getManager()->remove($poste);
         $this->getDoctrine()->getManager()->flush();
-        return new Response('poste supprimé');
+        return $this->redirectToRoute('rh_lister_poste');
     }
 }

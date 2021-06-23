@@ -1,28 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+    {% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #033c45;
+            height: 100vh;
+        }
+        #login .container #login-row #login-column #login-box {
+            margin-top: 120px;
+            max-width: 600px;
+            height: 320px;
+            border: 1px solid #9C9C9C;
+            background-color: #e6e9f2;
+        }
+        #login .container #login-row #login-column #login-box #login-form {
+            padding: 20px;
+        }
+        #login .container #login-row #login-column #login-box #login-form #register-link {
+            margin-top: -85px;
+        }
+    </style>
+    {% endblock %}
+
+{% block title %}Authentification!{% endblock %}
 
 {% block body %}
-    <div class="container-sm position-relative">
-        <div class="form-signin">
-            <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
 
-                {% if app.user %}
-                    <div class="mb-3">
-                        Vous etes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+<div id="login">
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <form id="login-form" class="form" action="" method="post">
+                      {% if error %}
+                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}
+                             </div>
+                    {% endif %}
+                        {% if app.user %}
+                             <div class="mb-3">
+                              Vous etes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                             </div>
+                    {% endif %}
+
+                    <h3 class="text-center text-info">Authentification</h3>
+                    <div class="form-group">
+                    <label for="inputEmail" class="text-info">Email</label>
+                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                     </div>
+                     <div class="form-group">
+                     <label for="inputPassword" class="text-info">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                     </div>
-                {% endif %}
-
-                <h1 class="h3 mb-3 font-weight-normal">Authentification</h1>
-                <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label for="inputPassword">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-                <input type="hidden" name="_csrf_token"
+                   <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
                 >
 
@@ -37,13 +68,11 @@
                 </div>
                 #}
 
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Connexion
-                </button>
-            </form>
-
+                <input type="submit" name="submit" class="btn btn-info btn-md" value="Connexion">
+              </form>
+                </div>
+            </div>
         </div>
     </div>
-
-
+</div>
 {% endblock %}

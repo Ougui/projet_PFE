@@ -2,6 +2,10 @@
 
 {% block title %}Modifier un poste!{% endblock %}
 {% block body %}
-    <h1>MODIFICATION POSTE DE TRAVAIL</h1>
+    <h1>Mdification poste de travail</h1>
+    <hr>
     {{ form(formila) }}
+    <br>
+    <br>
+    <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
 {% endblock %}

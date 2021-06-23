@@ -1,31 +1,30 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{% endblock %}
-
 {% block body %}
-    <h1> Bulletins de paie </h1>
-    <table border="1">
-
+    <h1>Bulletins de paie</h1>
+    <hr>
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>Date                              </th>
-            <th>Total heures supplementaires      </th>
-            <th>Total heures d'absence            </th>
-            <th>IEP  </th>
-            <th>Allocation familiale  </th>
-            <th>Total</th>
+            <th scope="col">Date</th>
+            <th scope="col">Total heures supplementaires</th>
+            <th scope="col">Total heures d'absence</th>
+            <th scope="col">IEP</th>
+            <th scope="col">Allocation familiale</th>
+            <th scope="col">Total</th>
         </tr>
+        </thead>
+        <tbody>
         {% for Bulletin in Bulletin %}
             <tr>
-                <td>{{ Bulletin.date.format('Y-m-d')}}</td>
-                <td>{{ Bulletin.TotalHeureSupp}}</td>
-                <td>{{ Bulletin.TotalHeureAbs}}</td>
-                <td>{{ Bulletin.IEP}}</td>
-                <td>{{ Bulletin.allocationFamiliale}}</td>
-                <td>{{ Bulletin.Total }}</td>
+                <th>{{ Bulletin.date.format('Y-m-d')}}</th>
+                <th>{{ Bulletin.TotalHeureSupp}} heures</th>
+                <th>{{ Bulletin.TotalHeureAbs}} heures</th>
+                <th>+{{ Bulletin.IEP}}%</th>
+                <th>{{ Bulletin.allocationFamiliale}}.00 DA</th>
+                <th scope="row">{{ Bulletin.total }}.00 DA</th>
             </tr>
         {% endfor %}
-
+        </tbody>
     </table>
-
-    <a href="{{ path('comptable')}}"> retour a la page  d'acceuil </a>
+    <a href="{{ path('comptable')}}" class="btn btn-dark">Retour</a>
 {% endblock %}

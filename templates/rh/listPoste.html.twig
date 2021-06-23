@@ -9,32 +9,36 @@
 {% block title %}{% endblock %}
 {% block body %}
     <h1> Liste des postes de travail</h1>
-    <caption><h2><a href="{{ path('rh_ajouter_poste') }}" class="btn btn-primary">
-                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                AJOUTER
-            </a></h2></caption>
-    <table border="1">
-
+    <hr>
+    <a href="{{ path('rh_ajouter_poste')}}" class="btn btn-dark">Ajouter</a>
+    <br>
+    <br>
+        <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>Nom                                   </th>
-            <th>Salaire par heure de travail          </th>
-            <th>Salaire par heure supp                </th>
-            <th>Nombre de jours de travail par semaine</th>
-            <th>Nombre d'heures de travail par jour   </th>
+            <th scope="col">Nom</th>
+            <th scope="col">Salaire par heure de travail</th>
+            <th scope="col">Salaire par heure supp</th>
+            <th scope="col">Nombre de jours de travail par semaine</th>
+            <th scope="col">Nombre d'heures de travail par jour</th>
+            <th scope="col">Actions</th>
         </tr>
+        </thead>
+            <tbody>
         {% for Poste in Postes %}
             <tr>
-                <td>{{ Poste.nom}}</td>
-                <td>{{ Poste.SalaireParHeure}}</td>
-                <td>{{ Poste.MontantHeureSupp}}</td>
-                <td>{{ Poste.NbJourSemaine}}</td>
-                <td>{{ Poste.NbHeureJour}}</td>
-              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-primary">MODIFIER</a></td>
-                <td><a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-primary">SUPPRIMER</a></td>
+                <th>{{ Poste.nom}}</th>
+                <th>{{ Poste.SalaireParHeure}}.00 DA</th>
+                <th>{{ Poste.MontantHeureSupp}}.00 DA</th>
+                <th>{{ Poste.NbJourSemaine}} jours</th>
+                <th>{{ Poste.NbHeureJour}} heures</th>
+              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-dark">Modifier</a>
+                <a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-dark">Supprimer</a></td>
             </tr>
         {% endfor %}
-
+            </tbody>
     </table>
-
-    <a href="{{ path('rh')}}">Retour</a>
+    <br>
+    <br>
+    <a href="{{ path('rh')}}"class="btn btn-dark"> Retour </a>
 {% endblock %}

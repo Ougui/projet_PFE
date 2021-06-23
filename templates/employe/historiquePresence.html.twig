@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Historique de Presence{% endblock %}
 
 {% block body %}
-    <h1> Historique de presence </h1>
-    <table border="1">
-
+    <h1>Mon historique de présence</h1>
+    <hr>
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>Date                 </th>
-            <th>Heure d'arrivee      </th>
-            <th>Heure de sortie      </th>
+            <th scope="col">Date</th>
+            <th scope="col">Heure d'arrivee</th>
+            <th scope="col">Heure de sortie</th>
         </tr>
+        </thead>
+        <tbody>
         {% for Presence in Presence %}
             <tr>
                 <td>{{ Presence.date.format('Y-m-d')}}</td>
@@ -18,8 +21,8 @@
                 <td>{{ Presence.HeureOut.format('h:m')}}</td>
             </tr>
         {% endfor %}
-
+        </tbody>
     </table>
 
-    <a href="{{ path('employe')}}"> retour a la page  d'acceuil </a>
+    <a href="{{ path('employe')}}" class="btn btn-dark"> retour a la page  d'acceuil </a>
 {% endblock %}
