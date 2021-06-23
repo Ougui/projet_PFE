@@ -12,6 +12,7 @@
             <th>Total heures d'absence            </th>
             <th>IEP  </th>
             <th>Allocation familiale  </th>
+            <th>Total</th>
         </tr>
         {% for Bulletin in Bulletin %}
             <tr>
@@ -20,6 +21,7 @@
                 <td>{{ Bulletin.TotalHeureAbs}}</td>
                 <td>{{ Bulletin.IEP}}</td>
                 <td>{{ Bulletin.allocationFamiliale}}</td>
+                <td>{{ Bulletin.total }}</td>
             </tr>
         {% endfor %}
 

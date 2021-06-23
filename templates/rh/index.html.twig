@@ -6,10 +6,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;height: 100vh">
+                <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 240px;height: 100vh;
+                    margin-left: 0px;">
                     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-                        <span class="fs-4">RH</span>
+                        <span class="fs-4">{{Employe.nom}} {{Employe.prenom}}</span>
                     </a>
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
@@ -55,18 +56,20 @@
             </div>
             <div class="col">
                 <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
-                <table border="1" class="container position-relative ">
-                    <caption>Vos informations personnelles</caption>
+                <table class="table">
+                    <thead class="thead-dark">
                     <tr>
-                        <th>ID         </th>
-                        <td>{{ Employe.id}}</td>
-                    <tr>
-                        <th>Nom</th>
-                        <td>{{ Employe.nom}}</td>
+                        <th scope="col">ID</th>
+                        <th scope="col">{{ Employe.id}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th>Nom</th>
+                    <th>{{ Employe.nom}}</th>
                     </tr>
                     <tr>
                         <th>Prénom</th>
-                        <td>{{ Employe.prenom}}</td>
+                        <th>{{ Employe.prenom}}</th>
                     </tr>
                     <tr>
                         <th> Email</th>
@@ -74,41 +77,42 @@
                     </tr>
                     <tr>
                         <th>Date de naissance</th>
-                        <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+                        <th>{{ Employe.dateNaissance.format('Y-m-d')}}</th>
                     </tr>
                     <th>Lieu de naissance</th>
-                    <td>{{ Employe.lieuNaissance}}</td>
+                    <th>{{ Employe.lieuNaissance}}</th>
                     <tr>
                         <th>Sexe</th>
-                        <td>{{ Employe.sexe}}</td>
+                        <th>{{ Employe.sexe}}</th>
                     </tr>
                     <th>Adresse</th>
-                    <td>{{ Employe.adresse}}</td>
+                    <th>{{ Employe.adresse}}</th>
                     <tr>
 
                     </tr>
                     <th>Numero de telephone</th>
-                    <td>{{ Employe.numeroTelephone}}</td>
+                    <th>{{ Employe.numeroTelephone}}</th>
                     <tr>
                         <th>Code CCP</th>
-                        <td>{{ Employe.ccp}}</td>
+                        <th>{{ Employe.ccp}}</th>
                     </tr>
                     <th>Situation Familiale</th>
-                    <td>{{ Employe.SituationFamiliale}}</td>
+                    <th>{{ Employe.SituationFamiliale}}</th>
                     <tr>
                         <th>Nombre d'enfants</th>
-                        <td>{{ Employe.nombreEnfant}}</td>
+                        <th>{{ Employe.nombreEnfant}}</th>
                     </tr>
                     <th>Salaire de base</th>
-                    <td>{{ Employe.SalaireDeBase}}</td>
+                    <th>{{ Employe.SalaireDeBase}}.00 DA</th>
                     <tr>
                         <th>Filiale</th>
-                        <td>{{ Employe.filiale}}</td>
+                        <th>{{ Employe.filiale}}</th>
                     </tr>
                     <tr>
                         <th>Poste</th>
-                        <td>{{ Employe.poste}}</td>
+                        <th>{{ Employe.poste}}</th>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
