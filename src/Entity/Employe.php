@@ -70,6 +70,11 @@ class Employe extends User
     protected $nombreEnfant;
 
     /**
+     * @ORM\Column(type="date_immutable")
+     */
+    protected $dateRecrutement;
+
+    /**
      * @ORM\Column(type="float")
      */
     protected $Salaire_de_base;
@@ -218,6 +223,17 @@ class Employe extends User
     public function setNombreEnfant(?int $nombreEnfant): self
     {
         $this->nombreEnfant = $nombreEnfant;
+
+        return $this;
+    }
+    public function getDateRecrutement(): ?\DateTimeImmutable
+    {
+        return $this->dateRecrutement;
+    }
+
+    public function setDateRecrutement(\DateTimeImmutable $dateRecrutement): self
+    {
+        $this->dateRecrutement = $dateRecrutement;
 
         return $this;
     }

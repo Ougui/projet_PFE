@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
@@ -61,5 +62,36 @@ class ComptableController extends AbstractController
         $id= $this->getUser()->getId();
         return $this->render('comptable/historiquePresence.html.twig',
             ['Presence'=>$repository->findBy(['employe'=> $id ])]);
+    }
+    #[Route('/comptable/calculPaie', name: 'calculPaie')]
+    public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,EmployeRepository $employeRep): Response
+    {
+        $em = $employeRep->findAll();
+        $n = count($em);
+        for($i=0;$i<$n;$i++)
+        {
+           $id = $em[$i]->getId();
+           $dateRecrutement = $em[$i]->getDateRecrutement();
+           $salaire = $em[$i]->getSalaireDeBase();
+           $montant_h_s = $em[$i]->getPoste()->getMontantHeureSupp();
+           $salaire_heure = $em[$i]->getPoste()->getSalaireParHeure();
+           $bulletin = $bulletinRep->findBy(['employe'=> $id ]);
+           $ths = $bulletin[$i]->getTotalHeureSupp();
+           $tha = $bulletin[$i]->getTotalHeureAbs();
+           $bulletin[$i]->setDate(new \DateTime('now'));
+           $diff = strtotime($bulletin[$i]->getDate()->format('Y-m-d')) -strtotime($dateRecrutement->format('Y-m-d'));
+           $diff = $diff / 86400;
+           $anciennete = intdiv ($diff,365);
+           $iep=($anciennete/100) * $salaire;
+           $bulletin[$i]->setIEP($iep);
+           $allocF = ($em[$i]->getNombreEnfant())*600;
+           $bulletin[$i]->setAllocationFamiliale($allocF);
+           $t=$salaire+$iep+$allocF+($montant_h_s*$ths)-($salaire_heure*$tha);
+           $bulletin[$i]->setTotal($t);
+           $this->getDoctrine()->getManager()->persist($bulletin[$i]);
+           $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->render('comptable/calculPaie.html.twig');
     }
 }

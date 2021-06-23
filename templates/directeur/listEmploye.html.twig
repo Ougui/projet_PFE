@@ -1,58 +1,33 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-{% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-{% block title %}{% endblock %}
 {% block body %}
-    <h1> Liste des employés : </h1>
-    <table border="1">
-        <caption><h2>Liste des employés de la filiale :</h2></caption>
-
+    <h1>Liste des employés</h1>
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>Identifiant        </th>
-            <th>Nom                </th>
-            <th>Prénom             </th>
-            <th>Date de naissance  </th>
-            <th>Lieu de naissance  </th>
-            <th>Sexe               </th>
-            <th>Adresse            </th>
-            <th>Numéro de téléphone</th>
-            <th>CCP                </th>
-            <th>Situation familiale</th>
-            <th>Nombre d'enfant    </th>
-            <th>Salaire de base    </th>
-            <th>Filiale            </th>
-            <th>Poste              </th>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Poste</th>
+            <th scope="col">Filiale</th>
+            <th scope="col">Actions</th>
         </tr>
+        </thead>
+        <tbody>
         {% for Employe in Employes %}
             <tr>
-                <td>{{ Employe.id}}</td>
-                <td>{{ Employe.nom}}</td>
-                <td>{{ Employe.prenom}}</td>
-                {% if Employe.dateNaissance!=null  %}
-                    <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
-                {% else %}
-                    <td>null</td>
-                {% endif%}
-                <td>{{ Employe.lieuNaissance}}</td>
-                <td>{{ Employe.sexe}}</td>
-                <td>{{ Employe.adresse}}</td>
-                <td>{{ Employe.numeroTelephone}}</td>
-                <td>{{ Employe.ccp}}</td>
-                <td>{{ Employe.SituationFamiliale}}</td>
-                <td>{{ Employe.nombreEnfant}}</td>
-                <td>{{ Employe.SalaireDeBase}}</td>
-                <td>{{ Employe.filiale}}</td>
-                <td>{{ Employe.poste}}</td>
-                <td><a href="{{ path('directeur_profile_employe',{id:Employe.id})}}" class="">Visualiser</a></td>
+                <th scope="row">{{ Employe.id }}</th>
+                <td>{{ Employe.email }}</td>
+                <td>{{ Employe.nom }}</td>
+                <td>{{ Employe.prenom }}</td>
+                <td>{{ Employe.poste }}</td>
+                <td>{{ Employe.filiale }}</td>
+                <td>
+                    <a href="{{ path('directeur_profile_employe',{id:Employe.id})}}" class="btn btn-dark">Afficher</a>
+                </td>
             </tr>
         {% endfor %}
-
+        </tbody>
     </table>
-
-    <a href="{{ path('directeur')}}"> retour a la page  d'acceuil </a>
+    <a href="{{ path('directeur')}}"class="btn btn-dark"> retour a la page  d'acceuil </a>
 {% endblock %}

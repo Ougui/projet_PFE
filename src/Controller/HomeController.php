@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Comptable;
 use App\Entity\Directeur;
 use App\Entity\DirecteurGeneral;
@@ -49,9 +50,9 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Comptable();
-        $user->setRoles(['ROLE_COMPTABLE']);
-        $user->setEmail('c@c.c');
+        $user= new Employe();
+        $user->setRoles(['ROLE_EMPLOYE']);
+        $user->setEmail('em@em.em');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

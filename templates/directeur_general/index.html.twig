@@ -1,74 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace Personnel Directeur{% endblock %}
-
+{% block title %}Espace Personnel Directeur General {% endblock %}
+{% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
-    <table border="1">
-        <caption>Vos informations personnelles</caption>
+    <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark"> Mon Bulletin de paie </a>
+    <a href="{{ path('dg_historique_presence',{id:Employe.id}) }}"class="btn btn-dark"> Mon historique de presence </a>
+    <a href="{{ path('dg_lister_employe') }}"class="btn btn-dark">Afficher la liste des employés </a>
+    <br>
+    <br>
+    <table  class=" table-bordered center" >
+        <colgroup>
+            <col span="1" style="background-color:#383B3A">
+        </colgroup>
         <tr>
-            <th>ID         </th>
-            <td>{{ Employe.id}}</td>
-        <tr>
-            <th>Nom</th>
-            <td>{{ Employe.nom}}</td>
+            <th style="color:white" scope="col" >ID</th>
+            <th scope="col">{{ Employe.id}}</th>
+        </tr>
+
+
+        <tbody>
+        <th style="color:white">Nom </th>
+        <th>{{ Employe.nom}}</th>
         </tr>
         <tr>
-            <th>Prénom</th>
-            <td>{{ Employe.prenom}}</td>
+            <th style="color:white">Prénom</th>
+            <th>{{ Employe.prenom}}</th>
         </tr>
         <tr>
-            <th> Email</th>
+            <th style="color:white"> Email</th>
             <th>    {{ Employe.email }}   </th>
         </tr>
         <tr>
-            <th>Date de naissance</th>
-            <td>{{ Employe.dateNaissance.format('Y-m-d')}}</td>
+            <th style="color:white">Date de naissance</th>
+            <th>{{ Employe.dateNaissance.format('Y-m-d')}}</th>
         </tr>
-        <th>Lieu de naissance</th>
-        <td>{{ Employe.lieuNaissance}}</td>
+        <th style="color:white">Lieu de naissance</th>
+        <th>{{ Employe.lieuNaissance}}</th>
         <tr>
-            <th>Sexe</th>
-            <td>{{ Employe.sexe}}</td>
+            <th style="color:white">Sexe</th>
+            <th>{{ Employe.sexe}}</th>
         </tr>
-        <th>Adresse</th>
-        <td>{{ Employe.adresse}}</td>
+        <th style="color:white">Adresse</th>
+        <th>{{ Employe.adresse}}</th>
         <tr>
 
         </tr>
-        <th>Numero de telephone</th>
-        <td>{{ Employe.numeroTelephone}}</td>
+        <th style="color:white">Numero de telephone</th>
+        <th>{{ Employe.numeroTelephone}}</th>
         <tr>
-            <th>Code CCP</th>
-            <td>{{ Employe.ccp}}</td>
+            <th style="color:white">Code CCP</th>
+            <th>{{ Employe.ccp}}</th>
         </tr>
-        <th>Situation Familiale</th>
-        <td>{{ Employe.SituationFamiliale}}</td>
+        <th style="color:white">Situation Familiale</th>
+        <th>{{ Employe.SituationFamiliale}}</th>
         <tr>
-            <th>Nombre d'enfants</th>
-            <td>{{ Employe.nombreEnfant}}</td>
+            <th style="color:white">Nombre d'enfants</th>
+            <th>{{ Employe.nombreEnfant}}</th>
         </tr>
-        <th>Salaire de base</th>
-        <td>{{ Employe.SalaireDeBase}}</td>
+        <th style="color:white">Salaire de base</th>
+        <th>{{ Employe.SalaireDeBase}}.00 DA</th>
         <tr>
-            <th>Filiale</th>
-            <td>{{ Employe.filiale}}</td>
+            <th style="color:white">Filiale</th>
+            <th>{{ Employe.filiale}}</th>
         </tr>
         <tr>
-            <th>Poste</th>
-            <td>{{ Employe.poste}}</td>
+            <th style="color:white">Poste</th>
+            <th>{{ Employe.poste}}</th>
         </tr>
+        </tbody>
     </table>
-    <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-primary"> Mon Bulletin de paie </a>
-    <br>
-    <a href="{{ path('dg_historique_presence',{id:Employe.id}) }}"class="btn btn-primary"> Mon historique de presence </a>
-    <ul>
-        <li>
-            <a href="{{ path('dg_lister_employe') }}">Afficher la liste des employés </a>
-        </li>
-        <li>
-            <a href="{{ path('app_logout') }}"class="btn btn-primary"> Deconnexion </a>
-        </li>
-    </ul>
+    <br><br>
+    <a href="{{ path('app_logout') }}"class="btn btn-dark"> Deconnexion </a>
 
 {% endblock %}
