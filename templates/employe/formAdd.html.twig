@@ -1,22 +1,32 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Ajouter un employé!{% endblock %}
+{% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .row {
+            margin-left: 40%;
+            margin-right: auto;
+            width:  400px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 <div class="container">
-    <div id="header" class="hero-unit">
-        <h1>Ajouter un employé</h1>
-        <div class="well">
-            <div class="container-fluid">
-    {{ form_start(formila) }}
-    <div class="hero-unit">
-<div class="align-content-center">
-    <div class="row-cols-md-6">
+<h1>Ajouter un employé</h1>
+<div class="row">
+ {{ form_start(formila) }}
+    <div class="col-md-6">
         {{ form_row(formila.nom, { 'label': 'Nom' }) }}
         {{ form_row(formila.prenom, { 'label': 'Prenom' }) }}
         {{ form_row(formila.email, { 'label': 'Email' }) }}
         {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}
-        {{ form_row(formila.date_de_naissance, { 'label': 'Date de naissance' }) }}
-        {{ form_row(formila.lieu_de_naissance, { 'label': 'Lieu de naissance' }) }}
+        {{ form_row(formila.date_de_naissance, { 'label': 'Date de naissance' }) }}<br>
+        {{ form_row(formila.lieu_de_naissance, { 'label': 'Lieu de naissance' }) }}<br>
         {{ form_row(formila.sexe, { 'label': 'Sexe' }) }}
         {{ form_row(formila.address, { 'label': 'Adresse' }) }}
         {{ form_row(formila.numero, { 'label': 'Numero de telephone' }) }}
@@ -26,18 +36,12 @@
         {{ form_row(formila.salaire_de_base, { 'label': 'Salaire de base' }) }}
         {{ form_row(formila.roles, { 'label': 'Role' }) }}
         {{ form_row(formila.filiale, { 'label': 'Filiale' }) }}
-        {{ form_row(formila.poste, { 'label': 'Poste' }) }}
+        {{ form_row(formila.poste, { 'label': 'Poste' }) }}<br>
         {{ form_row(formila.Ajouter, { 'label': 'Ajouter' }) }}
-        {{ form_start(formila) }}
-    </div>
-</div>
-    </div>
-            </div>
         </div>
-    </div>
+        {{ form_end(formila) }}
+  </div>
 </div>
     <br>
-    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">
-        Retour
-    </a>
+    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">Retour</a>
 {% endblock %}

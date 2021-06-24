@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +55,7 @@ class RhController extends AbstractController
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
-            ->add('address')
+            ->add('address',TextareaType::class)
             ->add('numero',NumberType::class)
             ->add('ccp')
             ->add('situation_familiale', ChoiceType::class, [
@@ -136,7 +137,7 @@ class RhController extends AbstractController
             ])
             ->add('sexe', ChoiceType::class,[   'data'=> $employe->getSexe(),
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
-            ->add('address',TextType::class,  [
+            ->add('address',TextareaType::class,  [
                 'data' => $employe->getAdresse()
             ])
             ->add('numero',NumberType::class, [
