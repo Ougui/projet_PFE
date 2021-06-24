@@ -99,7 +99,7 @@ class ComptableController extends AbstractController
            $diff = strtotime($bulletin->getDate()->format('Y-m-d')) -strtotime($dateRecrutement->format('Y-m-d'));
            $diff = $diff / 86400;
            $anciennete = intdiv ($diff,365);
-           $iep=($anciennete/100) * $salaire;
+           $iep=($anciennete*$salaire) / 100;
            $bulletin->setIEP($iep);
            $allocF = ($em[$i]->getNombreEnfant())*600;
            $bulletin->setAllocationFamiliale($allocF);
