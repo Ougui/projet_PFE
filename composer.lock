@@ -7405,12 +7405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/uid.git",
-                "reference": "1bd3fc66651f945fee503464c3e0569e6a9d3953"
+                "reference": "0d77c09f1a7a9980b1239ac2f5a766db5461db1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/uid/zipball/1bd3fc66651f945fee503464c3e0569e6a9d3953",
-                "reference": "1bd3fc66651f945fee503464c3e0569e6a9d3953",
+                "url": "https://api.github.com/repos/symfony/uid/zipball/0d77c09f1a7a9980b1239ac2f5a766db5461db1d",
+                "reference": "0d77c09f1a7a9980b1239ac2f5a766db5461db1d",
                 "shasum": ""
             },
             "require": {
@@ -7470,7 +7470,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-12T10:16:15+00:00"
+            "time": "2021-06-24T08:13:23+00:00"
         },
         {
             "name": "symfony/validator",
@@ -10425,5 +10425,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
