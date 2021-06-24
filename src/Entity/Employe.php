@@ -74,10 +74,6 @@ class Employe extends User
      */
     protected $dateRecrutement;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    protected $Salaire_de_base;
 
     /**
      * @ORM\ManyToOne(targetEntity=Filiale::class, inversedBy="employes")
@@ -237,20 +233,6 @@ class Employe extends User
 
         return $this;
     }
-
-    public function getSalaireDeBase(): ?float
-    {
-        return $this->Salaire_de_base;
-    }
-
-    public function setSalaireDeBase(float $Salaire_de_base): self
-    {
-        $this->Salaire_de_base = $Salaire_de_base;
-
-        return $this;
-    }
-
-
 
     public function getFiliale(): ?Filiale
     {

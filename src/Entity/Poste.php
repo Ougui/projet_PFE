@@ -27,12 +27,7 @@ class Poste
     /**
      * @ORM\Column(type="float")
      */
-    private $MontantHeureSupp;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $SalaireParHeure;
+    protected $Salaire_de_base;
 
     /**
      * @ORM\Column(type="integer")
@@ -71,29 +66,6 @@ class Poste
         return $this;
     }
 
-    public function getMontantHeureSupp(): ?float
-    {
-        return $this->MontantHeureSupp;
-    }
-
-    public function setMontantHeureSupp(float $MontantHeureSupp): self
-    {
-        $this->MontantHeureSupp = $MontantHeureSupp;
-
-        return $this;
-    }
-
-    public function getSalaireParHeure(): ?float
-    {
-        return $this->SalaireParHeure;
-    }
-
-    public function setSalaireParHeure(float $SalaireParHeure): self
-    {
-        $this->SalaireParHeure = $SalaireParHeure;
-
-        return $this;
-    }
 
     public function getNbJourSemaine(): ?int
     {
@@ -115,6 +87,18 @@ class Poste
     public function setNbHeureJour(int $NbHeureJour): self
     {
         $this->NbHeureJour = $NbHeureJour;
+
+        return $this;
+    }
+
+    public function getSalaireDeBase(): ?float
+    {
+        return $this->Salaire_de_base;
+    }
+
+    public function setSalaireDeBase(float $Salaire_de_base): self
+    {
+        $this->Salaire_de_base = $Salaire_de_base;
 
         return $this;
     }

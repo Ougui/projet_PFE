@@ -17,7 +17,7 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} {{ Employe.prenom}}!</h1>
     <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark"> Mon Bulletin de paie </a>
     <a href="{{ path('dg_historique_presence',{id:Employe.id}) }}"class="btn btn-dark"> Mon historique de presence </a>
     <a href="{{ path('dg_lister_employe') }}"class="btn btn-dark">Afficher la liste des employés </a>
@@ -75,8 +75,6 @@
             <th style="color:white">Nombre d'enfants</th>
             <th>{{ Employe.nombreEnfant}}</th>
         </tr>
-        <th style="color:white">Salaire de base</th>
-        <th>{{ Employe.SalaireDeBase}}.00 DA</th>
         <tr>
             <th style="color:white">Filiale</th>
             <th>{{ Employe.filiale}}</th>

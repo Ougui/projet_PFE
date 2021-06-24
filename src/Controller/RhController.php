@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,23 +56,23 @@ class RhController extends AbstractController
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
-            ->add('address')
+            ->add('address',TextareaType::class)
             ->add('numero',NumberType::class)
             ->add('ccp')
             ->add('situation_familiale', ChoiceType::class, [
                 'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
 
             ->add('nombre_des_enfants',IntegerType::class)
-            ->add('salaire_de_base',IntegerType::class)
-            ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
-                'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])
-            ->add('filiale',EntityType::class,[
+           /* ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
+                'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])*/
+
+           /* ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
                         ->select('f');
                 }
-            ])
+            ])*/
             ->add('poste',EntityType::class,[
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
@@ -96,14 +97,15 @@ class RhController extends AbstractController
             $employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
-            $employe->setFiliale($data['filiale']);
+            $filiale=$this->getUser()->getFiliale();
+            $employe->setFiliale($filiale);
             $employe->setPoste($data['poste']);
-            $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
             $employe->setSexe($data['sexe']);
-            $employe->setRoles([$data['roles']]);
+            $employe->setRoles(['ROLE_EMPLOYE']);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('rh_lister_employe');
         }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
@@ -137,7 +139,7 @@ class RhController extends AbstractController
             ])
             ->add('sexe', ChoiceType::class,[ 'disabled' => 'true',  'data'=> $employe->getSexe(),
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
-            ->add('address',TextType::class,  [
+            ->add('address',TextareaType::class,  [
                 'data' => $employe->getAdresse()
             ])
             ->add('numero',NumberType::class, [
@@ -152,9 +154,7 @@ class RhController extends AbstractController
             ->add('nombre_des_enfants',IntegerType::class, [
                 'data' => $employe->getNombreEnfant()
             ])
-            ->add('salaire_de_base',IntegerType::class, [
-                'data' => $employe->getSalaireDeBase()
-            ])
+
             ->add('roles',ChoiceType::class,[  'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
@@ -189,7 +189,6 @@ class RhController extends AbstractController
             $employe->setFiliale($data['filiale']);
             $employe->setAdresse($data['address']);
             $employe->setPoste($data['poste']);
-            $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
             $employe->setSituationFamiliale($data['situation_familiale']);
             $employe->setRoles([$data['roles']]);
@@ -233,11 +232,12 @@ class RhController extends AbstractController
     {
         $form=$this->createFormBuilder()
             ->add('nom')
-            ->add('Montant_par_Heure_Supp', IntegerType::class)
-            ->add('Salaire_par_Heure',IntegerType::class)
             ->add('Nombre_Jour_par_Semaine',IntegerType::class)
             ->add('Nombre_Heure_par_jour',IntegerType::class)
+            ->add('salaire_de_base',IntegerType::class)
             ->add('submit',SubmitType::class)
+
+
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid())
@@ -245,10 +245,9 @@ class RhController extends AbstractController
             $data = $form->getData();
             $poste=new Poste();
             $poste->setNom($data['nom']);
-            $poste->setMontantHeureSupp($data['Montant_par_Heure_Supp']);
-            $poste->setSalaireParHeure($data['Salaire_par_Heure']);
             $poste->setNbJourSemaine($data['Nombre_Jour_par_Semaine']);
             $poste->setNbHeureJour($data['Nombre_Heure_par_jour']);
+            $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
 
@@ -303,17 +302,14 @@ class RhController extends AbstractController
             ->add('nom', TextType::class, [
                 'data' => $poste->getNom()
             ])
-            ->add('SalaireParHeureDeTravail', TextType::class, [
-                'data' => $poste->getSalaireParHeure()
-            ])
-            ->add('SalaireParHeureSupp',TextType::class, [
-                'data' => $poste->getMontantHeureSupp()
-            ])
             ->add('NombreDeJoursDeTravailParSemaine',TextType::class, [
                 'data' => $poste->getNbJourSemaine()
             ])
             ->add('NombreHeuresDeTravailParJour',TextType::class, [
                 'data' => $poste->getNbHeureJour()
+            ])
+            ->add('salaire_de_base',IntegerType::class, [
+                'data' => $poste->getSalaireDeBase()
             ])
             ->add('Confirmer',SubmitType::class)
 
@@ -323,10 +319,9 @@ class RhController extends AbstractController
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
             $poste->setNom($data['nom']);
-            $poste->setSalaireParHeure($data['SalaireParHeureDeTravail']);
-            $poste->setMontantHeureSupp($data['SalaireParHeureSupp']);
             $poste->setNbJourSemaine($data['NombreDeJoursDeTravailParSemaine']);
             $poste->setNbHeureJour($data ['NombreHeuresDeTravailParJour']);
+            $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
         }

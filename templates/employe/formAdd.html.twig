@@ -1,15 +1,7 @@
 {% extends 'base.html.twig' %}
+{% block title %}Ajouter un employé!{% endblock %}
 {% block stylesheets %}
     <style>
-        form
-        {
-            display: inline-grid;
-            width: 150px;
-        }
-        label
-        {
-            float: left;
-        }
         body {
             margin: 0;
             padding: 0;
@@ -17,39 +9,35 @@
             height: 100vh;
         }
         .row {
-            margin-left: auto;
+            margin-left: 40%;
             margin-right: auto;
             width:  400px;
         }
     </style>
 {% endblock %}
-{% block title %}Ajouter un employé!{% endblock %}
 {% block body %}
-        <h1>Ajouter un employé</h1>
-    <div class="container">
-
-    {{ form_start(formila) }}
-        {{ form_row(formila.nom,{'label': 'Nom' }) }}<br>
-        {{ form_row(formila.prenom, { 'label': 'Prenom' }) }}<br>
-        {{ form_row(formila.email, { 'label': 'Email' }) }}<br>
-        {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}<br>
+<div class="container">
+<h1>Ajouter un employé</h1>
+<div class="row">
+ {{ form_start(formila) }}
+    <div class="col-md-6">
+        {{ form_row(formila.nom, { 'label': 'Nom' }) }}
+        {{ form_row(formila.prenom, { 'label': 'Prenom' }) }}
+        {{ form_row(formila.email, { 'label': 'Email' }) }}
+        {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}
         {{ form_row(formila.date_de_naissance, { 'label': 'Date de naissance' }) }}<br>
         {{ form_row(formila.lieu_de_naissance, { 'label': 'Lieu de naissance' }) }}<br>
-        {{ form_row(formila.sexe, { 'label': 'Sexe' }) }}<br>
-        {{ form_row(formila.address, { 'label': 'Adresse' }) }}<br>
-        {{ form_row(formila.numero, { 'label': 'Numero de telephone' }) }}<br>
-        {{ form_row(formila.ccp, { 'label': 'Code CCP' }) }}<br>
+        {{ form_row(formila.address, { 'label': 'Adresse' }) }}
+        {{ form_row(formila.numero, { 'label': 'Numero de telephone' }) }}
+        {{ form_row(formila.ccp, { 'label': 'Code CCP' }) }}
+        {{ form_row(formila.nombre_des_enfants, { 'label': 'Nombre d\'enfants' }) }}
         {{ form_row(formila.situation_familiale, { 'label': 'Situation familiale' }) }}<br>
-        {{ form_row(formila.nombre_des_enfants, { 'label': 'Nombre d\'enfants' }) }}<br>
-        {{ form_row(formila.salaire_de_base, { 'label': 'Salaire de base' }) }}<br>
-        {{ form_row(formila.roles, { 'label': 'Role' }) }}<br>
-        {{ form_row(formila.filiale, { 'label': 'Filiale' }) }}<br>
+        {{ form_row(formila.sexe, { 'label': 'Sexe' }) }}<br>
         {{ form_row(formila.poste, { 'label': 'Poste' }) }}<br>
         {{ form_row(formila.Ajouter, { 'label': 'Ajouter' }) }}
+        </div>
         {{ form_end(formila) }}
-</div>
+  </div>
     <br>
-    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">
-        Retour
-    </a>
+    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">Retour</a>
 {% endblock %}

@@ -79,9 +79,11 @@ class ComptableController extends AbstractController
         {
            $id = $em[$i]->getId();
            $dateRecrutement = $em[$i]->getDateRecrutement();
-           $salaire = $em[$i]->getSalaireDeBase();
-         //  $montant_h_s = $em[$i]->getPoste()->getMontantHeureSupp();
-           $salaire_heure = $em[$i]->getPoste()->getSalaireParHeure();
+           $salaire = $em[$i]->getPoste()->getSalaireDeBase();
+           $heure_jour = $em[$i]->getPoste()->getNbHeureJour();
+           $jour_semaine = $em[$i]->getPoste()->getNbJourSemaine();
+           $heure_mois = $heure_jour * $jour_semaine * 4;
+           $salaire_heure = $salaire/$heure_mois;
            $bulletin = new Bulletin();
            $bulletin->setEmploye($em[$i]);
            $pr = $presenceRep->findAll();
@@ -93,6 +95,7 @@ class ComptableController extends AbstractController
                 {
                    $tr = strtotime($pr[$j]->getHeureOut()->format('H:i')) - strtotime($pr[$j]->getHeureIn()->format('H:i'));
                    $travail= $travail + ($tr/3600);
+                   $this->getDoctrine()->getManager()->remove($pr[$j]);
                 }
             }
            $bulletin->setDate(new \DateTime('now'));
@@ -105,9 +108,6 @@ class ComptableController extends AbstractController
            $bulletin->setAllocationFamiliale($allocF);
            $t=$iep+$allocF+($salaire_heure*$travail);
            $bulletin->setTotal($t);
-            $heure_jour = $em[$i]->getPoste()->getNbHeureJour();
-            $jour_semaine = $em[$i]->getPoste()->getNbJourSemaine();
-            $heure_mois = $heure_jour * $jour_semaine * 4;
            if ($travail < $heure_mois)
            {
                $bulletin->setTotalHeureAbs($heure_mois - $travail);
