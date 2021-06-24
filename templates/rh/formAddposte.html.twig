@@ -1,11 +1,35 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Ajouter Poste!{% endblock %}
+{% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .row {
+            margin-left: 40%;
+            margin-right: 40%;
+            width:  400px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <h1>Ajouter un poste</h1>
     <hr>
-    {{ form(formPost) }}
+<div class="row">
+    {{ form_start(formPost) }}
+    <div class="col-md-6">
+        {{ form_row(formPost.nom, { 'label': 'Nom poste' }) }}
+        {{ form_row(formila.salaire_de_base, { 'label': 'Salaire de base' }) }}
+        {{ form_row(formPost.Nombre_Jour_par_Semaine, { 'label': 'Nombre jour par semaine' }) }}
+        {{ form_row(formPost.Nombre_Heure_par_jour, { 'label': 'nombre heure par jour' }) }}<br>
+        {{ form_row(formPost.submit, { 'label': 'Submit' }) }}
+    </div>
+    {{ form_end(formPost) }}
+</div>
     <br>
-    <br>
+    <hr>
     <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
 {% endblock %}

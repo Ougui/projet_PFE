@@ -17,7 +17,7 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} !</h1>
+    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} {{Employe.prenom}} !</h1>
     <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark"> Mon Bulletin de paie</a>
     <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark"> Mon Historique De Présence</a>
     <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">Gestion des Employés</a>
@@ -74,8 +74,6 @@
             <th style="color:white">Nombre d'enfants</th>
             <th>{{ Employe.nombreEnfant}}</th>
         </tr>
-        <th style="color:white">Salaire de base</th>
-        <th>{{ Employe.SalaireDeBase}}.00 DA</th>
         <tr>
             <th style="color:white">Filiale</th>
             <th>{{ Employe.filiale}}</th>
@@ -88,6 +86,7 @@
     </table>
     <br>
     <br>
+    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
     <a href="{{ path('app_logout') }}" class="btn btn-dark">Deconnexion</a>
 {% endblock %}
 

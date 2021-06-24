@@ -1,11 +1,36 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Modifier un poste!{% endblock %}
+{% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .row {
+            margin-left: 40%;
+            margin-right: 40%;
+            width:  400px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
     <h1>Mdification poste de travail</h1>
     <hr>
-    {{ form(formila) }}
-    <br>
-    <br>
+    <div class="row">
+        {{ form_start(formila) }}
+        <div class="col-md-6">
+            {{ form_row(formila.nom, { 'label': 'Nom poste' }) }}<br>
+            {{ form_row(formila.salaire_de_base, { 'label': 'Salaire de base' }) }}<br>
+            {{ form_row(formila.NombreDeJoursDeTravailParSemaine, { 'label': 'Nombre jour de travail par semaine' }) }}<br>
+            {{ form_row(formila.NombreHeuresDeTravailParJour, { 'label': 'nombre heure de travail par jour' }) }}<br>
+            {{ form_row(formila.Confirmer, { 'label': 'Confirmer' }) }}<br>
+        </div>
+        {{ form_end(formila) }}
+    </div>
+    <hr>
     <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
+    <br>
+    <br>
 {% endblock %}

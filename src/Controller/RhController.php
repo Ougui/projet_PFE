@@ -9,6 +9,7 @@ use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
+use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -51,7 +52,7 @@ class RhController extends AbstractController
             ->add('prenom')
             ->add('email',EmailType::class)
             ->add('password',PasswordType::class)
-            ->add('date_de_naissance',DateType::class)
+            ->add('date_de_naissance',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
@@ -62,16 +63,16 @@ class RhController extends AbstractController
                 'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
 
             ->add('nombre_des_enfants',IntegerType::class)
-            ->add('salaire_de_base',IntegerType::class)
-            ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
-                'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])
-            ->add('filiale',EntityType::class,[
+           /* ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
+                'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])*/
+
+           /* ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
                         ->select('f');
                 }
-            ])
+            ])*/
             ->add('poste',EntityType::class,[
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
@@ -96,14 +97,15 @@ class RhController extends AbstractController
             $employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
-            $employe->setFiliale($data['filiale']);
+            $filiale=$this->getUser()->getFiliale();
+            $employe->setFiliale($filiale);
             $employe->setPoste($data['poste']);
-            $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
             $employe->setSexe($data['sexe']);
-            $employe->setRoles([$data['roles']]);
+            $employe->setRoles(['ROLE_EMPLOYE']);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('rh_lister_employe');
         }
         return $this->render('employe/formAdd.html.twig',['formila'=>$form->createView()]);
     }
@@ -117,10 +119,10 @@ class RhController extends AbstractController
         $form=$this->createFormBuilder()
           //  'disabled' => true,
 
-            ->add('nom', TextType::class, [
+            ->add('nom', TextType::class, [ 'disabled' => 'true',
                 'data' => $employe->getNom()
             ])
-            ->add('prenom', TextType::class, [
+            ->add('prenom', TextType::class, [ 'disabled' => 'true',
                 'data' => $employe->getPrenom()
             ])
             ->add('email',EmailType::class, [
@@ -129,13 +131,13 @@ class RhController extends AbstractController
             ->add('password',PasswordType::class, [
                 'data' => $employe->getPassword()
             ])
-            ->add('date_de_naissance',TextType::class, [
+            ->add('date_de_naissance',TextType::class, [ 'disabled' => 'true' ,
                 'data' => $employe->getDateNaissance()->format('Y-m-d')
             ])
-            ->add('lieu_de_naissance', TextType::class,[
+            ->add('lieu_de_naissance', TextType::class,[ 'disabled' => 'true',
                 'data' => $employe->getLieuNaissance()
             ])
-            ->add('sexe', ChoiceType::class,[   'data'=> $employe->getSexe(),
+            ->add('sexe', ChoiceType::class,[ 'disabled' => 'true',  'data'=> $employe->getSexe(),
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
             ->add('address',TextareaType::class,  [
                 'data' => $employe->getAdresse()
@@ -152,9 +154,7 @@ class RhController extends AbstractController
             ->add('nombre_des_enfants',IntegerType::class, [
                 'data' => $employe->getNombreEnfant()
             ])
-            ->add('salaire_de_base',IntegerType::class, [
-                'data' => $employe->getSalaireDeBase()
-            ])
+
             ->add('roles',ChoiceType::class,[  'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
@@ -177,20 +177,20 @@ class RhController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
-            $employe->setNom($data['nom']);
-            $employe->setPrenom($data['prenom']);
+        //    $employe->setNom($data['nom']);
+          //  $employe->setPrenom($data['prenom']);
             $employe->setEmail($data['email']);
             $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
             $employe->setPassword($MotdePasseCrypte);
-            $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
-            $employe->setLieuNaissance($data['lieu_de_naissance']);
+            //$employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
+            //$employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
             $employe->setFiliale($data['filiale']);
             $employe->setAdresse($data['address']);
             $employe->setPoste($data['poste']);
-            $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
+            $employe->setSituationFamiliale($data['situation_familiale']);
             $employe->setRoles([$data['roles']]);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
@@ -232,11 +232,12 @@ class RhController extends AbstractController
     {
         $form=$this->createFormBuilder()
             ->add('nom')
-            ->add('Montant_par_Heure_Supp', IntegerType::class)
-            ->add('Salaire_par_Heure',IntegerType::class)
             ->add('Nombre_Jour_par_Semaine',IntegerType::class)
             ->add('Nombre_Heure_par_jour',IntegerType::class)
+            ->add('salaire_de_base',IntegerType::class)
             ->add('submit',SubmitType::class)
+
+
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid())
@@ -244,10 +245,9 @@ class RhController extends AbstractController
             $data = $form->getData();
             $poste=new Poste();
             $poste->setNom($data['nom']);
-            $poste->setMontantHeureSupp($data['Montant_par_Heure_Supp']);
-            $poste->setSalaireParHeure($data['Salaire_par_Heure']);
             $poste->setNbJourSemaine($data['Nombre_Jour_par_Semaine']);
             $poste->setNbHeureJour($data['Nombre_Heure_par_jour']);
+            $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
 
@@ -302,17 +302,14 @@ class RhController extends AbstractController
             ->add('nom', TextType::class, [
                 'data' => $poste->getNom()
             ])
-            ->add('SalaireParHeureDeTravail', TextType::class, [
-                'data' => $poste->getSalaireParHeure()
-            ])
-            ->add('SalaireParHeureSupp',TextType::class, [
-                'data' => $poste->getMontantHeureSupp()
-            ])
             ->add('NombreDeJoursDeTravailParSemaine',TextType::class, [
                 'data' => $poste->getNbJourSemaine()
             ])
             ->add('NombreHeuresDeTravailParJour',TextType::class, [
                 'data' => $poste->getNbHeureJour()
+            ])
+            ->add('salaire_de_base',IntegerType::class, [
+                'data' => $poste->getSalaireDeBase()
             ])
             ->add('Confirmer',SubmitType::class)
 
@@ -322,10 +319,9 @@ class RhController extends AbstractController
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
             $poste->setNom($data['nom']);
-            $poste->setSalaireParHeure($data['SalaireParHeureDeTravail']);
-            $poste->setMontantHeureSupp($data['SalaireParHeureSupp']);
             $poste->setNbJourSemaine($data['NombreDeJoursDeTravailParSemaine']);
             $poste->setNbHeureJour($data ['NombreHeuresDeTravailParJour']);
+            $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
         }
@@ -338,5 +334,27 @@ class RhController extends AbstractController
         $this->getDoctrine()->getManager()->remove($poste);
         $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute('rh_lister_poste');
+    }
+    #[Route('/rh/modifierMdp/{id}', name: 'rh_modifier_mdp')]
+    public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('password',PasswordType::class)
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('rh/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
 }

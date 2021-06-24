@@ -50,7 +50,7 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new Employe();
+        $user= new User();
         $user->setRoles(['ROLE_ADMIN']);
         $user->setEmail('a@a.a');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');

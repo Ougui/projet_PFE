@@ -5,8 +5,12 @@ use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DirecteurGeneralController extends AbstractController
 {
@@ -68,5 +72,27 @@ class DirecteurGeneralController extends AbstractController
         $id = $employeRepository->find($id);
         return $this->render('directeur_general/presenceEmploye.html.twig',
             ['Presence' => $repository->findBy(['employe' => $id])]);
+    }
+    #[Route('/dg/modifierMdp/{id}', name: 'dg_modifier_mdp')]
+    public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('password',PasswordType::class)
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('directeur_general/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
 }
