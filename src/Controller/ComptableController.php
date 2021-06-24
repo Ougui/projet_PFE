@@ -1,13 +1,19 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Bulletin;
 use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use function Symfony\Component\String\s;
 
 class ComptableController extends AbstractController
 {
@@ -64,7 +70,8 @@ class ComptableController extends AbstractController
             ['Presence'=>$repository->findBy(['employe'=> $id ])]);
     }
     #[Route('/comptable/calculPaie', name: 'calculPaie')]
-    public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,EmployeRepository $employeRep): Response
+    public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,
+                               EmployeRepository $employeRep,PresenceRepository $presenceRep): Response
     {
         $em = $employeRep->findAll();
         $n = count($em);
@@ -73,25 +80,70 @@ class ComptableController extends AbstractController
            $id = $em[$i]->getId();
            $dateRecrutement = $em[$i]->getDateRecrutement();
            $salaire = $em[$i]->getSalaireDeBase();
-           $montant_h_s = $em[$i]->getPoste()->getMontantHeureSupp();
+         //  $montant_h_s = $em[$i]->getPoste()->getMontantHeureSupp();
            $salaire_heure = $em[$i]->getPoste()->getSalaireParHeure();
-           $bulletin = $bulletinRep->findBy(['employe'=> $id ]);
-           $ths = $bulletin[$i]->getTotalHeureSupp();
-           $tha = $bulletin[$i]->getTotalHeureAbs();
-           $bulletin[$i]->setDate(new \DateTime('now'));
-           $diff = strtotime($bulletin[$i]->getDate()->format('Y-m-d')) -strtotime($dateRecrutement->format('Y-m-d'));
+           $bulletin = new Bulletin();
+           $bulletin->setEmploye($em[$i]);
+           $pr = $presenceRep->findAll();
+           $p = count($pr);
+           $travail = 0;
+            for($j=0;$j<$p;$j++)
+            {
+                if ($pr[$j]->getEmploye()->getId()==$id)
+                {
+                   $tr = strtotime($pr[$j]->getHeureOut()->format('H:i')) - strtotime($pr[$j]->getHeureIn()->format('H:i'));
+                   $travail= $travail + ($tr/3600);
+                }
+            }
+           $bulletin->setDate(new \DateTime('now'));
+           $diff = strtotime($bulletin->getDate()->format('Y-m-d')) -strtotime($dateRecrutement->format('Y-m-d'));
            $diff = $diff / 86400;
            $anciennete = intdiv ($diff,365);
            $iep=($anciennete/100) * $salaire;
-           $bulletin[$i]->setIEP($iep);
+           $bulletin->setIEP($iep);
            $allocF = ($em[$i]->getNombreEnfant())*600;
-           $bulletin[$i]->setAllocationFamiliale($allocF);
-           $t=$salaire+$iep+$allocF+($montant_h_s*$ths)-($salaire_heure*$tha);
-           $bulletin[$i]->setTotal($t);
-           $this->getDoctrine()->getManager()->persist($bulletin[$i]);
+           $bulletin->setAllocationFamiliale($allocF);
+           $t=$iep+$allocF+($salaire_heure*$travail);
+           $bulletin->setTotal($t);
+            $heure_jour = $em[$i]->getPoste()->getNbHeureJour();
+            $jour_semaine = $em[$i]->getPoste()->getNbJourSemaine();
+            $heure_mois = $heure_jour * $jour_semaine * 4;
+           if ($travail < $heure_mois)
+           {
+               $bulletin->setTotalHeureAbs($heure_mois - $travail);
+               $bulletin->setTotalHeureSupp(0);
+           }
+           else
+           {
+               $bulletin->setTotalHeureSupp($travail - $heure_mois);
+               $bulletin->setTotalHeureAbs(0);
+           }
+           $this->getDoctrine()->getManager()->persist($bulletin);
            $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->render('comptable/calculPaie.html.twig');
+    }
+    #[Route('/comptable/modifierMdp/{id}', name: 'comptable_modifier_mdp')]
+    public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('password',PasswordType::class)
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
 }

@@ -9,6 +9,7 @@ use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
+use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -50,7 +51,7 @@ class RhController extends AbstractController
             ->add('prenom')
             ->add('email',EmailType::class)
             ->add('password',PasswordType::class)
-            ->add('date_de_naissance',DateType::class)
+            ->add('date_de_naissance',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
@@ -116,10 +117,10 @@ class RhController extends AbstractController
         $form=$this->createFormBuilder()
           //  'disabled' => true,
 
-            ->add('nom', TextType::class, [
+            ->add('nom', TextType::class, [ 'disabled' => 'true',
                 'data' => $employe->getNom()
             ])
-            ->add('prenom', TextType::class, [
+            ->add('prenom', TextType::class, [ 'disabled' => 'true',
                 'data' => $employe->getPrenom()
             ])
             ->add('email',EmailType::class, [
@@ -128,13 +129,13 @@ class RhController extends AbstractController
             ->add('password',PasswordType::class, [
                 'data' => $employe->getPassword()
             ])
-            ->add('date_de_naissance',TextType::class, [
+            ->add('date_de_naissance',TextType::class, [ 'disabled' => 'true' ,
                 'data' => $employe->getDateNaissance()->format('Y-m-d')
             ])
-            ->add('lieu_de_naissance', TextType::class,[
+            ->add('lieu_de_naissance', TextType::class,[ 'disabled' => 'true',
                 'data' => $employe->getLieuNaissance()
             ])
-            ->add('sexe', ChoiceType::class,[   'data'=> $employe->getSexe(),
+            ->add('sexe', ChoiceType::class,[ 'disabled' => 'true',  'data'=> $employe->getSexe(),
                 'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
             ->add('address',TextType::class,  [
                 'data' => $employe->getAdresse()
@@ -176,13 +177,13 @@ class RhController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
-            $employe->setNom($data['nom']);
-            $employe->setPrenom($data['prenom']);
+        //    $employe->setNom($data['nom']);
+          //  $employe->setPrenom($data['prenom']);
             $employe->setEmail($data['email']);
             $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
             $employe->setPassword($MotdePasseCrypte);
-            $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
-            $employe->setLieuNaissance($data['lieu_de_naissance']);
+            //$employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
+            //$employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
             $employe->setFiliale($data['filiale']);
@@ -190,6 +191,7 @@ class RhController extends AbstractController
             $employe->setPoste($data['poste']);
             $employe->setSalaireDeBase($data['salaire_de_base']);
             $employe->setCcp($data['ccp']);
+            $employe->setSituationFamiliale($data['situation_familiale']);
             $employe->setRoles([$data['roles']]);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
@@ -337,5 +339,27 @@ class RhController extends AbstractController
         $this->getDoctrine()->getManager()->remove($poste);
         $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute('rh_lister_poste');
+    }
+    #[Route('/rh/modifierMdp/{id}', name: 'rh_modifier_mdp')]
+    public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('password',PasswordType::class)
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('rh/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
 }

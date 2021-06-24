@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau mot de passe{% endblock %}
+{% block body %}
+    <h1>Nouveau mot de passe</h1>
+    {{ form(formila) }}
+    <br>
+    <a href="{{ path('directeur_general') }}" class="btn btn-dark">
+        Retour
+    </a>
+{% endblock %}
