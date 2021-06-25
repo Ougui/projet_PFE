@@ -146,4 +146,28 @@ class ComptableController extends AbstractController
         }
         return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
+    /*
+    #[Route('/pointage/{id}', name: 'pointage')]
+    public function pointage(Request $request,UserPasswordEncoderInterface $encoder,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $employe=$employeRepository->find($id);
+        $presence= new Presence();
+        $presence->setEmploye($employe);
+        $form=$this->createFormBuilder()
+            ->add('password',PasswordType::class)
+            ->add('Confirmer',SubmitType::class)
+
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte);
+            $this->getDoctrine()->getManager()->persist($employe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
+    } */
 }

@@ -155,14 +155,14 @@ class RhController extends AbstractController
                 'data' => $employe->getNombreEnfant()
             ])
 
-            ->add('roles',ChoiceType::class,[  'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
+          /*  ->add('roles',ChoiceType::class,[  'choices'  => ['Employé' => 'ROLE_EMPLOYE']])
             ->add('filiale',EntityType::class,[
                 'class'=>Filiale::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
                         ->select('f');
                 }
-            ])
+            ]) */
             ->add('poste',EntityType::class,[
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
@@ -186,12 +186,12 @@ class RhController extends AbstractController
             //$employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setNumeroTelephone($data['numero']);
-            $employe->setFiliale($data['filiale']);
+          //  $employe->setFiliale($data['filiale']);
             $employe->setAdresse($data['address']);
             $employe->setPoste($data['poste']);
             $employe->setCcp($data['ccp']);
             $employe->setSituationFamiliale($data['situation_familiale']);
-            $employe->setRoles([$data['roles']]);
+         //   $employe->setRoles([$data['roles']]);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
         }

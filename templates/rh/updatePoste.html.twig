@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Modifier un poste!{% endblock %}
+{% block title %}Modifier un poste{% endblock %}
 {% block stylesheets %}
     <style>
         body {
@@ -10,13 +10,13 @@
         }
         .row {
             margin-left: 40%;
-            margin-right: 40%;
-            width:  400px;
+            margin-right: auto;
+            width:  500px;
         }
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Mdification poste de travail</h1>
+    <h1>Modification poste de travail</h1>
     <hr>
     <div class="row">
         {{ form_start(formila) }}
@@ -26,11 +26,9 @@
             {{ form_row(formila.NombreDeJoursDeTravailParSemaine, { 'label': 'Nombre jour de travail par semaine' }) }}<br>
             {{ form_row(formila.NombreHeuresDeTravailParJour, { 'label': 'nombre heure de travail par jour' }) }}<br>
             {{ form_row(formila.Confirmer, { 'label': 'Confirmer' }) }}<br>
+            <br>
+            <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
         </div>
         {{ form_end(formila) }}
     </div>
-    <hr>
-    <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
-    <br>
-    <br>
 {% endblock %}

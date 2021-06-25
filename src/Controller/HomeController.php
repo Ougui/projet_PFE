@@ -35,10 +35,9 @@ class HomeController extends AbstractController
     public function CreateUser(UserPasswordEncoderInterface $encoder): Response
     {
         $post= new Poste();
-        $post->setMontantHeureSupp(0);
         $post->setNbHeureJour(0);
         $post->setNbJourSemaine(0);
-        $post->setSalaireParHeure(0);
+        $post->setSalaireDeBase(0);
         $post->setNom('Em');
         $this->getDoctrine()->getManager()->persist($post);
         $this->getDoctrine()->getManager()->flush();
@@ -50,9 +49,9 @@ class HomeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
-        $user= new User();
-        $user->setRoles(['ROLE_ADMIN']);
-        $user->setEmail('a@a.a');
+        $user= new Employe();
+        $user->setRoles(['ROLE_RH']);
+        $user->setEmail('r@r.r');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);
