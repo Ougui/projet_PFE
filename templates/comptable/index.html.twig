@@ -5,7 +5,6 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #e6e9f2;
             height: 100vh;
         }
         .center {
@@ -16,7 +15,9 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}!</h1>
+
+    <h1 style="color:#2E8B57"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
+    <hr>
     <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark"> Mon Bulletin de paie </a>
     <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark"> Mon historique de presence </a>
     <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark">Afficher la liste des employés </a>
@@ -25,68 +26,68 @@
     <br>
     <table  class=" table-bordered center" >
         <colgroup>
-            <col span="1" style="background-color:#383B3A">
+            <col span="1" style="background-color:#20B2AA">
         </colgroup>
         <colgroup>
-            <col span="1" style="background-color:white">
+            <col span="1" style="background-color:#20B2AA">
         </colgroup>
         <tr>
-            <th style="color:white" scope="col" >ID</th>
-            <th scope="col">{{ Employe.id}}</th>
+            <th style="color:#000000" scope="col" width="40%"> ID</th>
+            <th scope="col" width="60%" style="color:#000000"><span style="font-weight:normal;">{{ Employe.id}}</span></th>
         </tr>
 
 
         <tbody>
-        <th style="color:white">Nom </th>
-        <th>{{ Employe.nom}}</th>
+        <th style="color:#000000">Nom </th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nom}}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Prénom</th>
-            <th>{{ Employe.prenom}}</th>
+            <th style="color:#000000">Prénom</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.prenom}}</span></th>
         </tr>
         <tr>
-            <th style="color:white"> Email</th>
-            <th>    {{ Employe.email }}   </th>
+            <th style="color:#000000"> Email</th>
+            <th style="color:#000000"> <span style="font-weight:normal;">{{ Employe.email }}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Date de naissance</th>
-            <th>{{ Employe.dateNaissance.format('Y-m-d')}}</th>
+            <th style="color:#000000">Date de naissance</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.dateNaissance.format('Y-m-d')}}</span></th>
         </tr>
-        <th style="color:white">Lieu de naissance</th>
-        <th>{{ Employe.lieuNaissance}}</th>
+        <th style="color:#000000">Lieu de naissance</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.lieuNaissance}}</span></th>
         <tr>
-            <th style="color:white">Sexe</th>
-            <th>{{ Employe.sexe}}</th>
+            <th style="color:#000000">Sexe</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.sexe}}</span></th>
         </tr>
-        <th style="color:white">Adresse</th>
-        <th>{{ Employe.adresse}}</th>
+        <th style="color:#000000">Adresse</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.adresse}}</span></th>
         <tr>
 
         </tr>
-        <th style="color:white">Numero de telephone</th>
-        <th>{{ Employe.numeroTelephone}}</th>
+        <th style="color:#000000">Numero de telephone</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.numeroTelephone}}</span></th>
         <tr>
-            <th style="color:white">Code CCP</th>
-            <th>{{ Employe.ccp}}</th>
+            <th style="color:#000000">Code CCP</th>
+            <th style="color:#000000">{{ Employe.ccp}}</th>
         </tr>
-        <th style="color:white">Situation Familiale</th>
-        <th>{{ Employe.SituationFamiliale}}</th>
+        <th style="color:#000000">Situation Familiale</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.SituationFamiliale}}</span></th>
         <tr>
-            <th style="color:white">Nombre d'enfants</th>
-            <th>{{ Employe.nombreEnfant}}</th>
-        </tr>
-        <tr>
-            <th style="color:white">Filiale</th>
-            <th>{{ Employe.filiale}}</th>
+            <th style="color:#000000">Nombre d'enfants</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nombreEnfant}}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Poste</th>
-            <th>{{ Employe.poste}}</th>
+            <th style="color:#000000">Filiale</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.filiale}}</span></th>
+        </tr>
+        <tr>
+            <th style="color:#000000">Poste</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.poste}}</span></th>
         </tr>
         </tbody>
     </table>
     <br><br>
     <a href="{{ path('comptable_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}"class="btn btn-dark"> Deconnexion </a>
+    <a href="{{ path('app_logout') }}"class="btn btn-dark"> Deconnexion </a><br>
 {% endblock %}
 

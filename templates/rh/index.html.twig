@@ -23,8 +23,6 @@
     <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark"> Mon Historique De Présence</a>
     <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">Gestion des Employés</a>
     <a href="{{ path('rh_lister_poste') }}" class="btn btn-dark">Gestion des Postes</a>
-    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}" class="btn btn-dark">Deconnexion</a>
     <br>
     <br>
     <br>
@@ -95,6 +93,9 @@
         </tr>
         </tbody>
     </table>
+    <br>
+    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
+    <a href="{{ path('app_logout') }}" class="btn btn-dark">Deconnexion</a>
 {% endblock %}
 
 

@@ -15,9 +15,9 @@
         {% block stylesheets %}
         <style>
             body {
+                background-size: cover;
                 margin: 0;
                 padding: 0;
-                background-color: #e6e9f2;
                 height: 100vh;
             }
         </style>
@@ -29,8 +29,8 @@
         {% endblock %}
     </head>
     <body class="text-center">
+    <header class="masthead" style="background-image: url('{{asset('/images/back.png')}}')">
         {% block body %}
-
         {% endblock %}
     </body>
 </html>

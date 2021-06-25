@@ -10,7 +10,7 @@
          body {
              margin: 0;
              padding: 0;
-             background-color: #e6e9f2;
+             background-color: white;
              height: 100vh;
          }
      </style>
@@ -19,63 +19,63 @@
     <h1> Profil de {{ Employe.nom}} {{ Employe.prenom}} </h1>
     <table  class=" table-bordered center" >
         <colgroup>
-            <col span="1" style="background-color:#383B3A">
+            <col span="1" style="background-color:#242B32">
         </colgroup>
         <colgroup>
-            <col span="1" style="background-color:white">
+            <col span="1" style="background-color:#242B32">
         </colgroup>
         <tr>
-            <th style="color:white" scope="col" >ID</th>
-            <th scope="col">{{ Employe.id}}</th>
+            <th style="color:whitesmoke" scope="col" >ID</th>
+            <th scope="col"style="color:whitesmoke">{{ Employe.id}}</th>
         </tr>
 
 
         <tbody>
-        <th style="color:white">Nom </th>
-        <th>{{ Employe.nom}}</th>
+        <th style="color:whitesmoke">Nom </th>
+        <th style="color:whitesmoke">{{ Employe.nom}}</th>
         </tr>
         <tr>
-            <th style="color:white">Prénom</th>
-            <th>{{ Employe.prenom}}</th>
+            <th style="color:whitesmoke">Prénom</th>
+            <th style="color:whitesmoke">{{ Employe.prenom}}</th>
         </tr>
         <tr>
-            <th style="color:white"> Email</th>
-            <th>    {{ Employe.email }}   </th>
+            <th style="color:whitesmoke"> Email</th>
+            <th style="color:whitesmoke">    {{ Employe.email }}   </th>
         </tr>
         <tr>
-            <th style="color:white">Date de naissance</th>
-            <th>{{ Employe.dateNaissance.format('Y-m-d')}}</th>
+            <th style="color:whitesmoke">Date de naissance</th>
+            <th style="color:whitesmoke">{{ Employe.dateNaissance.format('Y-m-d')}}</th>
         </tr>
-        <th style="color:white">Lieu de naissance</th>
-        <th>{{ Employe.lieuNaissance}}</th>
+        <th style="color:whitesmoke">Lieu de naissance</th>
+        <th style="color:whitesmoke">{{ Employe.lieuNaissance}}</th>
         <tr>
-            <th style="color:white">Sexe</th>
-            <th>{{ Employe.sexe}}</th>
+            <th style="color:whitesmoke">Sexe</th>
+            <th style="color:whitesmoke">{{ Employe.sexe}}</th>
         </tr>
-        <th style="color:white">Adresse</th>
-        <th>{{ Employe.adresse}}</th>
+        <th style="color:whitesmoke">Adresse</th>
+        <th style="color:whitesmoke">{{ Employe.adresse}}</th>
         <tr>
 
         </tr>
-        <th style="color:white">Numero de telephone</th>
-        <th>{{ Employe.numeroTelephone}}</th>
+        <th style="color:whitesmoke">Numero de telephone</th>
+        <th style="color:whitesmoke">{{ Employe.numeroTelephone}}</th>
         <tr>
-            <th style="color:white">Code CCP</th>
-            <th>{{ Employe.ccp}}</th>
+            <th style="color:whitesmoke">Code CCP</th>
+            <th style="color:whitesmoke">{{ Employe.ccp}}</th>
         </tr>
-        <th style="color:white">Situation Familiale</th>
-        <th>{{ Employe.SituationFamiliale}}</th>
+        <th style="color:whitesmoke">Situation Familiale</th>
+        <th style="color:whitesmoke">{{ Employe.SituationFamiliale}}</th>
         <tr>
-            <th style="color:white">Nombre d'enfants</th>
-            <th>{{ Employe.nombreEnfant}}</th>
-        </tr>
-        <tr>
-            <th style="color:white">Filiale</th>
-            <th>{{ Employe.filiale}}</th>
+            <th style="color:whitesmoke">Nombre d'enfants</th>
+            <th style="color:whitesmoke">{{ Employe.nombreEnfant}}</th>
         </tr>
         <tr>
-            <th style="color:white">Poste</th>
-            <th>{{ Employe.poste}}</th>
+            <th style="color:whitesmoke">Filiale</th>
+            <th style="color:whitesmoke">{{ Employe.filiale}}</th>
+        </tr>
+        <tr>
+            <th style="color:whitesmoke">Poste</th>
+            <th style="color:whitesmoke">{{ Employe.poste}}</th>
         </tr>
         </tbody>
     </table>
