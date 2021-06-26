@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block title %}Liste des employés{% endblock %}
 {% block body %}
-    <h1>Liste des employés</h1>
+    <h1 style="color:#40A497"><strong><i>Liste des employés</i></strong></h1>
+    <hr style="color: #AB99BD">
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Email</th>
@@ -29,5 +31,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('comptable')}}"class="btn btn-dark"> retour a la page  d'acceuil </a>
+    <a href="{{ path('comptable')}}"class="btn btn-dark">Retour</a>
 {% endblock %}

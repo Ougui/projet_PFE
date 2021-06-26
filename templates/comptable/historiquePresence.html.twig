@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon historique de presence{% endblock %}
+{% block title %}Mon historique de présence{% endblock %}
 
 {% block body %}
-    <h1>Mon historique de présence</h1>
-    <hr>
+    <h1 style="color:#40A497"><strong><i>Mon historique de présence</i></strong></h1>
+    <hr style="color: #AB99BD">
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">Date</th>
             <th scope="col">Heure d'arrivee</th>
@@ -24,5 +24,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('comptable')}}" class="btn btn-dark"> retour a la page  d'acceuil </a>
+    <a href="{{ path('comptable')}}" class="btn btn-dark">Retour</a>
 {% endblock %}

@@ -15,9 +15,10 @@
         {% block stylesheets %}
         <style>
             body {
+                background-image: url('{{asset('/images/back.png')}}');
+                background-size: cover;
                 margin: 0;
                 padding: 0;
-                background-color: #e6e9f2;
                 height: 100vh;
             }
         </style>
@@ -30,7 +31,6 @@
     </head>
     <body class="text-center">
         {% block body %}
-
         {% endblock %}
     </body>
 </html>
