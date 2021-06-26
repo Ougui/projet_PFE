@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Bulletin;
+use App\Entity\Presence;
 use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Time;
 use function Symfony\Component\String\s;
 
 class ComptableController extends AbstractController
@@ -146,28 +148,20 @@ class ComptableController extends AbstractController
         }
         return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
-    /*
-    #[Route('/pointage/{id}', name: 'pointage')]
-    public function pointage(Request $request,UserPasswordEncoderInterface $encoder,int $id
-        ,EmployeRepository $employeRepository): Response
+
+    #[Route('/pointage/{id}/{heureIn}/{heureOut}/{em}', name: 'pointage')]
+    public function pointage(Request $request,UserPasswordEncoderInterface $encoder,int $id,int $em,\DateTime $heureIn,
+                             \DateTime $heureOut,
+        EmployeRepository $employeRepository, PresenceRepository $presenceRepository): Response
     {
-        $employe=$employeRepository->find($id);
+        $employe=$employeRepository->find($em);
         $presence= new Presence();
         $presence->setEmploye($employe);
-        $form=$this->createFormBuilder()
-            ->add('password',PasswordType::class)
-            ->add('Confirmer',SubmitType::class)
-
-            ->getForm()
-        ;
-        $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form->isValid()) {
-            $data = $form->getData();
-            $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
-            $employe->setPassword($MotdePasseCrypte);
-            $this->getDoctrine()->getManager()->persist($employe);
-            $this->getDoctrine()->getManager()->flush();
-        }
-        return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
-    } */
+        $presence->setHeureIn($heureIn);
+        $presence->setHeureOut($heureOut);
+        $presence->setDate(new \DateTime('now'));
+        $this->getDoctrine()->getManager()->persist($presence);
+        $this->getDoctrine()->getManager()->flush();
+        return new Response('');
+    }
 }

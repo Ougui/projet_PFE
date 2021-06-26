@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Espace Personnel {{Employe.id}} {% endblock %}
 {% block stylesheets %}
     <style>
         body {
+            background-image: url('../background.jpg');
             margin: 0;
             padding: 0;
             background-color: white;
@@ -17,6 +17,7 @@
     </style>
 {% endblock %}
 {% block body %}
+    <div class="bg">
     <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} {{Employe.prenom}} !</h1>
     <hr>
     <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark"> Mon Bulletin de paie</a>
@@ -95,6 +96,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
 {% endblock %}
 
 
