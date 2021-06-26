@@ -197,12 +197,29 @@ class RhController extends AbstractController
         }
         return $this->render('employe/formUpdate.html.twig',['formila'=>$form->createView()]);
     }
-
-
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
-    public function deleteEmploye(EmployeRepository $employeRepository,int $id): Response
+    public function deleteEmploye(EmployeRepository $employeRepository,int $id, BulletinRepository $bulletinRepository,
+                                  PresenceRepository $presenceRepository): Response
     {
         $employe=$employeRepository->find($id);
+        $bulletin=$bulletinRepository->findAll();
+        $presence=$presenceRepository->findAll();
+        $p = count($bulletin);
+        for($i=0;$i<$p;$i++)
+        {
+            if ($bulletin[$i]->getEmploye()->getId()==$id)
+            {
+                $this->getDoctrine()->getManager()->remove($bulletin[$i]);
+            }
+        }
+        $p = count($presence);
+        for($i=0;$i<$p;$i++)
+        {
+            if ($presence[$i]->getEmploye()->getId()==$id)
+            {
+                $this->getDoctrine()->getManager()->remove($presence[$i]);
+            }
+        }
         $this->getDoctrine()->getManager()->remove($employe);
         $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute('rh_lister_employe');
@@ -271,7 +288,7 @@ class RhController extends AbstractController
     {
         $id=$employeRepository->find($id);
         return $this->render('rh/bulletinEmploye.html.twig',
-            ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ]),'Employe'=>$employeRepository->find($id)]);
     }
 
 
