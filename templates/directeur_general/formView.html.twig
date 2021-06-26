@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
  {% block stylesheets %}
      <style>
+         .color-99CC5B{background-color:#00008B;}
+         .color-99CC5B:hover{background-color:#00008B; }
          .center {
              margin-left: auto;
              margin-right: auto;
              width: auto;
          }
          body {
+             background-image: url('{{asset('/images/back.png')}}');
              margin: 0;
              padding: 0;
              background-color: #e6e9f2;
@@ -15,73 +18,76 @@
      </style>
  {% endblock %}
 {% block body %}
-    <h1> Profil de {{ Employe.nom}} {{ Employe.prenom}} </h1>
-    <table  class=" table-bordered center" >
+    <h1 style="color:#40A497"><strong><i>Profil de {{ Employe.nom}} {{ Employe.prenom}} </i></strong></h1>
+    <hr style="color: #AB99BD">
+    <a href="{{ path('dg_bulletin_employe',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Afficher bulletins de paie </a>
+    <a href="{{ path('dg_presence_employe',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Historique de présence </a>
+    <br>
+    <br>
+    <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;
+    border-left-color: #AB99BD; border-bottom-color: #AB99BD" >
         <colgroup>
-            <col span="1" style="background-color:#383B3A">
+            <col span="1" style="background:transparent">
         </colgroup>
         <colgroup>
-            <col span="1" style="background-color:white">
+            <col span="1" style="background:transparent">
         </colgroup>
         <tr>
-            <th style="color:white" scope="col" >ID</th>
-            <th scope="col">{{ Employe.id}}</th>
+            <th style="color:#000000" scope="col" width="40%"> ID</th>
+            <th scope="col" width="60%" style="color:#000000"><span style="font-weight:normal;">{{ Employe.id}}</span></th>
         </tr>
 
 
         <tbody>
-        <th style="color:white">Nom </th>
-        <th>{{ Employe.nom}}</th>
+        <th style="color:#000000">Nom </th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nom}}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Prénom</th>
-            <th>{{ Employe.prenom}}</th>
+            <th style="color:#000000">Prénom</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.prenom}}</span></th>
         </tr>
         <tr>
-            <th style="color:white"> Email</th>
-            <th>    {{ Employe.email }}   </th>
+            <th style="color:#000000"> Email</th>
+            <th style="color:#000000"> <span style="font-weight:normal;">{{ Employe.email }}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Date de naissance</th>
-            <th>{{ Employe.dateNaissance.format('Y-m-d')}}</th>
+            <th style="color:#000000">Date de naissance</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.dateNaissance.format('Y-m-d')}}</span></th>
         </tr>
-        <th style="color:white">Lieu de naissance</th>
-        <th>{{ Employe.lieuNaissance}}</th>
+        <th style="color:#000000">Lieu de naissance</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.lieuNaissance}}</span></th>
         <tr>
-            <th style="color:white">Sexe</th>
-            <th>{{ Employe.sexe}}</th>
+            <th style="color:#000000">Sexe</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.sexe}}</span></th>
         </tr>
-        <th style="color:white">Adresse</th>
-        <th>{{ Employe.adresse}}</th>
+        <th style="color:#000000">Adresse</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.adresse}}</span></th>
         <tr>
 
         </tr>
-        <th style="color:white">Numero de telephone</th>
-        <th>{{ Employe.numeroTelephone}}</th>
+        <th style="color:#000000">Numero de telephone</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.numeroTelephone}}</span></th>
         <tr>
-            <th style="color:white">Code CCP</th>
-            <th>{{ Employe.ccp}}</th>
+            <th style="color:#000000">Code CCP</th>
+            <th style="color:#000000">{{ Employe.ccp}}</th>
         </tr>
-        <th style="color:white">Situation Familiale</th>
-        <th>{{ Employe.SituationFamiliale}}</th>
+        <th style="color:#000000">Situation Familiale</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.SituationFamiliale}}</span></th>
         <tr>
-            <th style="color:white">Nombre d'enfants</th>
-            <th>{{ Employe.nombreEnfant}}</th>
-        </tr>
-        <tr>
-            <th style="color:white">Filiale</th>
-            <th>{{ Employe.filiale}}</th>
+            <th style="color:#000000">Nombre d'enfants</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nombreEnfant}}</span></th>
         </tr>
         <tr>
-            <th style="color:white">Poste</th>
-            <th>{{ Employe.poste}}</th>
+            <th style="color:#000000">Filiale</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.filiale}}</span></th>
+        </tr>
+        <tr>
+            <th style="color:#000000">Poste</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.poste}}</span></th>
         </tr>
         </tbody>
     </table>
     <br>
-    <a href="{{ path('dg_bulletin_employe',{id:Employe.id}) }}"class="btn btn-dark"> Bulletin de paie </a>
-    <a href="{{ path('dg_presence_employe',{id:Employe.id}) }}"class="btn btn-dark"> Historique de présence </a>
     <br>
-    <br>
-    <a href="{{ path('dg_lister_employe')}}"class="btn btn-dark"> Retour </a>
+    <a href="{{ path('dg_lister_employe')}}"class="btn btn-dark color-99CC5B"> Retour </a>
 {% endblock %}

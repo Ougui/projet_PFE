@@ -1,12 +1,25 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion des employés{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Liste des employés de la filiale</h1>
-    <hr>
-    <a href="{{ path('rh_ajouter_employe') }}" class="btn btn-dark">Ajouter</a>
+    <h1 style="color:#40A497"><strong><i>Liste des employés de la filiale</i></strong></h1>
+    <br>
+    <a style="margin-left: 61%" href="{{ path('rh_ajouter_employe') }}" class="btn btn-dark color-99CC5B">Ajouter</a>
     <br><br>
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Email</th>
@@ -27,13 +40,13 @@
                 <td>{{ Employe.poste }}</td>
                 <td>{{ Employe.filiale }}</td>
                 <td>
-                    <a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="btn btn-dark">Afficher</a>
-                    <a href="{{ path('rh_modifier_employe',{id:Employe.id}) }}" class="btn btn-dark">Modifier</a>
-                    <a href="{{ path('rh_supprimer_employe',{id:Employe.id}) }}" class="btn btn-dark">Supprimer</a>
+                    <a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
+                    <a href="{{ path('rh_modifier_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Modifier</a>
+                    <a href="{{ path('rh_supprimer_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('rh')}}"class="btn btn-dark"> Retour </a>
+    <a href="{{ path('rh')}}"class="btn btn-dark color-99CC5B"> Retour </a>
 {% endblock %}

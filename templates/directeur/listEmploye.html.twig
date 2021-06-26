@@ -1,8 +1,22 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Liste des employés de la filiale</h1>
+    <h1 style="color:#40A497"><strong><i>Liste des employés de la filiale</i></strong></h1>
+    <br>
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Email</th>
@@ -23,11 +37,11 @@
                 <td>{{ Employe.poste }}</td>
                 <td>{{ Employe.filiale }}</td>
                 <td>
-                    <a href="{{ path('directeur_profile_employe',{id:Employe.id})}}" class="btn btn-dark">Afficher</a>
+                    <a href="{{ path('directeur_profile_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('directeur')}}"class="btn btn-dark"> retour a la page  d'acceuil </a>
+    <a href="{{ path('directeur')}}"class="btn btn-dark color-99CC5B"> retour a la page  d'acceuil </a>
 {% endblock %}

@@ -1,10 +1,26 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
 {% block title %}{% endblock %}
 
 {% block body %}
-    <hr>
+    <br>
+    <br>
+    <hr style="color: #5c70d6">
     <h1> Tous les bulletins de paie ont été calculés avec succès </h1>
     <hr>
-    <a href="{{ path('comptable')}}" class="btn btn-dark"> retour a la page  d'acceuil </a>
+    <br>
+    <br>
+    <a href="{{ path('comptable')}}" class="btn btn-dark color-99CC5B"> retour a la page  d'acceuil </a>
 {% endblock %}

@@ -55,7 +55,7 @@ class DirecteurGeneralController extends AbstractController
     {
         $id=$employeRepository->find($id);
         return $this->render('directeur_general/bulletinEmploye.html.twig',
-            ['Bulletin'=>$repository->findBy(['employe'=> $id ])]);
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ]),'Employe'=>$employeRepository->find($id)]);
     }
 
 

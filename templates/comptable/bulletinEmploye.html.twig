@@ -1,7 +1,21 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Mes bulletins de paie</i></strong></h1>
-    <hr style="color: #AB99BD">
+    <br>
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -26,5 +40,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('comptable')}}" class="btn btn-dark">Retour</a>
+    <a href="{{ path('comptable_profile_employe'),{id:Employe.id}}}" class="btn btn-dark color-99CC5B">Retour</a>
 {% endblock %}

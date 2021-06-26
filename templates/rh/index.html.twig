@@ -2,8 +2,10 @@
 {% block title %}Espace Personnel {{Employe.id}} {% endblock %}
 {% block stylesheets %}
     <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#40A497; }
         body {
-            background-image: url('../background.jpg');
+            background-image: url('{{asset('/images/back.png')}}');
             margin: 0;
             padding: 0;
             background-color: white;
@@ -17,87 +19,80 @@
     </style>
 {% endblock %}
 {% block body %}
-    <div class="bg">
-    <h1>Bienvenue dans votre espace personnel, {{Employe.nom}} {{Employe.prenom}} !</h1>
-    <hr>
-    <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark"> Mon Bulletin de paie</a>
-    <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark"> Mon Historique De Présence</a>
-    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark">Gestion des Employés</a>
-    <a href="{{ path('rh_lister_poste') }}" class="btn btn-dark">Gestion des Postes</a>
+        <h1 style="color:#40A497"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
+        <hr style="color: #AB99BD">
+    <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mon Bulletin de paie</a>
+    <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mon Historique De Présence</a>
+    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Gestion des Employés</a>
+    <a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des Postes</a>
     <br>
     <br>
-    <br>
-    <table  class=" table-bordered center" >
+    <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;
+    border-left-color: #AB99BD; border-bottom-color: #AB99BD" >
         <colgroup>
-            <col span="1" style="background-color:#242B32">
+            <col span="1" style="background:transparent">
         </colgroup>
         <colgroup>
-            <col span="1" style="background-color:#242B32">
+            <col span="1" style="background:transparent">
         </colgroup>
         <tr>
-            <th style="color:whitesmoke" scope="col" >ID</th>
-            <th style="color:whitesmoke" scope="col">{{ Employe.id}}</th>
+            <th style="color:#000000" scope="col" width="40%"> ID</th>
+            <th scope="col" width="60%" style="color:#000000"><span style="font-weight:normal;">{{ Employe.id}}</span></th>
         </tr>
+
+
         <tbody>
-        <tr>
-        <th style="color:whitesmoke">Nom </th>
-        <th style="color:whitesmoke">{{ Employe.nom}}</th>
+        <th style="color:#000000">Nom </th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nom}}</span></th>
         </tr>
         <tr>
-            <th style="color:whitesmoke">Prénom</th>
-            <th style="color:whitesmoke">{{ Employe.prenom}}</th>
+            <th style="color:#000000">Prénom</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.prenom}}</span></th>
         </tr>
         <tr>
-            <th style="color:whitesmoke"> Email</th>
-            <th style="color:whitesmoke">{{ Employe.email }}   </th>
+            <th style="color:#000000"> Email</th>
+            <th style="color:#000000"> <span style="font-weight:normal;">{{ Employe.email }}</span></th>
         </tr>
         <tr>
-            <th style="color:whitesmoke">Date de naissance</th>
-            <th style="color:whitesmoke">{{ Employe.dateNaissance.format('Y-m-d')}}</th>
+            <th style="color:#000000">Date de naissance</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.dateNaissance.format('Y-m-d')}}</span></th>
         </tr>
+        <th style="color:#000000">Lieu de naissance</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.lieuNaissance}}</span></th>
         <tr>
-        <th style="color:whitesmoke">Lieu de naissance</th>
-        <th style="color:whitesmoke">{{ Employe.lieuNaissance}}</th>
+            <th style="color:#000000">Sexe</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.sexe}}</span></th>
         </tr>
+        <th style="color:#000000">Adresse</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.adresse}}</span></th>
         <tr>
-            <th style="color:whitesmoke">Sexe</th>
-            <th style="color:whitesmoke">{{ Employe.sexe}}</th>
-        </tr>
-        <tr>
-        <th style="color:whitesmoke">Adresse</th>
-        <th style="color:whitesmoke">{{ Employe.adresse}}</th>
 
         </tr>
+        <th style="color:#000000">Numero de telephone</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.numeroTelephone}}</span></th>
         <tr>
-        <th style="color:whitesmoke">Numero de telephone</th>
-        <th style="color:whitesmoke">{{ Employe.numeroTelephone}}</th>
+            <th style="color:#000000">Code CCP</th>
+            <th style="color:#000000">{{ Employe.ccp}}</th>
+        </tr>
+        <th style="color:#000000">Situation Familiale</th>
+        <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.SituationFamiliale}}</span></th>
+        <tr>
+            <th style="color:#000000">Nombre d'enfants</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.nombreEnfant}}</span></th>
         </tr>
         <tr>
-            <th style="color:whitesmoke">Code CCP</th>
-            <th style="color:whitesmoke">{{ Employe.ccp}}</th>
+            <th style="color:#000000">Filiale</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.filiale}}</span></th>
         </tr>
         <tr>
-        <th style="color:whitesmoke">Situation Familiale</th>
-        <th style="color:whitesmoke">{{ Employe.SituationFamiliale}}</th>
-        </tr>
-        <tr>
-            <th style="color:whitesmoke">Nombre d'enfants</th>
-            <th style="color:whitesmoke">{{ Employe.nombreEnfant}}</th>
-        </tr>
-        <tr>
-            <th style="color:whitesmoke">Filiale</th>
-            <th style="color:whitesmoke">{{ Employe.filiale}}</th>
-        </tr>
-        <tr>
-            <th style="color:whitesmoke">Poste</th>
-            <th style="color:whitesmoke">{{ Employe.poste}}</th>
+            <th style="color:#000000">Poste</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.poste}}</span></th>
         </tr>
         </tbody>
     </table>
-    </div>
-    <br>
-    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}" class="btn btn-dark">Deconnexion</a>
+    <br><br>
+    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Réinitialiser mot de passe</a>
+    <a href="{{ path('app_logout') }}" class="btn btn-dark color-99CC5B">Deconnexion</a>
 {% endblock %}
 
 

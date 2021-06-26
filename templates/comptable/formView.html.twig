@@ -2,6 +2,9 @@
 {% block title %}Profil de {{ Employe.nom }}{% endblock %}
  {% block stylesheets %}
      <style>
+         .color-99CC5B{background-color:#00008B;}
+         .color-99CC5B:hover{background-color:#00008B; }
+         .
          .center {
              margin-left: auto;
              margin-right: auto;
@@ -19,7 +22,7 @@
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Profil de {{ Employe.nom}} {{ Employe.prenom}} </i></strong></h1>
     <hr style="color: #AB99BD">
-    <a href="{{ path('comptable_bulletin_employe',{id:Employe.id}) }}"class="btn btn-dark">Voir Bulletin de paie</a>
+    <a href="{{ path('comptable_bulletin_employe',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B">Voir Bulletin de paie</a>
     <br>
     <br>
     <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;
@@ -87,5 +90,5 @@
     </table>
     <br>
     <br>
-    <a href="{{ path('comptable_lister_employe')}}"class="btn btn-dark"> Retour </a>
+    <a href="{{ path('comptable_lister_employe')}}"class="btn btn-dark color-99CC5B"> Retour </a>
 {% endblock %}

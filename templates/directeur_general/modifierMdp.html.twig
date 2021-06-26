@@ -1,12 +1,35 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Nouveau mot de passe{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .row {
+            margin-left: 40%;
+            margin-right: auto;
+            width:  500px;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Nouveau mot de passe</h1>
-    <hr>
-    {{ form(formila) }}
-    <br> <br> <br> <br>
-    <a href="{{ path('directeur_general') }}" class="btn btn-dark">
-        Retour
-    </a>
+    <h1 style="color:#40A497"><strong><i>Changer mot de passe</i></strong></h1>
+    <hr style="color: #AB99BD">
+    <div class="row">
+        {{ form_start(formila) }}
+        <div class="col-md-6">
+            {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}<br>
+            {{ form_row(formila.Confirmer, { 'label': 'Confirmer' }) }}<br>
+            <br>
+            <a href="{{ path('directeur_general') }}" class="btn btn-dark color-99CC5B">Retour</a>
+        </div>
+        {{ form_end(formila) }}
+    </div>
+
 {% endblock %}
