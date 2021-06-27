@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Monolog\DateTimeImmutable;
 
 class HomeController extends AbstractController
 {
@@ -54,6 +55,8 @@ class HomeController extends AbstractController
         $user->setEmail('r@r.r');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
+        $user->setDateNaissance(new DateTimeImmutable('now'));
+        $user->setDateRecrutement(new DateTimeImmutable('now'));
         $user->setFiliale($filiale);
         $user->setPoste($post);
         $this->getDoctrine()->getManager()->persist($user);
