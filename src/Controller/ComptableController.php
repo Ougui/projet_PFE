@@ -15,6 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Time;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use function Symfony\Component\String\s;
 
 class ComptableController extends AbstractController
@@ -163,5 +167,20 @@ class ComptableController extends AbstractController
         $this->getDoctrine()->getManager()->persist($presence);
         $this->getDoctrine()->getManager()->flush();
         return new Response('');
+    }
+    #[Route('/recupEmployes', name: 'recupEmployes')]
+    public function recupEmployes(Request $request, EmployeRepository $employeRepository): Response
+    {
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $employe=$employeRepository->findAll();
+        $employes = [];
+        foreach ($employe as $em)
+        {
+            array_push($employes,$em->getId());
+        }
+            $jsonContent = $serializer->serialize($employes, 'json');
+        return $this->json($jsonContent);
     }
 }
