@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-{% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
 {% block title %}Gestion des postes{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1> Liste des postes de travail</h1>
-    <hr>
-    <a href="{{ path('rh_ajouter_poste')}}" class="btn btn-dark">Ajouter</a>
+    <h1 style="color:#40A497"><strong><i>Liste des postes de travail</i></strong></h1>
+    <br>
+    <a style="margin-left: 80%" href="{{ path('rh_ajouter_poste')}}" class="btn btn-dark color-99CC5B">Ajouter</a>
     <br>
     <br>
         <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">Nom</th>
             <th scope="col">Salaire de base</th>
@@ -26,18 +32,18 @@
             <tbody>
         {% for Poste in Postes %}
             <tr>
-                <th>{{ Poste.nom}}</th>
-                <th>{{ Poste.SalaireDeBase}}.00 DA</th>
-                <th>{{ Poste.NbJourSemaine}} jours</th>
-                <th>{{ Poste.NbHeureJour}} heures</th>
-              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-dark">Modifier</a>
-                <a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-dark">Supprimer</a></td>
+                <th scope="row">{{ Poste.nom}}</th>
+                <td>{{ Poste.SalaireDeBase}} DA</td>
+                <td>{{ Poste.NbJourSemaine}} jours</td>
+                <td>{{ Poste.NbHeureJour}} heures</td>
+              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-dark color-99CC5B">Modifier</a>
+                <a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-dark color-99CC5B">Supprimer</a></td>
             </tr>
         {% endfor %}
             </tbody>
     </table>
     <br>
-    <a href="{{ path('rh')}}"class="btn btn-dark"> Retour </a>
+    <a href="{{ path('rh')}}"class="btn btn-dark color-99CC5B"> Retour </a>
     <br>
     <br>
 {% endblock %}

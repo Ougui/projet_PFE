@@ -40,7 +40,7 @@ class Employe extends User
     protected $lieuNaissance;
 
     /**
-     * @ORM\Column(type="string", length=1)
+     * @ORM\Column(type="string", length=10)
      */
     protected $sexe;
 
@@ -60,7 +60,7 @@ class Employe extends User
     protected $ccp;
 
     /**
-     * @ORM\Column(type="string", length=1)
+     * @ORM\Column(type="string", length=20)
      */
    protected $SituationFamiliale;
 

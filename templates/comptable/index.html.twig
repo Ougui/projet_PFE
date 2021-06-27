@@ -1,27 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block title %}Espace Personnel Comptable{% endblock %}
-{% block stylesheets %}
-    <style>
-        body {
-            background-image: url('{{asset('/images/back.png')}}');
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-            width: auto;
-        }
-    </style>
-{% endblock %}
+    {% block stylesheets %}
+        <style>
+            .color-99CC5B{background-color:#00008B;}
+            .color-99CC5B:hover{background-color:#40A497; }
+            body {
+                background-image: url('{{asset('/images/back.png')}}');
+                margin: 0;
+                padding: 0;
+                background-color: white;
+                height: 100vh;
+            }
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
+            }
+        </style>
+    {% endblock %}
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
     <hr style="color: #AB99BD">
-    <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark"> Mon Bulletin de paie </a>
-    <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark"> Mon historique de presence </a>
-    <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark">Afficher la liste des employés </a>
-    <a href="{{ path('calculPaie') }}" class="btn btn-dark">Lancer le calcul de la paie de ce mois</a>
+    <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes Bulletins de paie </a>
+    <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mon historique de présence </a>
+    <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark color-99CC5B">Afficher la liste des employés </a>
+    <a href="{{ path('calculPaie') }}" class="btn btn-dark color-99CC5B">Lancer le calcul de la paie de ce mois</a>
     <br>
     <br>
     <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;
@@ -69,7 +72,7 @@
         <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.numeroTelephone}}</span></th>
         <tr>
             <th style="color:#000000">Code CCP</th>
-            <th style="color:#000000">{{ Employe.ccp}}</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.ccp}}</span></th>
         </tr>
         <th style="color:#000000">Situation Familiale</th>
         <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.SituationFamiliale}}</span></th>
@@ -88,7 +91,7 @@
         </tbody>
     </table>
     <br><br>
-    <a href="{{ path('comptable_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}"class="btn btn-dark"> Deconnexion </a><br>
+    <a href="{{ path('comptable_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Réinitialiser mot de passe</a>
+    <a href="{{ path('app_logout') }}"class="btn btn-dark color-99CC5B"> Deconnexion </a><br>
 {% endblock %}
 

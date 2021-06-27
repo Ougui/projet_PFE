@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block title %}Mes bulletins{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Bulletins de paie</h1>
-    <hr>
+    <h1 style="color:#40A497"><strong><i>Mes bulletins de paie</i></strong></h1>
+    <br>
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">Date</th>
             <th scope="col">Total heures supplementaires</th>
@@ -27,5 +40,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('directeur_general')}}" class="btn btn-dark">Retour</a>
+    <a href="{{ path('directeur_general')}}" class="btn btn-dark color-99CC5B">Retour</a>
 {% endblock %}

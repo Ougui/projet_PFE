@@ -2,10 +2,12 @@
 {% block title %}Ajouter Poste!{% endblock %}
 {% block stylesheets %}
     <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
     body {
     margin: 0;
     padding: 0;
-    background-color: #e6e9f2;
+    background-image: url('{{asset('/images/back.png')}}');
     height: 100vh;
     }
     .row {
@@ -16,7 +18,7 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Ajouter un poste</h1>
+    <h1 style="color:#40A497"><strong><i>Ajouter Poste</i></strong></h1>
     <hr>
     <br>
 <div class="row">
@@ -28,7 +30,7 @@
         {{ form_row(formPost.Nombre_Heure_par_jour, { 'label': 'Nombre d\'heures par jour' }) }}<br>
         {{ form_row(formPost.submit, { 'label': 'Submit' }) }}<br>
         <br>
-        <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark"> Retour </a>
+        <a href="{{ path('rh_lister_poste')}}"class="btn btn-dark color-99CC5B"> Retour </a>
     </div>
     {{ form_end(formPost) }}
 </div>

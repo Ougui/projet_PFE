@@ -1,12 +1,22 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Historique de Presence{% endblock %}
-
+{% block stylesheets %}
+<style>
+    .color-99CC5B{background-color:#00008B;}
+    .color-99CC5B:hover{background-color:#00008B; }
+    body {
+        background-image: url('{{asset('/images/back.png')}}');
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        height: 100vh;
+    }
+</style>
 {% block body %}
-    <h1>Mon historique de présence</h1>
-    <hr>
+    <h1 style="color:#40A497"><strong><i>Mon historique de présence</i></strong></h1>
+    <br>
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
         <tr>
             <th scope="col">Date</th>
             <th scope="col">Heure d'arrivee</th>
@@ -24,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('employe')}}" class="btn btn-dark"> retour a la page  d'acceuil </a>
+    <a href="{{ path('employe')}}" class="btn btn-dark color-99CC5B">Retour</a>
 {% endblock %}
