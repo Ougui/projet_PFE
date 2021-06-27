@@ -2,8 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Comptable;
 use App\Entity\Directeur;
+use App\Entity\DirecteurGeneral;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -13,11 +13,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 
-class ComptableCrudController extends AbstractCrudController
+class DirecteurCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Comptable::class;
+        return Directeur::class;
     }
 
 
@@ -45,11 +45,10 @@ class ComptableCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $sendInvoice = Action::new('sendInvoice', 'Confirmer', 'fa fa-envelope')
-            ->linkToUrl(function (Comptable $comptable) {
-                return '/afficherEmploye/'.$comptable->getId();
+            ->linkToUrl(function (Directeur $directeur) {
+                return '/afficherEmploye/'.$directeur->getId();
             });
         return $actions
             ->add(Crud::PAGE_INDEX, $sendInvoice->addCssClass('btn btn-outline-info mb-2'));
     }
-
 }
