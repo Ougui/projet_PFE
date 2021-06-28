@@ -55,12 +55,13 @@ class RhController extends AbstractController
             ->add('date_de_naissance',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
-                'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
+               'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
             ->add('address',TextareaType::class)
             ->add('numero',NumberType::class)
             ->add('ccp')
             ->add('situation_familiale', ChoiceType::class, [
-                'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
+                'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)', 'Divorcé(e)' => 'Divorcé(e)'
+                    ,'Veuf(ve)' => 'Veuf(ve)']])
 
             ->add('nombre_des_enfants',IntegerType::class)
            /* ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
@@ -96,6 +97,8 @@ class RhController extends AbstractController
             $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']->format('Y-m-d')));
             $employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
+            $employe->setAdresse($data['address']);
+            $employe->setSituationFamiliale($data['situation_familiale']);
             $employe->setNumeroTelephone($data['numero']);
             $filiale=$this->getUser()->getFiliale();
             $employe->setFiliale($filiale);
@@ -128,9 +131,9 @@ class RhController extends AbstractController
             ->add('email',EmailType::class, [
                 'data' => $employe->getEmail()
             ])
-            ->add('password',PasswordType::class, [
+        /*    ->add('password',PasswordType::class, [
                 'data' => $employe->getPassword()
-            ])
+            ]) */
             ->add('date_de_naissance',TextType::class, [ 'disabled' => 'true' ,
                 'data' => $employe->getDateNaissance()->format('Y-m-d')
             ])
@@ -138,7 +141,7 @@ class RhController extends AbstractController
                 'data' => $employe->getLieuNaissance()
             ])
             ->add('sexe', ChoiceType::class,[ 'disabled' => 'true',  'data'=> $employe->getSexe(),
-                'choices'  => ['Mâle' => 'M', 'Femelle' => 'F']])
+                'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
             ->add('address',TextareaType::class,  [
                 'data' => $employe->getAdresse()
             ])
@@ -149,7 +152,8 @@ class RhController extends AbstractController
                 'data' => $employe->getCcp()
             ])
             ->add('situation_familiale', ChoiceType::class,[ 'data'=> $employe->getSituationFamiliale(),
-                'choices'  => ['Veuf(ve)' => 'V', 'Célibataire' => 'C', 'Marié(e)' => 'M', 'Divorcé(e)' => 'D']])
+                'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)',
+                    'Divorcé(e)' => 'Divorcé(e)','Veuf(ve)' => 'Veuf(ve)']])
 
             ->add('nombre_des_enfants',IntegerType::class, [
                 'data' => $employe->getNombreEnfant()
@@ -180,8 +184,8 @@ class RhController extends AbstractController
         //    $employe->setNom($data['nom']);
           //  $employe->setPrenom($data['prenom']);
             $employe->setEmail($data['email']);
-            $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
-            $employe->setPassword($MotdePasseCrypte);
+         /*   $MotdePasseCrypte = $encoder->encodePassword($employe, $data['password']);
+            $employe->setPassword($MotdePasseCrypte); */
             //$employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']));
             //$employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
@@ -194,11 +198,10 @@ class RhController extends AbstractController
          //   $employe->setRoles([$data['roles']]);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('rh_lister_employe');
         }
         return $this->render('employe/formUpdate.html.twig',['formila'=>$form->createView()]);
     }
-
-
     #[Route('/rh/deleteEmploye/{id}', name: 'rh_supprimer_employe')]
     public function deleteEmploye(EmployeRepository $employeRepository,int $id, BulletinRepository $bulletinRepository,
                                   PresenceRepository $presenceRepository): Response
@@ -269,7 +272,7 @@ class RhController extends AbstractController
             $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
-
+            return $this->redirectToRoute('rh_lister_poste');
         }
 
         return $this->render('rh/formAddposte.html.twig',['formPost'=>$form->createView()]);
@@ -292,7 +295,6 @@ class RhController extends AbstractController
         return $this->render('rh/bulletinEmploye.html.twig',
             ['Bulletin'=>$repository->findBy(['employe'=> $id ]),'Employe'=>$employeRepository->find($id)]);
     }
-
     #[Route('/rh/historiquePresence/{id}', name: 'rh_historique_presence')]
     public function historiquePresence(PresenceRepository $repository, int $id): Response
     {
@@ -342,6 +344,7 @@ class RhController extends AbstractController
             $poste->setSalaireDeBase($data['salaire_de_base']);
             $this->getDoctrine()->getManager()->persist($poste);
             $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('rh_lister_poste');
         }
         return $this->render('rh/updatePoste.html.twig',['formila'=>$form->createView()]);
     }

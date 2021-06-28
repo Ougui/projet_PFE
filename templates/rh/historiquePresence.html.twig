@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Historique de Presence{% endblock %}
+{% block title %}Mon historique de Presence{% endblock %}
 {% block stylesheets %}
     <style>
         .color-99CC5B{background-color:#00008B;}
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             background-color: white;
@@ -21,7 +21,7 @@
         <thead class="thead-light">
         <tr>
             <th scope="col">Date</th>
-            <th scope="col">Heure d'arrivee</th>
+            <th scope="col">Heure d'arrivée</th>
             <th scope="col">Heure de sortie</th>
         </tr>
         </thead>

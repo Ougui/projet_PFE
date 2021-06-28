@@ -71,7 +71,7 @@ class DirecteurGeneralController extends AbstractController
     {
         $id = $employeRepository->find($id);
         return $this->render('directeur_general/presenceEmploye.html.twig',
-            ['Presence' => $repository->findBy(['employe' => $id])]);
+            ['Presence' => $repository->findBy(['employe' => $id]),'Employe'=>$employeRepository->find($id)]);
     }
     #[Route('/dg/modifierMdp/{id}', name: 'dg_modifier_mdp')]
     public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id

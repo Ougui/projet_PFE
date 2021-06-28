@@ -6,6 +6,7 @@
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -35,8 +36,8 @@
         {{ form_row(formila.ccp, { 'label': 'Code CCP' }) }}<br>
         {{ form_row(formila.nombre_des_enfants, { 'label': 'Nombre d\'enfants' }) }}<br>
         {{ form_row(formila.situation_familiale, { 'label': 'Situation familiale' }) }}<br>
-        {{ form_row(formila.poste, { 'label': 'Poste de travail occupé' }) }}<br>
-        {{ form_row(formila.sexe, { 'label': 'Sexe' }) }}<br>
+        {{ form_row(formila.poste, { 'label': 'Poste de travail' }) }}<br>
+        {{ form_row(formila.sexe, { 'label': 'Sexe'}) }}<br>
         {{ form_row(formila.Ajouter, { 'label': 'Ajouter' }) }}<br>
         <br>
         <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Retour</a>

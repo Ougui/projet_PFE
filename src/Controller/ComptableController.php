@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Time;
 use function Symfony\Component\String\s;
 
+
 class ComptableController extends AbstractController
 {
     #[Route('/comptable', name: 'comptable')]
@@ -164,4 +165,21 @@ class ComptableController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
         return new Response('');
     }
+
+    #[Route('/recupEmployes', name: 'recupEmployes')]
+    public function recupEmployes(Request $request, EmployeRepository $employeRepository): Response
+    {
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $employe=$employeRepository->findAll();
+        $employes = [];
+        foreach ($employe as $em)
+        {
+            array_push($employes,$em->getId());
+        }
+        $jsonContent = $serializer->serialize($employes, 'json');
+        return $this->json($jsonContent);
+    }
+
 }

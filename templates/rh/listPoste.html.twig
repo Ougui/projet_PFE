@@ -6,6 +6,7 @@
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             background-color: white;
@@ -33,7 +34,7 @@
         {% for Poste in Postes %}
             <tr>
                 <th scope="row">{{ Poste.nom}}</th>
-                <td>{{ Poste.SalaireDeBase}}.00 DA</td>
+                <td>{{ Poste.SalaireDeBase}} DA</td>
                 <td>{{ Poste.NbJourSemaine}} jours</td>
                 <td>{{ Poste.NbHeureJour}} heures</td>
               <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-dark color-99CC5B">Modifier</a>

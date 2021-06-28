@@ -38,20 +38,20 @@ class HomeController extends AbstractController
         $post->setNbHeureJour(0);
         $post->setNbJourSemaine(0);
         $post->setSalaireDeBase(0);
-        $post->setNom('Em');
+        $post->setNom('Informaticien');
         $this->getDoctrine()->getManager()->persist($post);
         $this->getDoctrine()->getManager()->flush();
 
         $filiale= new Filiale();
         $filiale->setAdresse('');
-        $filiale->setNomFiliale('Catring');
+        $filiale->setNomFiliale('Siège Princial');
         $filiale->setType('S');
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
         $user= new Employe();
-        $user->setRoles(['ROLE_RH']);
-        $user->setEmail('r@r.r');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setEmail('ad@m.n');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
         $user->setPassword($MotdePasseCrypte);
         $user->setFiliale($filiale);

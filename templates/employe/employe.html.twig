@@ -6,6 +6,7 @@
         .color-99CC5B:hover{background-color:#40A497; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             background-color: white;
@@ -69,7 +70,7 @@
         <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.numeroTelephone}}</span></th>
         <tr>
             <th style="color:#000000">Code CCP</th>
-            <th style="color:#000000">{{ Employe.ccp}}</th>
+            <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.ccp}}</span></th>
         </tr>
         <th style="color:#000000">Situation Familiale</th>
         <th style="color:#000000"><span style="font-weight:normal;">{{ Employe.SituationFamiliale}}</span></th>
