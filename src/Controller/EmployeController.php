@@ -119,19 +119,29 @@ class EmployeController extends AbstractController
     public function presences(EmployeRepository $employeRepository): Response
     {
         $employes=$employeRepository->findAll();
-        $dateInit=new \DateTimeImmutable('-90 day');
+        //$dateInit=new \DateTimeImmutable('-90 day');
         foreach ($employes as $employe)
         {
-
-            $now=$dateInit;
+            $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
             $num=0;
             for ($i=0;$i<($employe->getPoste()->getNbJourSemaine())*12;$i++)
             {
                 if ($now->format('l')=='Friday')
                 {
+
                     $now=$now->add(new DateInterval('PT86400S'));
                 }
-                $now=$now->add(new DateInterval('PT86400S'));
+                elseif ($now->format('l')=='Thursday')
+                {
+                    $now=$now->add(new DateInterval('PT86400S'));
+                    $now=$now->add(new DateInterval('PT86400S'));
+                }
+                else
+                {
+                    $now=$now->add(new DateInterval('PT86400S'));
+                }
+
+
                 $randPresance=mt_rand(0,100)/ 100;
 
                 if($randPresance>0.05)

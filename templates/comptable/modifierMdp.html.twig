@@ -27,7 +27,7 @@
             {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}<br>
             {{ form_row(formila.Confirmer, { 'label': 'Confirmer' }) }}<br>
             <br>
-            <a href="{{ path('comptable') }}" class="btn btn-dark color-99CC5B">Retour</a>
+            <a href="{{ path('comptable',{date:date}) }}" class="btn btn-dark color-99CC5B">Retour</a>
         </div>
         {{ form_end(formila) }}
     </div>

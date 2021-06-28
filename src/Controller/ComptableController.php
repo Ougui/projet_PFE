@@ -38,8 +38,9 @@ class ComptableController extends AbstractController
 
     public function listerEmploye(EmployeRepository $repository): Response
     {   // $filiale= $this->getUser()->getFiliale();
-
-        return $this->render('comptable/listEmploye.html.twig',['Employes'=>$repository->findAll()]);
+        dd('anis');
+        return $this->render('comptable/listEmploye.html.twig',['Employes'=>$repository->findAll(),
+            'rochdi'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 
 
@@ -47,7 +48,8 @@ class ComptableController extends AbstractController
     public function viewEmploye(EmployeRepository $employeRepository,int $id): Response
     {
         $employe=$employeRepository->find($id);
-        return $this->render('comptable/formView.html.twig',['Employe'=>$employeRepository->find($id)]);
+        return $this->render('comptable/formView.html.twig',['Employe'=>$employeRepository->find($id),
+            'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 
 
@@ -56,7 +58,8 @@ class ComptableController extends AbstractController
     {
         $id = $this->getUser()->getId();
         return $this->render('comptable/viewBulletin.html.twig',
-            ['Bulletin' => $repository->findBy(['employe' => $id])]);
+            ['Bulletin' => $repository->findBy(['employe' => $id]),
+                'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 
 
@@ -65,7 +68,8 @@ class ComptableController extends AbstractController
     {
         $id=$employeRepository->find($id);
         return $this->render('comptable/bulletinEmploye.html.twig',
-            ['Bulletin'=>$repository->findBy(['employe'=> $id ]),'Employe'=>$employeRepository->find($id)]);
+            ['Bulletin'=>$repository->findBy(['employe'=> $id ]),'Employe'=>$employeRepository->find($id),
+                'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 
 
@@ -74,63 +78,58 @@ class ComptableController extends AbstractController
     {
         $id= $this->getUser()->getId();
         return $this->render('comptable/historiquePresence.html.twig',
-            ['Presence'=>$repository->findBy(['employe'=> $id ])]);
+            ['Presence'=>$repository->findBy(['employe'=> $id ]),
+                'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
-    #[Route('/comptable/calculPaie/{datecalcul}', name: 'calculPaie')]
+    #[Route('/comptable/calculPaie/{datecalcu}', name: 'calculPaie')]
     public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,
-                               EmployeRepository $employeRep,PresenceRepository $presenceRep,string $datecalcul): Response
+                               EmployeRepository $employeRep,PresenceRepository $presenceRep,string $datecalcu): Response
     {
-        dd($presenceRep->findDate($datecalcul));
         $em = $employeRep->findAll();
         $n = count($em);
-        for($i=0;$i<$n;$i++)
-        {
-           $id = $em[$i]->getId();
-           $dateRecrutement = $em[$i]->getDateRecrutement();
-           $salaire = $em[$i]->getPoste()->getSalaireDeBase();
-           $heure_jour = $em[$i]->getPoste()->getNbHeureJour();
-           $jour_semaine = $em[$i]->getPoste()->getNbJourSemaine();
-           $heure_mois = $heure_jour * $jour_semaine * 4;
-           $salaire_heure = $salaire/$heure_mois;
-           $bulletin = new Bulletin();
-           $bulletin->setEmploye($em[$i]);
-           $pr = $presenceRep->findAll();
-           $p = count($pr);
-           $travail = 0;
-            for($j=0;$j<$p;$j++)
-            {
-                if ($pr[$j]->getEmploye()->getId()==$id)
-                {
-                   $tr = strtotime($pr[$j]->getHeureOut()->format('H:i')) - strtotime($pr[$j]->getHeureIn()->format('H:i'));
-                   $travail= $travail + ($tr/3600);
-                   $this->getDoctrine()->getManager()->remove($pr[$j]);
+        for($i=0;$i<$n;$i++) {
+            $id = $em[$i]->getId();
+            $dateRecrutement = $em[$i]->getDateRecrutement();
+            $salaire = $em[$i]->getPoste()->getSalaireDeBase();
+            $heure_jour = $em[$i]->getPoste()->getNbHeureJour();
+            $jour_semaine = $em[$i]->getPoste()->getNbJourSemaine();
+            $heure_mois = $heure_jour * $jour_semaine * 4;
+            $salaire_heure = $salaire / $heure_mois;
+            $bulletin = new Bulletin();
+            $bulletin->setEmploye($em[$i]);
+            $pr = $presenceRep->findDate($datecalcu);
+            $p = count($pr);
+            $travail = 0;
+            for ($j = 0; $j < $p; $j++) {
+                $x = $pr[$j];
+                if (($x['employe_id']) == $id) {
+                    $tr = strtotime($x['heure_out']) - strtotime($x['heure_in']);
+                    $travail = $travail + intdiv($tr, 3600);
                 }
             }
-           $bulletin->setDate(new \DateTime('now'));
-           $diff = strtotime($bulletin->getDate()->format('Y-m-d')) -strtotime($dateRecrutement->format('Y-m-d'));
-           $diff = $diff / 86400;
-           $anciennete = intdiv ($diff,365);
-           $iep=($anciennete*$salaire) / 100;
-           $bulletin->setIEP($iep);
-           $allocF = ($em[$i]->getNombreEnfant())*600;
-           $bulletin->setAllocationFamiliale($allocF);
-           $t=$iep+$allocF+($salaire_heure*$travail);
-           $bulletin->setTotal($t);
-           if ($travail < $heure_mois)
-           {
-               $bulletin->setTotalHeureAbs($heure_mois - $travail);
-               $bulletin->setTotalHeureSupp(0);
-           }
-           else
-           {
-               $bulletin->setTotalHeureSupp($travail - $heure_mois);
-               $bulletin->setTotalHeureAbs(0);
-           }
-           $this->getDoctrine()->getManager()->persist($bulletin);
-           $this->getDoctrine()->getManager()->flush();
+            $bulletin->setDate(new \DateTime($datecalcu));
+            $diff = strtotime($bulletin->getDate()->format('Y-m-d')) - strtotime($dateRecrutement->format('Y-m-d'));
+            $diff = $diff / 86400;
+            $anciennete = intdiv($diff, 365);
+            $iep = ($anciennete * $salaire) / 100;
+            $bulletin->setIEP($iep);
+            $allocF = ($em[$i]->getNombreEnfant()) * 600;
+            $bulletin->setAllocationFamiliale($allocF);
+            $t = $iep + $allocF + ($salaire_heure * $travail);
+            $bulletin->setTotal($t);
+            if ($travail < $heure_mois) {
+                $bulletin->setTotalHeureAbs($heure_mois - $travail);
+                $bulletin->setTotalHeureSupp(0);
+            }
+            else
+            {
+                $bulletin->setTotalHeureSupp($travail - $heure_mois);
+                $bulletin->setTotalHeureAbs(0);
+            }
+            $this->getDoctrine()->getManager()->persist($bulletin);
+            $this->getDoctrine()->getManager()->flush();
         }
-
-        return $this->render('comptable/calculPaie.html.twig');
+        return $this->render('comptable/calculPaie.html.twig',['rochdi'=>$datecalcu]);
     }
     #[Route('/comptable/modifierMdp/{id}', name: 'comptable_modifier_mdp')]
     public function modifierMdp(Request $request,UserPasswordEncoderInterface $encoder,int $id
@@ -152,7 +151,8 @@ class ComptableController extends AbstractController
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
         }
-        return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView()]);
+        return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView(),
+            'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 
     #[Route('/pointage/{id}/{heureIn}/{heureOut}/{em}', name: 'pointage')]
