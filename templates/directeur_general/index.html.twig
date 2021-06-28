@@ -22,7 +22,7 @@
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
     <hr style="color: #AB99BD">
-    <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mon Bulletin de paie </a>
+    <a href="{{ path('dg_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes bulletins de paie </a>
     <a href="{{ path('dg_historique_presence',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mon historique de presence </a>
     <a href="{{ path('dg_lister_employe') }}"class="btn btn-dark color-99CC5B">Afficher la liste des employés </a>
     <br>

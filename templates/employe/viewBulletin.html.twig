@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Mes bulletins{% endblock %}
+{% block title %}Mes bulletins de paie{% endblock %}
 {% block stylesheets %}
     <style>
         .color-99CC5B{background-color:#00008B;}
@@ -40,5 +40,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('employe')}}"class="btn btn-dark color-99CC5B"> retour a la page  d'acceuil </a>
+    <a href="{{ path('employe')}}"class="btn btn-dark color-99CC5B">Retour</a>
 {% endblock %}

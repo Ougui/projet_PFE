@@ -36,24 +36,24 @@ class HomeController extends AbstractController
     public function CreateUser(UserPasswordEncoderInterface $encoder): Response
     {
         $post= new Poste();
-        $post->setNbHeureJour(0);
-        $post->setNbJourSemaine(0);
-        $post->setSalaireDeBase(0);
-        $post->setNom('Em');
+        $post->setNbHeureJour(8);
+        $post->setNbJourSemaine(5);
+        $post->setSalaireDeBase(70000);
+        $post->setNom('Informaticien');
         $this->getDoctrine()->getManager()->persist($post);
         $this->getDoctrine()->getManager()->flush();
 
         $filiale= new Filiale();
-        $filiale->setAdresse('');
-        $filiale->setNomFiliale('Catring');
-        $filiale->setType('S');
+        $filiale->setAdresse('Alger, rue didouche mourad');
+        $filiale->setNomFiliale('Direction Generale');
+        $filiale->setType('D');
         $this->getDoctrine()->getManager()->persist($filiale);
         $this->getDoctrine()->getManager()->flush();
 
         $user= new Employe();
-        $user->setRoles(['ROLE_RH']);
-        $user->setEmail('r@r.r');
-        $MotdePasseCrypte= $encoder->encodePassword($user, 'password');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setEmail('admin@gmail.com');
+        $MotdePasseCrypte= $encoder->encodePassword($user, 'mdp');
         $user->setPassword($MotdePasseCrypte);
         $user->setDateNaissance(new DateTimeImmutable('now'));
         $user->setDateRecrutement(new DateTimeImmutable('now'));

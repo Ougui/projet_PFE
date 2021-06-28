@@ -5,11 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Employe;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
@@ -30,13 +32,15 @@ class EmployeCrudController extends AbstractCrudController
             Field::new('password'),
             Field::new('dateNaissance'),
             Field::new('lieuNaissance'),
-            Field::new('sexe'),
+            ChoiceField::new('sexe')->setChoices(['Homme'=>'Homme','Femme'=>'Femme']),
             Field::new('adresse'),
             Field::new('numeroTelephone'),
             Field::new('ccp'),
-            Field::new('SituationFamiliale'),
+            ChoiceField::new('SituationFamiliale')
+                ->setChoices(['Célibataire' => 'Célibataire','Marié(e)' => 'Marié(e)',
+                    'Divorcé(e)' => 'Divorcé(e)','Veuf(ve)' => 'Veuf(ve)']),
             Field::new('nombreEnfant'),
-            Field::new('Salaire_de_base'),
+            Field::new('dateRecrutement'),
             AssociationField::new('filiale'),
             AssociationField::new('poste'),
             ArrayField::new('roles')
