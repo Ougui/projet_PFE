@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
                 }
             }
             if($comptable) {
-                return $this->redirectToRoute('comptable');
+                return $this->redirectToRoute('comptable',['date'=>(new \DateTime('now'))->format('Y-m-d')]);
             }
             if($directeur) {
                 return $this->redirectToRoute('directeur');

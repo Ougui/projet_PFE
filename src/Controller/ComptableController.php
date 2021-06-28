@@ -23,12 +23,13 @@ use function Symfony\Component\String\s;
 
 class ComptableController extends AbstractController
 {
-    #[Route('/comptable', name: 'comptable')]
-    public function espacePersoDG(EmployeRepository $repository): Response
+    #[Route('/comptable/{date}', name: 'comptable')]
+    public function espacePersoDG(EmployeRepository $repository,string $date): Response
     {
         $id= $this->getUser()->getId();
         return $this->render('comptable/index.html.twig', [
             'Employe' => $repository->find($id),
+            'date'=>$date
         ]);
     }
 
@@ -75,10 +76,11 @@ class ComptableController extends AbstractController
         return $this->render('comptable/historiquePresence.html.twig',
             ['Presence'=>$repository->findBy(['employe'=> $id ])]);
     }
-    #[Route('/comptable/calculPaie', name: 'calculPaie')]
+    #[Route('/comptable/calculPaie/{datecalcul}', name: 'calculPaie')]
     public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,
-                               EmployeRepository $employeRep,PresenceRepository $presenceRep): Response
+                               EmployeRepository $employeRep,PresenceRepository $presenceRep,string $datecalcul): Response
     {
+        dd($presenceRep->findDate($datecalcul));
         $em = $employeRep->findAll();
         $n = count($em);
         for($i=0;$i<$n;$i++)
