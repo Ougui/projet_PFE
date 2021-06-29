@@ -47,4 +47,20 @@ class PresenceRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param string $dateCalcul
+     * @return array
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findDate(string $dateCalcul): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $dateCalcul=new \DateTime($dateCalcul);
+        $sql = "SELECT * FROM `presence` WHERE MONTH(`date`)=MONTH(?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(1, $dateCalcul->format('Y-m-d'));
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

@@ -6,7 +6,6 @@
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
-            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             background-color: white;
@@ -42,5 +41,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('comptable')}}" class="btn btn-dark color-99CC5B">Retour</a><br>
+    <a href="{{ path('comptable',{date:date})}}" class="btn btn-dark color-99CC5B">Retour</a><br>
 {% endblock %}

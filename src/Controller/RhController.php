@@ -59,6 +59,7 @@ class RhController extends AbstractController
             ->add('address',TextareaType::class)
             ->add('numero',NumberType::class)
             ->add('ccp')
+            ->add('date_de_recrutement',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('situation_familiale', ChoiceType::class, [
                 'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)', 'Divorcé(e)' => 'Divorcé(e)'
                     ,'Veuf(ve)' => 'Veuf(ve)']])
@@ -95,6 +96,7 @@ class RhController extends AbstractController
             $MotdePasseCrypte= $encoder->encodePassword($employe, $data['password']);
             $employe->setPassword($MotdePasseCrypte);
             $employe->setDateNaissance(new \DateTimeImmutable($data['date_de_naissance']->format('Y-m-d')));
+            $employe->setDateRecrutement(new \DateTimeImmutable($data['date_de_recrutement']->format('Y-m-d')));
             $employe->setLieuNaissance($data['lieu_de_naissance']);
             $employe->setNombreEnfant($data['nombre_des_enfants']);
             $employe->setAdresse($data['address']);
@@ -151,6 +153,9 @@ class RhController extends AbstractController
             ->add('ccp', TextType::class, [
                 'data' => $employe->getCcp()
             ])
+            ->add('date_de_recrutement',TextType::class, [ 'disabled' => 'true' ,
+                'data' => $employe->getDateRecrutement()->format('Y-m-d')
+                    ])
             ->add('situation_familiale', ChoiceType::class,[ 'data'=> $employe->getSituationFamiliale(),
                 'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)',
                     'Divorcé(e)' => 'Divorcé(e)','Veuf(ve)' => 'Veuf(ve)']])

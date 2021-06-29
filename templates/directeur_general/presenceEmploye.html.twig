@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Historique de Presence{% endblock %}
+{% block title %}Historique de Presence de {{ Employe.nom }} {{ Employe.prenom }}{% endblock %}
 {% block stylesheets %}
     <style>
         .color-99CC5B{background-color:#00008B;}
@@ -15,8 +15,8 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Historique de présence</h1>
-    <hr>
+    <h1 style="color:#40A497"><strong><i>Historique de présence de {{ Employe.nom }} {{ Employe.prenom }}</i></strong></h1>
+    <br>
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -35,5 +35,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('dg_profil_employe'),{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Retour</a>
+    <a href="{{ path('dg_profile_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Retour</a>
 {% endblock %}
