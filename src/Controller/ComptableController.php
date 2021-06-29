@@ -79,6 +79,7 @@ class ComptableController extends AbstractController
     public function calculPaie(BulletinRepository $bulletinRep,PosteRepository $posteRep,
                                EmployeRepository $employeRep,PresenceRepository $presenceRep): Response
     {
+        $date= new \DateTime('now');
         $em = $employeRep->findAll();
         $n = count($em);
         for($i=0;$i<$n;$i++)
@@ -99,7 +100,7 @@ class ComptableController extends AbstractController
             {
                 if ($pr[$j]->getEmploye()->getId()==$id)
                 {
-                   $tr = strtotime($pr[$j]->getHeureOut()->format('H:i')) - strtotime($pr[$j]->getHeureIn()->format('H:i'));
+                    $tr = strtotime($pr[$j]->getHeureOut()->format('H:i')) - strtotime($pr[$j]->getHeureIn()->format('H:i'));
                    $travail= $travail + ($tr/3600);
                    $this->getDoctrine()->getManager()->remove($pr[$j]);
                 }
