@@ -3,13 +3,22 @@
     {% block stylesheets %}
         <style>
             .color-99CC5B{background-color:#00008B;}
-            .color-99CC5B:hover{background-color:#40A497; }
+            .color-99CC5B:hover{background-color:#00008B; }
+            .btn
+            {
+                width: 225px;
+            }
             body {
                 background-image: url('{{asset('/images/back.png')}}');
                 margin: 0;
                 padding: 0;
                 background-color: white;
                 height: 100vh;
+            }
+            .dropdown-menu
+            {
+                background-color: transparent;
+                width: auto;
             }
             .center {
                 margin-left: auto;
@@ -24,8 +33,15 @@
     <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes Bulletins de paie </a>
     <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mon historique de présence </a>
     <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark color-99CC5B">Afficher la liste des employés </a>
-    <a href="{{ path('calculPaie',{datecalcu:date}) }}" class="btn btn-dark color-99CC5B">Lancer le calcul de la paie de ce mois</a>
-    <a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Paie oubliée</a>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-dark color-99CC5B dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Lancer calcul de la paie
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li><a href="{{ path('calculPaie',{datecalcu:date}) }}" class="btn btn-dark color-99CC5B">Mois actuel</a></li>
+            <li><a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Choisir le mois</a></li>
+        </ul>
+    </div>
     <br>
     <br>
     <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;

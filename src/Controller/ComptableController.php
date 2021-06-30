@@ -21,6 +21,8 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use function Symfony\Component\String\s;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class ComptableController extends AbstractController
@@ -81,6 +83,7 @@ class ComptableController extends AbstractController
             ['Presence'=>$repository->findBy(['employe'=> $id ]),
                 'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
+
     #[Route('/comptable/calculPaie/{datecalcu}', name: 'calculPaie')]
     public function calculPaie(EmployeRepository $employeRep,PresenceRepository $presenceRep,BulletinRepository $bulletinRep,string $datecalcu): Response
     {  $bul=$bulletinRep->findDateB($datecalcu);
@@ -98,7 +101,6 @@ class ComptableController extends AbstractController
                 $bulletin = new Bulletin();
                 $bulletin->setEmploye($em[$i]);
                 $pr = $presenceRep->findDate($datecalcu);
-
                 $p = count($pr);
                 $travail = 0;
                 for ($j = 0; $j < $p; $j++) {
@@ -116,8 +118,30 @@ class ComptableController extends AbstractController
                 $bulletin->setIEP($iep);
                 $allocF = ($em[$i]->getNombreEnfant()) * 600;
                 $bulletin->setAllocationFamiliale($allocF);
-                $t = $iep + $allocF + ($salaire_heure * $travail);
-                $bulletin->setTotal($t);
+                $panier = $travail * 900;
+                $cotisations= (9*$salaire)/100;
+                $bulletin->setPanier($panier);
+                $bulletin->setCotisations($cotisations);
+                $t = $iep + $allocF + $panier - $cotisations + ($salaire_heure * $travail);
+                if ($t>1440000)
+                {
+                    $impots = (35*$t)/100;
+                }
+                else if ($t>360001)
+                {
+                    $impots = (30*$t)/100;
+                }
+                else if ($t>120001)
+                {
+                    $impots = (20*$t)/100;
+                }
+                else
+                {
+                    $impots = 0;
+                }
+                $bulletin->setImpots($impots);
+                $total = $t - $impots;
+                $bulletin->setTotal($total);
                 if ($travail < $heure_mois) {
                     $bulletin->setTotalHeureAbs($heure_mois - $travail);
                     $bulletin->setTotalHeureSupp(0);
@@ -195,7 +219,6 @@ class ComptableController extends AbstractController
         $form=$this->createFormBuilder()
             ->add('Date',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('Confirmer',SubmitType::class)
-
             ->getForm()
         ;
         $form->handleRequest($request);
@@ -209,6 +232,64 @@ class ComptableController extends AbstractController
 
     }
 
+   #[Route('/comptable/fichePaie/{id_bulletin}', name: 'comptable_fiche_paie')]
+   public function fichePaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
+   {
+       $bulletin = $bulletinRepository->find($id_bulletin);
+       $employe = $bulletin->getEmploye();
+       $date_recrutement = $employe->getDateRecrutement()->format('Y-m-d');
+       $poste = $employe->getPoste();
+       $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
+       $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
+       $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
+       return $this->render('comptable/fiche_de_paie.html.twig',
+           ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+               'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+               'montantHeureAbs'=>$montantHeureAbs]);
+   }
+    #[Route('/comptable/telechargerPaie/{id_bulletin}', name: 'comptable_telecharger_paie')]
+    public function telechargerPaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
+    {
+        $bulletin = $bulletinRepository->find($id_bulletin);
+        $employe = $bulletin->getEmploye();
+        $date_recrutement = $employe->getDateRecrutement()->format('Y-m-d');
+        $poste = $employe->getPoste();
+        $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
+        $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
+        $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
+       /* return $this->render('comptable/fiche_de_paie.html.twig',
+            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+                'montantHeureAbs'=>$montantHeureAbs]); */
+        $pdfOption = new Options();
+        $pdfOption->set('defaultFont', 'Arial');
+        $pdfOption->setIsRemoteEnabled(true);
+        $dompdf = new Dompdf($pdfOption);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+        $dompdf->set_option('isRemoteEnabled', true);
 
+        $html = $this->render('comptable/fiche_de_paie.html.twig',
+            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+                'montantHeureAbs'=>$montantHeureAbs]);
 
+        $dompdf->loadHtml($html->getContent());
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $ficher = 'document';
+        $dompdf->stream($ficher, [
+            'Attachment' => true
+        ]);
+        return $this->render('comptable/fiche_de_paie.html.twig',
+            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+                'montantHeureAbs'=>$montantHeureAbs]);
+    }
 }
