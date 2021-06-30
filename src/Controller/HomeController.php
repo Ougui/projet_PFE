@@ -36,6 +36,7 @@ class HomeController extends AbstractController
     public function CreateUser(UserPasswordEncoderInterface $encoder): Response
     {
         $post= new Poste();
+
         $post->setNbHeureJour(8);
         $post->setNbJourSemaine(5);
         $post->setSalaireDeBase(70000);

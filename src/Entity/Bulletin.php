@@ -43,6 +43,21 @@ class Bulletin
     private $allocationFamiliale;
 
     /**
+     * @ORM\Column(type="float",options={"default" : 0})
+     */
+    private $panier;
+
+    /**
+     * @ORM\Column(type="float",options={"default" : 0})
+     */
+    private $cotisations;
+
+    /**
+     * @ORM\Column(type="float",options={"default" : 0})
+     */
+    private $impots;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $Total;
@@ -114,6 +129,42 @@ class Bulletin
     public function setAllocationFamiliale(float $allocationFamiliale): self
     {
         $this->allocationFamiliale = $allocationFamiliale;
+
+        return $this;
+    }
+
+    public function getPanier(): ?float
+    {
+        return $this->panier;
+    }
+
+    public function setPanier(float $panier): self
+    {
+        $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getCotisations(): ?float
+    {
+        return $this->cotisations;
+    }
+
+    public function setCotisations(float $cotisations): self
+    {
+        $this->cotisations = $cotisations;
+
+        return $this;
+    }
+
+    public function getImpots(): ?float
+    {
+        return $this->impots;
+    }
+
+    public function setImpots(float $impots): self
+    {
+        $this->impots = $impots;
 
         return $this;
     }

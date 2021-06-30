@@ -47,4 +47,21 @@ class BulletinRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param string $dateCalcul
+     * @return array
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findDateB(string $dateCalcul): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $dateCalcul=new \DateTime($dateCalcul);
+        $sql = "SELECT * FROM `bulletin` WHERE MONTH(`date`)=MONTH(?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(1, $dateCalcul->format('Y-m-d'));
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

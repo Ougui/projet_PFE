@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
@@ -17,6 +17,7 @@
             body {
                 background-image: url('{{asset('/images/back.png')}}');
                 background-size: cover;
+                background-repeat: no-repeat;
                 margin: 0;
                 padding: 0;
                 height: 100vh;

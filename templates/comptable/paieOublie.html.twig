@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
-{% block title %}Nouveau mot de passe{% endblock %}
+{% block title %}Paie oubliée{% endblock %}
 {% block stylesheets %}
     <style>
         .color-99CC5B{background-color:#00008B;}
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
-            background-repeat: repeat;
             margin: 0;
             padding: 0;
             background-color: #e6e9f2;
@@ -20,15 +19,15 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1 style="color:#40A497"><strong><i>Changer mot de passe</i></strong></h1>
+    <h1 style="color:#40A497"><strong><i>Choisir la date</i></strong></h1>
     <hr style="color: #AB99BD">
     <div class="row">
         {{ form_start(formila) }}
         <div class="col-md-6">
-            {{ form_row(formila.password, { 'label': 'Mot de passe' }) }}<br>
-            {{ form_row(formila.Confirmer, { 'label': 'Confirmer' }) }}<br>
+            {{ form_row(formila.Date, { 'label': 'Date' }) }}<br>
+            {{ form_row(formila.Confirmer, { 'label': 'Lancer' }) }}<br>
             <br>
-            <a href="{{ path('employe') }}" class="btn btn-dark color-99CC5B">Retour</a>
+            <a href="{{ path('comptable',{date:date}) }}" class="btn btn-dark color-99CC5B">Retour</a>
         </div>
         {{ form_end(formila) }}
     </div>

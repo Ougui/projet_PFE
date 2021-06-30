@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Employe;
+use App\Entity\Presence;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\ComptableRepository;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use DateInterval;
 
 class EmployeController extends AbstractController
 {
@@ -112,6 +114,62 @@ class EmployeController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
         }
         return $this->render('employe/modifierMdp.html.twig',['formila'=>$form->createView()]);
+    }
+    #[Route('/presences', name: 'employe_presences')]
+    public function presences(EmployeRepository $employeRepository): Response
+    {
+        $employes=$employeRepository->findAll();
+        //$dateInit=new \DateTimeImmutable('-90 day');
+        foreach ($employes as $employe)
+        {
+            $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
+            $num=0;
+            for ($i=0;$i<($employe->getPoste()->getNbJourSemaine())*12;$i++)
+            {
+                if ($now->format('l')=='Friday')
+                {
+
+                    $now=$now->add(new DateInterval('PT86400S'));
+                }
+                elseif ($now->format('l')=='Thursday')
+                {
+                    $now=$now->add(new DateInterval('PT86400S'));
+                    $now=$now->add(new DateInterval('PT86400S'));
+                }
+                else
+                {
+                    $now=$now->add(new DateInterval('PT86400S'));
+                }
+
+
+                $randPresance=mt_rand(0,100)/ 100;
+
+                if($randPresance>0.05)
+                {
+                    $num++;
+                    $presence=new Presence();
+                    $presence->setEmploye($employe);
+                    $presence->setDate(new \DateTimeImmutable($now->format('Y-m-d')));
+                    //$randPresanceHeurIn
+                    $randPresanceHeurIn=mt_rand(8,10);
+                    $randPresanceMinut=mt_rand(0,59);
+                    $now=$now->setTime($randPresanceHeurIn,$randPresanceMinut,0);
+                    $presence->setHeureIn(new \DateTime($now->format('Y-m-d H:i')));
+                    //$randPresanceHeurIn+$randPresanceHeur
+                    $randPresanceHeurOut=mt_rand(17,19);
+                    $randPresanceMinut=mt_rand(0,59);
+                    $now=$now->setTime($randPresanceHeurOut,$randPresanceMinut,0);
+                    $presence->setHeureOut(new \DateTime($now->format('Y-m-d H:i')));
+                    $this->getDoctrine()->getManager()->persist($presence);
+                    $this->getDoctrine()->getManager()->flush();
+
+                }
+
+
+            }
+            echo $employe->getId().'presane '.$num.'='.(($employe->getPoste()->getNbJourSemaine())*12).'<br>';
+        }
+        return new Response('aniss');
     }
 }
 

@@ -55,7 +55,7 @@ class RhController extends AbstractController
             ->add('date_de_naissance',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
             ->add('lieu_de_naissance')
             ->add('sexe', ChoiceType::class, [
-                'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
+               'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
             ->add('address',TextareaType::class)
             ->add('numero',NumberType::class)
             ->add('ccp')
