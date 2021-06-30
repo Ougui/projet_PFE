@@ -202,7 +202,7 @@ class ComptableController extends AbstractController
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
             $dat=$data['Date']->format('Y-m-d');
-            $this->redirectToRoute('calculPaie',['datecalcu'=>$dat]);
+            return $this->redirectToRoute('calculPaie',['datecalcu'=>$dat]);
         }
         return $this->render('comptable/paieOublie.html.twig',['formila'=>$form->createView(),
             'date'=>(new \DateTime('now'))->format('Y-m-d')]);
