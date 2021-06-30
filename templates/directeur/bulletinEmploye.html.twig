@@ -21,22 +21,32 @@
         <thead class="thead-light">
         <tr>
             <th scope="col">Date</th>
-            <th scope="col">Total heures supplementaires</th>
-            <th scope="col">Total heures d'absence</th>
+            <th scope="col">Total heures supp</th>
+            <th scope="col">Total heures abs</th>
             <th scope="col">IEP</th>
-            <th scope="col">Allocation familiale</th>
+            <th scope="col">Allo fam</th>
+            <th scope="col">Prime panier</th>
+            <th scope="col">Cotisation</th>
+            <th scope="col">impots</th>
             <th scope="col">Total</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for Bulletin in Bulletin %}
             <tr>
-                <th>{{ Bulletin.date.format('Y-m-d')}}</th>
-                <th>{{ Bulletin.TotalHeureSupp}} heures</th>
-                <th>{{ Bulletin.TotalHeureAbs}} heures</th>
-                <th>+{{ Bulletin.IEP}} DA</th>
-                <th>+{{ Bulletin.allocationFamiliale}} DA</th>
-                <th scope="row">{{ Bulletin.total }} DA</th>
+                <td>{{ Bulletin.date.format('Y-m-d')}}</td>
+                <td>{{ Bulletin.TotalHeureSupp}} heures</td>
+                <td>{{ Bulletin.TotalHeureAbs}} heures</td>
+                <td>+{{ Bulletin.IEP}} DA</td>
+                <td>+{{ Bulletin.allocationFamiliale}} DA</td>
+                <td>+{{ Bulletin.Panier}} DA</td>
+                <td>+{{ Bulletin.Cotisations}} DA</td>
+                <td>+{{ Bulletin.Impots}} DA</td>
+                <td scope="row">{{ Bulletin.total }} DA</td>
+                <td>
+                    <a target="_blank" href="{{ path('directeur_fiche_paie',{id_bulletin:Bulletin.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

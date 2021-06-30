@@ -25,6 +25,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 
+
 class ComptableController extends AbstractController
 {
     #[Route('/comptable/{date}', name: 'comptable')]
@@ -257,10 +258,10 @@ class ComptableController extends AbstractController
         $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
         $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
         $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
-       /* return $this->render('comptable/fiche_de_paie.html.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]); */
+        /* return $this->render('comptable/fiche_de_paie.html.twig',
+             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+                 'montantHeureAbs'=>$montantHeureAbs]); */
         $pdfOption = new Options();
         $pdfOption->set('defaultFont', 'Arial');
         $pdfOption->setIsRemoteEnabled(true);
