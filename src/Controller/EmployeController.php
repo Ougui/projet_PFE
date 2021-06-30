@@ -122,7 +122,8 @@ class EmployeController extends AbstractController
         //$dateInit=new \DateTimeImmutable('-90 day');
         foreach ($employes as $employe)
         {
-            $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
+           // $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
+            $now=new \DateTimeImmutable('-90 day');
             $num=0;
             for ($i=0;$i<($employe->getPoste()->getNbJourSemaine())*12;$i++)
             {
@@ -144,7 +145,7 @@ class EmployeController extends AbstractController
 
                 $randPresance=mt_rand(0,100)/ 100;
 
-                if($randPresance>0.05)
+                if($randPresance>0.08)
                 {
                     $num++;
                     $presence=new Presence();
@@ -167,9 +168,24 @@ class EmployeController extends AbstractController
 
 
             }
-            echo $employe->getId().'presane '.$num.'='.(($employe->getPoste()->getNbJourSemaine())*12).'<br>';
+            echo $employe->getId().'presence '.$num.'='.(($employe->getPoste()->getNbJourSemaine())*12).'<br>';
         }
-        return new Response('aniss');
+        return new Response('succes');
+    }
+    #[Route('/employe/fichePaie/{id_bulletin}', name: 'employe_fiche_paie')]
+    public function fichePaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
+    {
+        $bulletin = $bulletinRepository->find($id_bulletin);
+        $employe = $bulletin->getEmploye();
+        $date_recrutement = $employe->getDateRecrutement()->format('Y-m-d');
+        $poste = $employe->getPoste();
+        $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
+        $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
+        $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
+        return $this->render('comptable/fiche_de_paie.html.twig',
+            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
+                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
+                'montantHeureAbs'=>$montantHeureAbs]);
     }
 }
 

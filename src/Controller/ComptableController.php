@@ -118,20 +118,20 @@ class ComptableController extends AbstractController
                 $bulletin->setIEP($iep);
                 $allocF = ($em[$i]->getNombreEnfant()) * 600;
                 $bulletin->setAllocationFamiliale($allocF);
-                $panier = $travail * 900;
+                $panier = $travail * 400;
                 $cotisations= (9*$salaire)/100;
                 $bulletin->setPanier($panier);
                 $bulletin->setCotisations($cotisations);
                 $t = $iep + $allocF + $panier - $cotisations + ($salaire_heure * $travail);
-                if ($t>1440000)
+                if ($t>1440000/12)
                 {
                     $impots = (35*$t)/100;
                 }
-                else if ($t>360001)
+                else if ($t>360001/12)
                 {
                     $impots = (30*$t)/100;
                 }
-                else if ($t>120001)
+                else if ($t>120001/12)
                 {
                     $impots = (20*$t)/100;
                 }

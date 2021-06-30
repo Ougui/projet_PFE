@@ -225,11 +225,11 @@
                 <div class="title">Presences / Absences</div>
                 <div class="entry">
                     <div class="label">Heures absentées</div>
-                    <div class="value">{{ Bulletin.TotalHeureSupp }}</div>
+                    <div class="value">{{ Bulletin.TotalHeureAbs }}</div>
                 </div>
                 <div class="entry">
                     <div class="label">Heures supp</div>
-                    <div class="value">{{  Bulletin.TotalHeureAbs }}</div>
+                    <div class="value">{{  Bulletin.TotalHeureSupp }}</div>
                 </div>
             </div>
         </div>
@@ -255,7 +255,7 @@
                     <div class="entry">
                         <div class="label"></div>
                         <div class="detail">IEP (Prime d'ancienneté)</div>
-                        <div class="rate">+1% par an</div>
+                        <div class="rate">+1% du salaire de base chaque année</div>
                         <div class="amount">{{ Bulletin.iep|number_format(0,'.','.') }} DA</div>
                     </div>
                     <div class="entry">
@@ -267,7 +267,7 @@
                     <div class="entry">
                         <div class="label"></div>
                         <div class="detail">Prime de panier</div>
-                        <div class="rate">+900DA par jour travaillé</div>
+                        <div class="rate">+400DA par jour travaillé</div>
                         <div class="amount">{{ Bulletin.panier|number_format(0,'.','.') }} DA</div>
                     </div>
                 </div>
@@ -286,7 +286,7 @@
                     <div class="entry unpaid">
                         <div class="label"></div>
                         <div class="detail">Cotisations</div>
-                        <div class="rate">+1% par an</div>
+                        <div class="rate">-9%</div>
                         <div class="amount">{{ Bulletin.cotisations|number_format(0,'.','.') }} DA</div>
                     </div>
                     <div class="entry unpaid">
