@@ -275,7 +275,7 @@ class ComptableController extends AbstractController
         $dompdf->setHttpContext($context);
         $dompdf->set_option('isRemoteEnabled', true);
 
-        $html = $this->render('comptable/fiche_de_paie.html.twig',
+        $html = $this->render('comptable/pdf_paie.html.twig',
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
@@ -283,11 +283,11 @@ class ComptableController extends AbstractController
         $dompdf->loadHtml($html->getContent());
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        $ficher = 'document';
+        $ficher = 'Fiche de paie '. $employe->getNom() . ' ' . $bulletin->getDate()->format('m-Y');
         $dompdf->stream($ficher, [
             'Attachment' => true
         ]);
-        return $this->render('comptable/fiche_de_paie.html.twig',
+        return $this->render('comptable/pdf_paie.html.twig',
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
