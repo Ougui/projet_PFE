@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Fiche de paie</title>
+
     <style  type="text/css">
         body {
             background: #f0f0f0;
@@ -23,9 +24,7 @@
             font-size: 12px;
             color: #444;
         }
-
         div#payslip {
-
             background: #fff;
             padding: 30px 40px;
         }
@@ -52,19 +51,18 @@
             font-weight: 700;
         }
 
-        div#content {
+        div.content {
             display: flex;
             height: 473px;
         }
 
-        div#content div#left-panel {
+        div.content div.left-panel {
             border-top: 1px solid #ccc;
             min-width: 200px;
             padding: 20px 16px 0 0;
         }
 
-        div#content div#second-panel {
-            text-align: center;
+        div.content div.second-panel {
             border-top: 1px solid #ccc;
             border-left: 1px solid #ccc;
             width: 100%;
@@ -161,13 +159,13 @@
 <div id="payslip">
     <div id="title">Bulletin de paie</div>
     <div id="scope">
-        <div class="scope-entry" id="scope-entry">
+        <div class="scope-entry">
             <div class="title">PÉRIODE</div>
             <div class="value">{{ Bulletin.date|date('m-Y')}}</div>
         </div>
     </div>
-    <div class="content" id="content">
-        <div class="left-panel" id="left-panel">
+    <div class="content">
+        <div class="left-panel">
             <div id="employee">
                 <div id="name">
                     {{ Employe.nom }} {{ Employe.prenom }}
@@ -176,7 +174,7 @@
                     {{ Employe.email }}
                 </div>
             </div>
-            <div class="details" id="details">
+            <div class="details">
                 <div class="entry">
                     <div class="label">ID</div>
                     <div class="value">{{ Employe.id }}</div>
@@ -210,7 +208,7 @@
                     <div class="value">{{ Employe.ccp }}</div>
                 </div>
             </div>
-            <div class="ytd" id="ytd">
+            <div class="ytd">
                 <div class="title">Informations poste</div>
                 <div class="entry">
                     <div class="label">Salaire par heure</div>
@@ -225,19 +223,19 @@
                     <div class="value">{{ Poste.NbHeureJour }} heures</div>
                 </div>
             </div>
-            <div class="ytd" id="ytd">
+            <div class="ytd">
                 <div class="title">Presences / Absences</div>
                 <div class="entry">
                     <div class="label">Heures absentées</div>
                     <div class="value">{{ Bulletin.TotalHeureAbs }}</div>
                 </div>
-                <div class="entry" id="entry">
+                <div class="entry">
                     <div class="label">Heures supp</div>
                     <div class="value">{{  Bulletin.TotalHeureSupp }}</div>
                 </div>
             </div>
         </div>
-        <div class="second-panel" id="second-panel">
+        <div class="second-panel">
             <div class="details">
                 <div class="salary">
                     <div class="entry">

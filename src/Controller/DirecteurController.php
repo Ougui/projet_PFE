@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\Probleme;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DirecteurController extends AbstractController
 {
@@ -106,9 +108,32 @@ class DirecteurController extends AbstractController
         $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
         $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
         $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
-        return $this->render('comptable/fiche_de_paie.html.twig',
+        return $this->render('employe/fiche_de_paie.html.twig',
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
+    }
+    #[Route('/directeur/probleme/{id}', name: 'directeur_probleme')]
+    public function probleme(Request $request,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('Description',TextareaType::class)
+            ->add('Signaler',SubmitType::class)
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $probleme = new Probleme();
+            $probleme->setEmploye($employe);
+            $probleme->setDescription($data['Description']);
+            $this->getDoctrine()->getManager()->persist($probleme);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->render('directeur/probleme_envoye.html.twig');
+        }
+        return $this->render('directeur/probleme.html.twig',['formila'=>$form->createView()]);
     }
 }

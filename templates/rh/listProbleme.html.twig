@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gestion des problèmes{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: repeat;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <h1 style="color:#40A497"><strong><i>Gestion des problèmes de la filiale</i></strong></h1>
+    <br>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Description du problème</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for Probleme in Problemes %}
+            <tr>
+                <td>{{ Probleme.employe.nom }}</td>
+                <td>{{ Probleme.employe.prenom }}</td>
+                <td>{{ Probleme.description }}</td>
+                <td>
+                    <a href="{{ path('rh_supprimer_probleme',{id:Probleme.id}) }}" class="btn btn-dark color-99CC5B">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('rh')}}"class="btn btn-dark color-99CC5B"> Retour </a>
+{% endblock %}

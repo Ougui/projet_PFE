@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Bulletin;
 use App\Entity\Presence;
+use App\Entity\Probleme;
 use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,8 +23,8 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use function Symfony\Component\String\s;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Sasedev\MpdfBundle\Factory\MpdfFactory;
+
 
 
 
@@ -248,49 +250,28 @@ class ComptableController extends AbstractController
                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                'montantHeureAbs'=>$montantHeureAbs]);
    }
-    #[Route('/comptable/telechargerPaie/{id_bulletin}', name: 'comptable_telecharger_paie')]
-    public function telechargerPaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
+
+    #[Route('/comptable/probleme/{id}', name: 'comptable_probleme')]
+    public function probleme(Request $request,int $id
+        ,EmployeRepository $employeRepository): Response
     {
-        $bulletin = $bulletinRepository->find($id_bulletin);
-        $employe = $bulletin->getEmploye();
-        $date_recrutement = $employe->getDateRecrutement()->format('Y-m-d');
-        $poste = $employe->getPoste();
-        $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
-        $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
-        $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
-        /* return $this->render('comptable/fiche_de_paie.html.twig',
-             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                 'montantHeureAbs'=>$montantHeureAbs]); */
-        $pdfOption = new Options();
-        $pdfOption->set('defaultFont', 'Arial');
-        $pdfOption->setIsRemoteEnabled(true);
-        $dompdf = new Dompdf($pdfOption);
-        $context = stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            ]
-        ]);
-        $dompdf->setHttpContext($context);
-        $dompdf->set_option('isRemoteEnabled', true);
-
-        $html = $this->render('comptable/pdf_paie.html.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]);
-
-        $dompdf->loadHtml($html->getContent());
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $ficher = 'Fiche de paie '. $employe->getNom() . ' ' . $bulletin->getDate()->format('m-Y');
-        $dompdf->stream($ficher, [
-            'Attachment' => true
-        ]);
-        return $this->render('comptable/pdf_paie.html.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]);
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('Description',TextareaType::class)
+            ->add('Signaler',SubmitType::class)
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $probleme = new Probleme();
+            $probleme->setEmploye($employe);
+            $probleme->setDescription($data['Description']);
+            $this->getDoctrine()->getManager()->persist($probleme);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->render('comptable/probleme_envoye.html.twig',['date'=>(new \DateTime('now'))->format('Y-m-d')]);
+        }
+        return $this->render('comptable/probleme.html.twig',['formila'=>$form->createView(),'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 }

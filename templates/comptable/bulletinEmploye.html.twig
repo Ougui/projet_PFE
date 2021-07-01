@@ -47,7 +47,6 @@
                 <td>{{ Bulletin.total|number_format(0,'.','.') }} DA</td>
                 <td>
                     <a target="_blank" href="{{ path('comptable_fiche_paie',{id_bulletin:Bulletin.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
-                    <a target="_blank" href="{{ path('comptable_telecharger_paie',{id_bulletin:Bulletin.id})}}" class="btn btn-dark color-99CC5B">Télécharger</a>
                 </td>
             </tr>
         {% endfor %}

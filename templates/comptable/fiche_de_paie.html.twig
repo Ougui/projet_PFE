@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Fiche de paie</title>
+
     <style  type="text/css">
         body {
             background: #f0f0f0;
@@ -308,4 +309,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("payslip").addEventListener("click", myFunction);
+
+    function myFunction() {
+        window.print();
+    }
+</script>
 </html>
