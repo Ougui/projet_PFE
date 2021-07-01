@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Probleme !{% endblock %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: repeat;
+            margin: 0;
+            padding: 0;
+            background-color: #e6e9f2;
+            height: 100vh;
+        }
+        .row {
+            margin-left: 40%;
+            margin-right: auto;
+            width:  500px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <h1 style="color:#40A497"><strong><i>Signaler un problème</i></strong></h1>
+    <hr style="color: #AB99BD">
+    <div class="row">
+        {{ form_start(formila) }}
+        <div class="col-md-6">
+            {{ form_row(formila.Description, { 'label': 'Description du problème' }) }}<br>
+            {{ form_row(formila.Signaler, { 'label': 'Signaler' }) }}<br>
+            <br>
+        </div>
+        {{ form_end(formila) }}
+    </div>
+    {% block retour %}
+    {% endblock %}
+{% endblock %}

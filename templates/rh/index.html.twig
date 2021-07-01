@@ -28,8 +28,16 @@
         <hr style="color: #AB99BD">
     <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mes bulletins de paie</a>
     <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mon Historique de présence</a>
-    <a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Gestion des employés</a>
-    <a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des postes</a>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-dark color-99CC5B dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Gestion filiale
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li><a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Gestion des employés</a></a></li>
+            <li><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des postes</a></li>
+            <li><a href="{{ path('rh_lister_probleme') }}" class="btn btn-dark color-99CC5B">Gestion des problèmes</a></li>
+        </ul>
+    </div>
     <br>
     <br>
     <table  class=" table-bordered center" style="border-width: medium; border-color: #40A497;

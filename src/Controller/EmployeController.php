@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Employe;
 use App\Entity\Presence;
+use App\Entity\Probleme;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\ComptableRepository;
@@ -12,9 +13,11 @@ use App\Repository\DirecteurRepository;
 use App\Repository\EmployeRepository;
 use App\Repository\RhRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -186,6 +189,30 @@ class EmployeController extends AbstractController
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
+    }
+
+    #[Route('/employe/probleme/{id}', name: 'employe_probleme')]
+    public function probleme(Request $request,int $id
+        ,EmployeRepository $employeRepository): Response
+    {
+        $id= $this->getUser()->getId();
+        $employe=$employeRepository->find($id);
+        $form=$this->createFormBuilder()
+            ->add('Description',TextareaType::class)
+            ->add('Signaler',SubmitType::class)
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $data = $form->getData();
+            $probleme = new Probleme();
+            $probleme->setEmploye($employe);
+            $probleme->setDescription($data['Description']);
+            $this->getDoctrine()->getManager()->persist($probleme);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->render('employe/probleme_envoye.html.twig');
+        }
+        return $this->render('employe/probleme.html.twig',['formila'=>$form->createView()]);
     }
 }
 

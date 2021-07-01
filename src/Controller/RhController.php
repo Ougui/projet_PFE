@@ -9,6 +9,7 @@ use App\Repository\PosteRepository;
 use App\Repository\PresenceRepository;
 use App\Repository\BulletinRepository;
 use App\Repository\EmployeRepository;
+use App\Repository\ProblemeRepository;
 use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\ORM\EntityRepository;
 use phpDocumentor\Reflection\Types\Integer;
@@ -397,5 +398,22 @@ class RhController extends AbstractController
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
+    }
+    #[Route('/rh/listerProbleme', name: 'rh_lister_probleme')]
+
+    public function listerProbleme(EmployeRepository $repository,ProblemeRepository $problemeRepository): Response
+    {   $filiale= $this->getUser()->getFiliale();
+        $employes = $repository->findBy(['filiale'=> $filiale]);
+        $problemes=$problemeRepository->findBy(['employe'=>$employes]);
+        return $this->render('rh/listProbleme.html.twig',
+            ['Problemes'=>$problemes]);
+    }
+    #[Route('/rh/deleteProbleme/{id}', name: 'rh_supprimer_probleme')]
+    public function deleteProbleme(ProblemeRepository $problemeRepository,int $id): Response
+    {
+        $probleme=$problemeRepository->find($id);
+        $this->getDoctrine()->getManager()->remove($probleme);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('rh_lister_probleme');
     }
 }
