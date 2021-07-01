@@ -24,10 +24,10 @@
             <th scope="col">Total heures supp</th>
             <th scope="col">Total heures abs</th>
             <th scope="col">IEP</th>
-            <th scope="col">Allo fam</th>
+            <th scope="col">Alloc fam</th>
             <th scope="col">Prime panier</th>
-            <th scope="col">Cotisation</th>
-            <th scope="col">impots</th>
+            <th scope="col">Cotisations</th>
+            <th scope="col">Impots</th>
             <th scope="col">Total</th>
             <th scope="col">Actions</th>
         </tr>
@@ -38,12 +38,12 @@
                 <td>{{ Bulletin.date.format('Y-m-d')}}</td>
                 <td>{{ Bulletin.TotalHeureSupp}} heures</td>
                 <td>{{ Bulletin.TotalHeureAbs}} heures</td>
-                <td>+{{ Bulletin.IEP}} DA</td>
-                <td>+{{ Bulletin.allocationFamiliale}} DA</td>
-                <td>+{{ Bulletin.Panier}} DA</td>
-                <td>+{{ Bulletin.Cotisations}} DA</td>
-                <td>+{{ Bulletin.Impots}} DA</td>
-                <td scope="row">{{ Bulletin.total }} DA</td>
+                <td>+{{ Bulletin.IEP|number_format(0,'.','.') }} DA</td>
+                <td>+{{ Bulletin.allocationFamiliale|number_format(0,'.','.') }} DA</td>
+                <td>+{{ Bulletin.panier|number_format(0,'.','.') }} DA</td>
+                <td>-{{ Bulletin.cotisations|number_format(0,'.','.') }} DA</td>
+                <td>-{{ Bulletin.impots|number_format(0,'.','.') }} DA</td>
+                <td>{{ Bulletin.total|number_format(0,'.','.') }} DA</td>
                 <td>
                     <a target="_blank" href="{{ path('directeur_fiche_paie',{id_bulletin:Bulletin.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
                 </td>

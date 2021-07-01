@@ -122,7 +122,8 @@ class EmployeController extends AbstractController
         //$dateInit=new \DateTimeImmutable('-90 day');
         foreach ($employes as $employe)
         {
-            $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
+           // $now=new \DateTimeImmutable('-'.(($employe->getPoste()->getNbJourSemaine())*12).' day');
+            $now=new \DateTimeImmutable('-90 day');
             $num=0;
             for ($i=0;$i<($employe->getPoste()->getNbJourSemaine())*12;$i++)
             {
@@ -144,7 +145,7 @@ class EmployeController extends AbstractController
 
                 $randPresance=mt_rand(0,100)/ 100;
 
-                if($randPresance>0.05)
+                if($randPresance>0.08)
                 {
                     $num++;
                     $presence=new Presence();
@@ -167,11 +168,10 @@ class EmployeController extends AbstractController
 
 
             }
-            echo $employe->getId().'presane '.$num.'='.(($employe->getPoste()->getNbJourSemaine())*12).'<br>';
+            echo $employe->getId().'presence '.$num.'='.(($employe->getPoste()->getNbJourSemaine())*12).'<br>';
         }
-        return new Response('aniss');
+        return new Response('succes');
     }
-
     #[Route('/employe/fichePaie/{id_bulletin}', name: 'employe_fiche_paie')]
     public function fichePaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
     {
@@ -187,5 +187,6 @@ class EmployeController extends AbstractController
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);
     }
+
 }
 
