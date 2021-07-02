@@ -185,7 +185,7 @@ class EmployeController extends AbstractController
         $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
         $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
         $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
-        return $this->render('comptable/fiche_de_paie.html.twig',
+        return $this->render('employe/fiche_de_paie.html.twig',
             ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
                 'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                 'montantHeureAbs'=>$montantHeureAbs]);

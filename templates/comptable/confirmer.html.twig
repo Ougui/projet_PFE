@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        body {
+            background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: repeat;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+    </style>
+{% endblock %}
+{% block title %}Bulletins déjà calculés{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <hr style="color: #5c70d6">
+    <h1 style="color:#40A497"><strong><i>Vous allez lancer le calcul des bulletins de paie du {{ date|date('m-Y') }} pour tous les employés </i></strong></h1>
+    <hr>
+    <a href="{{ path('calculPaie',{datecalcu:date})}}" class="btn btn-dark color-99CC5B"> Confirmer </a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{{ path('comptable',{date:date})}}" class="btn btn-dark color-99CC5B"> Retour </a>
+{% endblock %}

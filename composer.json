@@ -17,6 +17,8 @@
         "dompdf/dompdf": "^1.0",
         "easycorp/easyadmin-bundle": "^3.3",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "royopa/fpdf-symfony2": "^4.0",
+        "sasedev/mpdf-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",

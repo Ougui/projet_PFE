@@ -19,6 +19,10 @@
             {
                 background-color: transparent;
                 width: auto;
+                border-width: medium;
+                border-color: #40A497;
+                border-left-color: #AB99BD;
+                border-bottom-color: #AB99BD;
             }
             .center {
                 margin-left: auto;
@@ -38,8 +42,8 @@
             Lancer calcul de la paie
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <li><a href="{{ path('calculPaie',{datecalcu:date}) }}" class="btn btn-dark color-99CC5B">Mois actuel</a></li>
-            <li><a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Choisir le mois</a></li>
+            <li><a href="{{ path('confirmer',{datecalcu:date}) }}" class="btn btn-dark color-99CC5B">Mois actuel</a></li>
+            <li style="margin-top: 5px"><a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Choisir le mois</a></li>
         </ul>
     </div>
     <br>

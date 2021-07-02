@@ -8,6 +8,15 @@
         {
             width: 225px;
         }
+        .dropdown-menu
+        {
+            background-color: transparent;
+            width: auto;
+            border-width: medium;
+            border-color: #40A497;
+            border-left-color: #AB99BD;
+            border-bottom-color: #AB99BD;
+        }
         body {
             background-image: url('{{asset('/images/back.png')}}');
             background-repeat: repeat;
@@ -34,7 +43,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <li><a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Gestion des employés</a></a></li>
-            <li><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des postes</a></li>
+            <li style="margin-top: 5px;margin-bottom: 5px"><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des postes</a></li>
             <li><a href="{{ path('rh_lister_probleme') }}" class="btn btn-dark color-99CC5B">Gestion des problèmes</a></li>
         </ul>
     </div>

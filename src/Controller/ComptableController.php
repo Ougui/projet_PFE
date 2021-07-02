@@ -23,8 +23,9 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use function Symfony\Component\String\s;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Sasedev\MpdfBundle\Factory\MpdfFactory;
+
+
 
 
 class ComptableController extends AbstractController
@@ -104,12 +105,14 @@ class ComptableController extends AbstractController
                 $bulletin->setEmploye($em[$i]);
                 $pr = $presenceRep->findDate($datecalcu);
                 $p = count($pr);
+                $jour = 0;
                 $travail = 0;
                 for ($j = 0; $j < $p; $j++) {
                     $x = $pr[$j];
                     if (($x['employe_id']) == $id) {
                         $tr = strtotime($x['heure_out']) - strtotime($x['heure_in']);
                         $travail = $travail + intdiv($tr, 3600);
+                        $jour = $jour + 1;
                     }
                 }
                 $bulletin->setDate(new \DateTime($datecalcu));
@@ -120,7 +123,7 @@ class ComptableController extends AbstractController
                 $bulletin->setIEP($iep);
                 $allocF = ($em[$i]->getNombreEnfant()) * 600;
                 $bulletin->setAllocationFamiliale($allocF);
-                $panier = $travail * 400;
+                $panier = $jour * 400;
                 $cotisations= (9*$salaire)/100;
                 $bulletin->setPanier($panier);
                 $bulletin->setCotisations($cotisations);
@@ -227,7 +230,7 @@ class ComptableController extends AbstractController
         if ($form->isSubmitted()&& $form->isValid()) {
             $data = $form->getData();
             $dat=$data['Date']->format('Y-m-d');
-            return $this->redirectToRoute('calculPaie',['datecalcu'=>$dat]);
+            return $this->render('comptable/confirmerOublie.html.twig',['date'=>$dat]);
         }
         return $this->render('comptable/paieOublie.html.twig',['formila'=>$form->createView(),
             'date'=>(new \DateTime('now'))->format('Y-m-d')]);
@@ -249,51 +252,7 @@ class ComptableController extends AbstractController
                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
                'montantHeureAbs'=>$montantHeureAbs]);
    }
-    #[Route('/comptable/telechargerPaie/{id_bulletin}', name: 'comptable_telecharger_paie')]
-    public function telechargerPaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
-    {
-        $bulletin = $bulletinRepository->find($id_bulletin);
-        $employe = $bulletin->getEmploye();
-        $date_recrutement = $employe->getDateRecrutement()->format('Y-m-d');
-        $poste = $employe->getPoste();
-        $salaireParHeure = ($poste->getSalaireDeBase()/($poste->getNbJourSemaine()*4*$poste->getNbHeureJour()));
-        $montantHeureSupp = $bulletin->getTotalHeureSupp()*$salaireParHeure;
-        $montantHeureAbs = $bulletin->getTotalHeureAbs()*$salaireParHeure;
-       /* return $this->render('comptable/fiche_de_paie.html.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]); */
-        $pdfOption = new Options();
-        $pdfOption->set('defaultFont', 'Arial');
-        $pdfOption->setIsRemoteEnabled(true);
-        $dompdf = new Dompdf($pdfOption);
-        $context = stream_context_create([
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            ]
-        ]);
-        $dompdf->setHttpContext($context);
-        $dompdf->set_option('isRemoteEnabled', true);
 
-        $html = $this->render('comptable/fiche_de_paie.html.twig.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]);
-
-        $dompdf->loadHtml($html->getContent());
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $ficher = 'Fiche de paie '. $employe->getNom() . ' ' . $bulletin->getDate()->format('m-Y');
-        $dompdf->stream($ficher, [
-            'Attachment' => true
-        ]);
-        return $this->render('comptable/fiche_de_paie.html.twig',
-            ['Poste'=>$poste,'Employe'=>$employe,'Bulletin'=>$bulletin,'dateRecrutement'=>$date_recrutement,
-                'salaireParHeure'=>$salaireParHeure,'montantHeureSupp'=>$montantHeureSupp,
-                'montantHeureAbs'=>$montantHeureAbs]);
-    }
     #[Route('/comptable/probleme/{id}', name: 'comptable_probleme')]
     public function probleme(Request $request,int $id
         ,EmployeRepository $employeRepository): Response
@@ -316,5 +275,11 @@ class ComptableController extends AbstractController
             return $this->render('comptable/probleme_envoye.html.twig',['date'=>(new \DateTime('now'))->format('Y-m-d')]);
         }
         return $this->render('comptable/probleme.html.twig',['formila'=>$form->createView(),'date'=>(new \DateTime('now'))->format('Y-m-d')]);
+    }
+    #[Route('/comptable/confirmer/1', name: 'confirmer')]
+    public function confirmer(Request $request,EmployeRepository $employeRepository): Response
+    {
+        return $this->render('comptable/confirmer.html.twig',[
+            'date'=>(new \DateTime('now'))->format('Y-m-d')]);
     }
 }

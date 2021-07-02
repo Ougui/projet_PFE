@@ -21,11 +21,16 @@
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Choisir la date</i></strong></h1>
     <hr style="color: #AB99BD">
+    <br>
+    <br>
     <div class="row">
         {{ form_start(formila) }}
         <div class="col-md-6">
             {{ form_row(formila.Date, { 'label': 'Date' }) }}<br>
             {{ form_row(formila.Confirmer, { 'label': 'Lancer' }) }}<br>
+            <br>
+            <br>
+            <br>
             <br>
             <a href="{{ path('comptable',{date:date}) }}" class="btn btn-dark color-99CC5B">Retour</a>
         </div>

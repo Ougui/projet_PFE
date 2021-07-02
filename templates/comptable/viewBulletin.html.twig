@@ -38,12 +38,12 @@
                 <td>{{ Bulletin.date.format('Y-m-d')}}</td>
                 <td>{{ Bulletin.TotalHeureSupp}} heures</td>
                 <td>{{ Bulletin.TotalHeureAbs}} heures</td>
-                <td>+{{ Bulletin.IEP|number_format(0,'.','.') }} DA</td>
-                <td>+{{ Bulletin.allocationFamiliale|number_format(0,'.','.') }} DA</td>
-                <td>+{{ Bulletin.panier|number_format(0,'.','.') }} DA</td>
-                <td>-{{ Bulletin.cotisations|number_format(0,'.','.') }} DA</td>
-                <td>-{{ Bulletin.impots|number_format(0,'.','.') }} DA</td>
-                <td>{{ Bulletin.total|number_format(0,'.','.') }} DA</td>
+                <td>+ {{ Bulletin.IEP|number_format(0,' ',' ') }} DA</td>
+                <td>+ {{ Bulletin.allocationFamiliale|number_format(0,' ',' ') }} DA</td>
+                <td>+ {{ Bulletin.panier|number_format(0,' ',' ') }} DA</td>
+                <td>- {{ Bulletin.cotisations|number_format(0,' ',' ') }} DA</td>
+                <td>- {{ Bulletin.impots|number_format(0,' ',' ') }} DA</td>
+                <td>{{ Bulletin.total|number_format(0,' ',' ') }} DA</td>
                 <td>
                     <a target="_blank" href="{{ path('comptable_fiche_paie',{id_bulletin:Bulletin.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
                 </td>

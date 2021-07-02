@@ -112,6 +112,9 @@
     "monolog/monolog": {
         "version": "2.2.0"
     },
+    "mpdf/mpdf": {
+        "version": "v6.0.0"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
@@ -188,6 +191,9 @@
     },
     "sabberworm/php-css-parser": {
         "version": "8.3.1"
+    },
+    "sasedev/mpdf-bundle": {
+        "version": "2.0.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"

@@ -173,7 +173,7 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ]) */
-            ->add('poste',EntityType::class,[
+            ->add('poste',EntityType::class,['data' => $employe->getPoste(),
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
@@ -384,6 +384,7 @@ class RhController extends AbstractController
         }
         return $this->render('rh/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
+
     #[Route('/rh/fichePaie/{id_bulletin}', name: 'rh_fiche_paie')]
     public function fichePaie(int $id_bulletin, BulletinRepository $bulletinRepository): Response
     {
