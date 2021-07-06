@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Paie oubliée{% endblock %}
 {% block stylesheets %}
-    <style>
+    <style media="screen">
         .color-99CC5B{background-color:#00008B;}
         .color-99CC5B:hover{background-color:#00008B; }
         body {
             background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: repeat;
             margin: 0;
             padding: 0;
             background-color: #e6e9f2;
@@ -15,6 +16,25 @@
             margin-left: 40%;
             margin-right: auto;
             width:  500px;
+        }
+    </style>
+    <style>
+        @media (max-width: 600px) {
+            .color-99CC5B{background-color:#00008B;}
+            .color-99CC5B:hover{background-color:#00008B; }
+            body {
+                background-image: url('{{asset('/images/back.png')}}');
+                background-repeat: repeat;
+                margin: 0;
+                padding: 0;
+                background-color: #e6e9f2;
+                height: 100vh;
+            }
+            .row {
+                margin-left: auto;
+                margin-right: auto;
+                width:  300px;
+            }
         }
     </style>
 {% endblock %}

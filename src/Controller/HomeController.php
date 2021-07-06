@@ -53,7 +53,7 @@ class HomeController extends AbstractController
 
         $user= new Employe();
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setEmail('admin@gmail.com');
+        $user->setEmail('bundles@gmail.com');
         $MotdePasseCrypte= $encoder->encodePassword($user, 'mdp');
         $user->setPassword($MotdePasseCrypte);
         $user->setDateNaissance(new DateTimeImmutable('now'));

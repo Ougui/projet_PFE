@@ -4,6 +4,9 @@
     <style>
         .color-99CC5B{background-color:#00008B;}
         .color-99CC5B:hover{background-color:#00008B; }
+        #ajouter{
+            margin-left: 69%;
+        }
         body {
             background-image: url('{{asset('/images/back.png')}}');
             background-repeat: repeat;
@@ -13,11 +16,35 @@
             height: 100vh;
         }
     </style>
+    <style>
+        @media (max-width: 600px) {
+            .color-99CC5B {
+                background-color: #00008B;
+            }
+
+            .color-99CC5B:hover {
+                background-color: #00008B;
+            }
+            #ajouter{
+                margin-left: 114%;
+            }
+
+            body {
+                width: 550px;
+                background-image: url('{{asset('/images/back.png')}}');
+                background-repeat: repeat;
+                margin: 0;
+                padding: 0;
+                background-color: white;
+
+            }
+        }
+    </style>
 {% endblock %}
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Liste des employés de la filiale</i></strong></h1>
     <br>
-    <a style="margin-left: 61%" href="{{ path('rh_ajouter_employe') }}" class="btn btn-dark color-99CC5B">Ajouter</a>
+    <a id="ajouter" href="{{ path('rh_ajouter_employe') }}" class="btn btn-info">Ajouter</a>
     <br><br>
     <table class="table">
         <thead class="thead-light">
@@ -42,8 +69,8 @@
                 <td>{{ Employe.filiale }}</td>
                 <td>
                     <a href="{{ path('rh_profile_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Afficher</a>
-                    <a href="{{ path('rh_modifier_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Modifier</a>
-                    <a href="{{ path('rh_supprimer_employe',{id:Employe.id})}}" class="btn btn-dark color-99CC5B">Supprimer</a>
+                    <a href="{{ path('rh_modifier_employe',{id:Employe.id})}}" class="btn btn-info">Modifier</a>
+                    <a href="{{ path('rh_supprimer_employe',{id:Employe.id})}}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

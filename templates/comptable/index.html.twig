@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Espace Personnel Comptable{% endblock %}
     {% block stylesheets %}
-        <style>
+        <style media="screen">
             .color-99CC5B{background-color:#00008B;}
             .color-99CC5B:hover{background-color:#00008B; }
             .btn
             {
-                width: 225px;
+                width: 130px;
             }
             body {
                 background-image: url('{{asset('/images/back.png')}}');
@@ -30,20 +30,59 @@
                 width: auto;
             }
         </style>
+        <style>
+            @media (max-width: 600px) {
+                .color-99CC5B {
+                    background-color: #00008B;
+                }
+
+                .color-99CC5B:hover {
+                    background-color: #00008B;
+                }
+
+                .btn {
+                    width: 130px;
+                }
+
+                body {
+                    width: 400px;
+                    background-image: url('{{asset('/images/back.png')}}');
+                    margin: 0;
+                    padding: 0;
+                    background-color: white;
+                    height: 100vh;
+                }
+
+                .dropdown-menu {
+                    background-color: transparent;
+                    width: auto;
+                    border-width: medium;
+                    border-color: #40A497;
+                    border-left-color: #AB99BD;
+                    border-bottom-color: #AB99BD;
+                }
+
+                .center {
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: auto;
+                }
+            }
+        </style>
     {% endblock %}
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
     <hr style="color: #AB99BD">
-    <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes Bulletins de paie </a>
-    <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mon historique de présence </a>
-    <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark color-99CC5B">Afficher la liste des employés </a>
+    <a href="{{ path('comptable_view_bulletin',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes Bulletins </a>
+    <a href="{{ path('comptable_historique_presence',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Mes Présences </a>
+    <a href="{{ path('comptable_lister_employe') }}"class="btn btn-dark color-99CC5B">Liste Employés </a>
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-dark color-99CC5B dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Lancer calcul de la paie
+            Calculer Paie
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <li><a href="{{ path('confirmer',{datecalcu:date}) }}" class="btn btn-dark color-99CC5B">Mois actuel</a></li>
-            <li style="margin-top: 5px"><a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Choisir le mois</a></li>
+            <li style="margin-top: 5px"><a href="{{ path('comptable_paie_oublie') }}" class="btn btn-dark color-99CC5B">Choisir mois</a></li>
         </ul>
     </div>
     <br>
@@ -111,9 +150,9 @@
         </tr>
         </tbody>
     </table>
-    <br><br>
-    <a href="{{ path('comptable_probleme',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Signaler un problème </a>
-    <a href="{{ path('comptable_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}"class="btn btn-dark color-99CC5B"> Deconnexion </a><br>
+    <br>
+    <a href="{{ path('comptable_probleme',{id:Employe.id}) }}"class="btn btn-dark color-99CC5B"> Problème </a>
+    <a href="{{ path('comptable_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Mot de passe</a>
+    <a href="{{ path('app_logout') }}"class="btn btn-dark color-99CC5B"> Déconnexion </a><br>
 {% endblock %}
 

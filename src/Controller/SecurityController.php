@@ -54,7 +54,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('employe');
             }
             if($admin) {
-                return $this->redirectToRoute('admin');
+                return $this->redirectToRoute('bundles');
             }
            return $this->redirectToRoute('target_path');
          }

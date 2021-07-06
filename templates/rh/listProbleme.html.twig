@@ -33,7 +33,7 @@
                 <td>{{ Probleme.employe.prenom }}</td>
                 <td>{{ Probleme.description }}</td>
                 <td>
-                    <a href="{{ path('rh_supprimer_probleme',{id:Probleme.id}) }}" class="btn btn-dark color-99CC5B">Supprimer</a>
+                    <a href="{{ path('rh_supprimer_probleme',{id:Probleme.id}) }}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

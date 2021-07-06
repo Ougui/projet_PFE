@@ -6,7 +6,7 @@
         .color-99CC5B:hover{background-color:#00008B; }
         .btn
         {
-            width: 225px;
+            width: 130px;
         }
         .dropdown-menu
         {
@@ -31,20 +31,53 @@
             width: auto;
         }
     </style>
+    <style>
+        @media (max-width: 600px) {
+        .color-99CC5B{background-color:#00008B;}
+        .color-99CC5B:hover{background-color:#00008B; }
+        .btn
+        {
+            width: 130px;
+        }
+        .dropdown-menu
+        {
+            background-color: transparent;
+            width: auto;
+            border-width: medium;
+            border-color: #40A497;
+            border-left-color: #AB99BD;
+            border-bottom-color: #AB99BD;
+        }
+        body {
+            width: 400px;
+            background-image: url('{{asset('/images/back.png')}}');
+            background-repeat: repeat;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+        }
+        }
+    </style>
 {% endblock %}
 {% block body %}
         <h1 style="color:#40A497"><strong><i>Bienvenue dans votre espace personnel, {{ Employe.nom}}  {{ Employe.prenom}}! </i></strong></h1>
         <hr style="color: #AB99BD">
-    <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mes bulletins de paie</a>
-    <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mon Historique de présence</a>
+    <a href="{{ path('rh_view_bulletin',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mes Bulletins</a>
+    <a href="{{ path('rh_historique_presence',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B"> Mes Présences</a>
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-dark color-99CC5B dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Gestion filiale
+            Gestion Filiale
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <li><a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Gestion des employés</a></a></li>
-            <li style="margin-top: 5px;margin-bottom: 5px"><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Gestion des postes</a></li>
-            <li><a href="{{ path('rh_lister_probleme') }}" class="btn btn-dark color-99CC5B">Gestion des problèmes</a></li>
+            <li><a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Employés</a></a></li>
+            <li style="margin-top: 5px;margin-bottom: 5px"><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Postes</a></li>
+            <li><a href="{{ path('rh_lister_probleme') }}" class="btn btn-dark color-99CC5B">Problèmes</a></li>
         </ul>
     </div>
     <br>
@@ -112,9 +145,9 @@
         </tr>
         </tbody>
     </table>
-    <br><br>
-    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Réinitialiser mot de passe</a>
-    <a href="{{ path('app_logout') }}" class="btn btn-dark color-99CC5B">Deconnexion</a>
+    <br>
+    <a href="{{ path('rh_modifier_mdp',{id:Employe.id}) }}" class="btn btn-dark color-99CC5B">Mot de passe</a>
+    <a href="{{ path('app_logout') }}" class="btn btn-dark color-99CC5B">Déconnexion</a>
 {% endblock %}
 
 

@@ -12,12 +12,39 @@
             background-color: white;
             height: 100vh;
         }
+        #ajouter{
+            margin-left: 80%
+        }
+    </style>
+    <style>
+        @media (max-width: 600px) {
+            .color-99CC5B {
+                background-color: #00008B;
+            }
+
+            .color-99CC5B:hover {
+                background-color: #00008B;
+            }
+
+            body {
+                width: 550px;
+                background-image: url('{{asset('/images/back.png')}}');
+                background-repeat: repeat;
+                margin: 0;
+                padding: 0;
+                background-color: white;
+                height: 100vh;
+            }
+            #ajouter{
+                margin-left: 75%
+            }
+        }
     </style>
 {% endblock %}
 {% block body %}
     <h1 style="color:#40A497"><strong><i>Liste des postes de travail</i></strong></h1>
     <br>
-    <a style="margin-left: 80%" href="{{ path('rh_ajouter_poste')}}" class="btn btn-dark color-99CC5B">Ajouter</a>
+    <a id="ajouter" href="{{ path('rh_ajouter_poste')}}" class="btn btn-info">Ajouter</a>
     <br>
     <br>
         <table class="table">
@@ -37,8 +64,8 @@
                 <td>{{ Poste.SalaireDeBase}} DA</td>
                 <td>{{ Poste.NbJourSemaine}} jours</td>
                 <td>{{ Poste.NbHeureJour}} heures</td>
-              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-dark color-99CC5B">Modifier</a>
-                <a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-dark color-99CC5B">Supprimer</a></td>
+              <td><a href="{{ path('rh_modifier_poste',{id:Poste.id})}}" class="btn btn-info">Modifier</a>
+                <a href="{{ path('rh_supprimer_poste',{id:Poste.id}) }}" class="btn btn-danger">Supprimer</a></td>
             </tr>
         {% endfor %}
             </tbody>

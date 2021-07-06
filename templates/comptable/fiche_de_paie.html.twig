@@ -3,9 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>Fiche de paie</title>
 
     <style  type="text/css">
@@ -25,6 +22,7 @@
             color: #444;
         }
         div#payslip {
+            cursor: pointer;
             background: #fff;
             padding: 30px 40px;
         }
@@ -310,7 +308,7 @@
 </div>
 
 <script>
-    document.getElementById("payslip").addEventListener("click", myFunction);
+    document.getElementById("payslip").addEventListener("dblclick", myFunction);
 
     function myFunction() {
         window.print();
