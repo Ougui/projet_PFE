@@ -29,8 +29,8 @@
         {% for Presence in Presence %}
             <tr>
                 <td>{{ Presence.date.format('Y-m-d')}}</td>
-                <td>{{ Presence.HeureIn.format('h:m')}}</td>
-                <td>{{ Presence.HeureOut.format('h:m')}}</td>
+                <td>{{ Presence.HeureIn.format('H:m')}}</td>
+                <td>{{ Presence.HeureOut.format('H:m')}}</td>
             </tr>
         {% endfor %}
         </tbody>

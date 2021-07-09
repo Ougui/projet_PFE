@@ -36,7 +36,7 @@
         <tbody>
         {% for Bulletin in Bulletin %}
             <tr>
-                <td>{{ Bulletin.date.format('Y-m-d')}}</td>
+                <td>{{ Bulletin.date|date('m-Y')}}</td>
                 <td>{{ Bulletin.TotalHeureSupp}} heures</td>
                 <td>{{ Bulletin.TotalHeureAbs}} heures</td>
                 <td>+ {{ Bulletin.IEP|number_format(0,' ',' ') }} DA</td>

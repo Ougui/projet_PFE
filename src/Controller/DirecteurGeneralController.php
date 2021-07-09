@@ -94,6 +94,7 @@ class DirecteurGeneralController extends AbstractController
             $employe->setPassword($MotdePasseCrypte);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->render('directeur_general/mdpChange.html.twig');
         }
         return $this->render('directeur_general/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }

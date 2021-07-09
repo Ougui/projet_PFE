@@ -180,6 +180,8 @@ class ComptableController extends AbstractController
             $employe->setPassword($MotdePasseCrypte);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->render('comptable/mdpChange.html.twig',
+                ['date'=>(new \DateTime('now'))->format('Y-m-d')]);
         }
         return $this->render('comptable/modifierMdp.html.twig',['formila'=>$form->createView(),
             'date'=>(new \DateTime('now'))->format('Y-m-d')]);

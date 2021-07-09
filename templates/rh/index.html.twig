@@ -10,12 +10,11 @@
         }
         .dropdown-menu
         {
+            padding-top: 0;
             background-color: transparent;
             width: auto;
             border-width: medium;
-            border-color: #40A497;
-            border-left-color: #AB99BD;
-            border-bottom-color: #AB99BD;
+            border-color: transparent;
         }
         body {
             background-image: url('{{asset('/images/back.png')}}');
@@ -39,15 +38,14 @@
         {
             width: 130px;
         }
-        .dropdown-menu
-        {
-            background-color: transparent;
-            width: auto;
-            border-width: medium;
-            border-color: #40A497;
-            border-left-color: #AB99BD;
-            border-bottom-color: #AB99BD;
-        }
+            .dropdown-menu
+            {
+                padding-top: 0;
+                background-color: transparent;
+                width: auto;
+                border-width: medium;
+                border-color: transparent;
+            }
         body {
             width: 400px;
             background-image: url('{{asset('/images/back.png')}}');
@@ -76,7 +74,7 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             <li><a href="{{ path('rh_lister_employe') }}" class="btn btn-dark color-99CC5B">Employés</a></a></li>
-            <li style="margin-top: 5px;margin-bottom: 5px"><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Postes</a></li>
+            <li><a href="{{ path('rh_lister_poste') }}" class="btn btn-dark color-99CC5B">Postes</a></li>
             <li><a href="{{ path('rh_lister_probleme') }}" class="btn btn-dark color-99CC5B">Problèmes</a></li>
         </ul>
     </div>

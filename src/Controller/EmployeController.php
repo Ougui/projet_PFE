@@ -115,6 +115,7 @@ class EmployeController extends AbstractController
             $employe->setPassword($MotdePasseCrypte);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->render('employe/mdpChange.html.twig');
         }
         return $this->render('employe/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }

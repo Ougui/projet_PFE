@@ -49,23 +49,40 @@ class RhController extends AbstractController
     public function addEmploye(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
         $form=$this->createFormBuilder()
-            ->add('nom')
-            ->add('prenom')
-            ->add('email',EmailType::class)
-            ->add('password',PasswordType::class)
-            ->add('date_de_naissance',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
-            ->add('lieu_de_naissance')
-            ->add('sexe', ChoiceType::class, [
+            ->add('nom',textType::class,['attr' => array(
+        'class' => 'form-control')])
+            ->add('prenom',textType::class,['attr' => array(
+        'class' => 'form-control')])
+            ->add('email',EmailType::class,['attr' => array(
+                'class' => 'form-control')])
+            ->add('password',PasswordType::class,['attr' => array(
+                'class' => 'form-control')])
+            ->add('date_de_naissance',DateType::class, [
+                'input'  => 'datetime_immutable','widget' => 'single_text',
+                'attr' => array(
+        'class' => 'form-control')])
+            ->add('lieu_de_naissance',textType::class,['attr' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Lieu de naissance')])
+            ->add('sexe', ChoiceType::class, ['attr' => array(
+                'class' => 'form-control'),
                'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
-            ->add('address',TextareaType::class)
-            ->add('numero',NumberType::class)
-            ->add('ccp')
-            ->add('date_de_recrutement',DateType::class, ['input'  => 'datetime_immutable','widget' => 'single_text'])
-            ->add('situation_familiale', ChoiceType::class, [
+            ->add('address',TextareaType::class,['attr' => array(
+                'class' => 'form-control')])
+            ->add('numero',NumberType::class,['attr' => array(
+                'class' => 'form-control')])
+            ->add('ccp',textType::class,['attr' => array(
+                'class' => 'form-control')])
+            ->add('date_de_recrutement',DateType::class,['attr' => array(
+        'class' => 'form-control'),
+                'input'  => 'datetime_immutable','widget' => 'single_text'])
+            ->add('situation_familiale', ChoiceType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)', 'Divorcé(e)' => 'Divorcé(e)'
                     ,'Veuf(ve)' => 'Veuf(ve)']])
 
-            ->add('nombre_des_enfants',IntegerType::class)
+            ->add('nombre_des_enfants',IntegerType::class,['attr' => array(
+                'class' => 'form-control')])
            /* ->add('roles',ChoiceType::class,['choices'  => ['Employé' => 'ROLE_EMPLOYE',
                 'RH' => 'ROLE_RH','Comptable' => 'ROLE_COMPTABLE']])*/
 
@@ -76,14 +93,16 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ])*/
-            ->add('poste',EntityType::class,[
+            ->add('poste',EntityType::class,['attr' => array(
+               'class' => 'form-control'),
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
                         ->select('f');
                 }
             ])
-            ->add('Ajouter',SubmitType::class)
+            ->add('Ajouter',SubmitType::class,['attr' => array(
+                'class' => 'btnSubmit')])
             ->getForm()
         ;
         $form->handleRequest($request);
@@ -125,43 +144,56 @@ class RhController extends AbstractController
         $form=$this->createFormBuilder()
           //  'disabled' => true,
 
-            ->add('nom', TextType::class, [ 'disabled' => 'true',
+            ->add('nom', TextType::class, ['attr' => array(
+              'class' => 'form-control'),
                 'data' => $employe->getNom()
             ])
-            ->add('prenom', TextType::class, [ 'disabled' => 'true',
+            ->add('prenom', TextType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getPrenom()
             ])
-            ->add('email',EmailType::class, [
+            ->add('email',EmailType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getEmail()
             ])
         /*    ->add('password',PasswordType::class, [
                 'data' => $employe->getPassword()
             ]) */
-            ->add('date_de_naissance',TextType::class, [ 'disabled' => 'true' ,
-                'data' => $employe->getDateNaissance()->format('Y-m-d')
+            ->add('date_de_naissance',TextType::class,[
+                'attr' => array(
+            'class' => 'form-control'),
+                'data' => $employe->getDateNaissance()->format('Y-m-d'),
             ])
-            ->add('lieu_de_naissance', TextType::class,[ 'disabled' => 'true',
+            ->add('lieu_de_naissance', TextType::class,[ 'attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getLieuNaissance()
             ])
-            ->add('sexe', ChoiceType::class,[ 'disabled' => 'true',  'data'=> $employe->getSexe(),
+            ->add('sexe', ChoiceType::class,[ 'attr' => array(
+                'class' => 'form-control'), 'data'=> $employe->getSexe(),
                 'choices'  => ['Homme' => 'Homme', 'Femme' => 'Femme']])
-            ->add('address',TextareaType::class,  [
+            ->add('address',TextareaType::class,  ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getAdresse()
             ])
-            ->add('numero',NumberType::class, [
+            ->add('numero',NumberType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getNumeroTelephone()
             ])
-            ->add('ccp', TextType::class, [
+            ->add('ccp', TextType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getCcp()
             ])
-            ->add('date_de_recrutement',TextType::class, [ 'disabled' => 'true' ,
+            ->add('date_de_recrutement',TextType::class, ['attr' => array(
+                'class' => 'form-control') ,
                 'data' => $employe->getDateRecrutement()->format('Y-m-d')
                     ])
-            ->add('situation_familiale', ChoiceType::class,[ 'data'=> $employe->getSituationFamiliale(),
+            ->add('situation_familiale', ChoiceType::class,['attr' => array(
+                'class' => 'form-control'), 'data'=> $employe->getSituationFamiliale(),
                 'choices'  => ['Célibataire' => 'Célibataire', 'Marié(e)' => 'Marié(e)',
                     'Divorcé(e)' => 'Divorcé(e)','Veuf(ve)' => 'Veuf(ve)']])
 
-            ->add('nombre_des_enfants',IntegerType::class, [
+            ->add('nombre_des_enfants',IntegerType::class, ['attr' => array(
+                'class' => 'form-control'),
                 'data' => $employe->getNombreEnfant()
             ])
 
@@ -173,14 +205,16 @@ class RhController extends AbstractController
                         ->select('f');
                 }
             ]) */
-            ->add('poste',EntityType::class,['data' => $employe->getPoste(),
+            ->add('poste',EntityType::class,['attr' => array(
+              'class' => 'form-control'),'data' => $employe->getPoste(),
                 'class'=>Poste::class,
                 'query_builder'=>function(EntityRepository $entityRepository){
                     return $entityRepository->createQueryBuilder('f')
                         ->select('f');
                 }
             ])
-            ->add('Confirmer',SubmitType::class)
+            ->add('Confirmer',SubmitType::class,['attr' => array(
+                'class' => 'btnSubmit'),])
 
             ->getForm()
         ;
@@ -381,6 +415,7 @@ class RhController extends AbstractController
             $employe->setPassword($MotdePasseCrypte);
             $this->getDoctrine()->getManager()->persist($employe);
             $this->getDoctrine()->getManager()->flush();
+            return $this->render('rh/mdpChange.html.twig');
         }
         return $this->render('rh/modifierMdp.html.twig',['formila'=>$form->createView()]);
     }
